@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getAllArticles, getSpecialIssue, longExcerptOf, type Article } from "./lib/content-server";
-import { type EntryArticle } from "./components/article-entry";
+import { type CardArticle } from "./components/feature-card";
 import { ArticleGrid } from "./components/article-grid";
 import { PullQuote } from "./components/pull-quote";
 import ScrollReveal from "./components/scroll-reveal";
@@ -10,7 +10,7 @@ import ScrollReveal from "./components/scroll-reveal";
 // a flagship piece earning both the featured spot and its normal section slot.
 const FEATURED_SLUGS = ["سرسخن", "هشت-گفتگو", "قصهی-مریم-و-همباغش"];
 
-function entryOf(article: Pick<Article, "slug" | "title" | "author" | "image" | "body">): EntryArticle {
+function entryOf(article: Pick<Article, "slug" | "title" | "author" | "image" | "body">): CardArticle {
   return {
     slug: article.slug,
     title: article.title,

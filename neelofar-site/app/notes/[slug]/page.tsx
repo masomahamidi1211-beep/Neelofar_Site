@@ -39,7 +39,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <img
           src={article.image as string}
           alt={`${article.title} — مادران و دختران`}
-          className="mt-8 block w-full"
+          className="mx-auto mt-8 block max-h-[60vh] w-auto max-w-full"
         />
       )}
 
