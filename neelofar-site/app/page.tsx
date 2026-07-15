@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getAllArticles, getSpecialIssue, longExcerptOf, type Article } from "./lib/content-server";
-import { ArticleEntry, type EntryArticle } from "./components/article-entry";
-import { HairlineGrid, HairlineFlex } from "./components/hairline-grid";
+import { type EntryArticle } from "./components/article-entry";
+import { ArticleGrid } from "./components/article-grid";
 import { PullQuote } from "./components/pull-quote";
 import ScrollReveal from "./components/scroll-reveal";
 
@@ -15,7 +15,10 @@ function entryOf(article: Pick<Article, "slug" | "title" | "author" | "image" | 
     slug: article.slug,
     title: article.title,
     author: article.author,
-    excerpt: longExcerptOf(article),
+    // text-only cells pull noticeably more words so they can match the
+    // height of a neighboring image cell in the same grid row instead of
+    // stretching to a mostly-blank cell.
+    excerpt: longExcerptOf(article, article.image ? 110 : 220),
     image: article.image,
   };
 }
@@ -42,11 +45,9 @@ export default function HomePage() {
       <ScrollReveal>
         <section className="mx-auto max-w-[1600px] px-4 py-3 sm:px-6 lg:px-8">
           <h1 className="section-heading text-xl font-bold">ویژه‌نامه «مادران و دختران»</h1>
-          <HairlineGrid className="mt-2 grid-cols-1 lg:grid-cols-3">
-            {featured.map((article) => (
-              <ArticleEntry key={article.slug} article={entryOf(article)} className="bg-white" />
-            ))}
-          </HairlineGrid>
+          <div className="mt-2">
+            <ArticleGrid articles={featured.map(entryOf)} />
+          </div>
         </section>
       </ScrollReveal>
 
@@ -62,11 +63,7 @@ export default function HomePage() {
                 همهٔ مطالب ←
               </Link>
             </div>
-            <HairlineFlex>
-              {hashtInterviews.map((article) => (
-                <ArticleEntry key={article.slug} article={entryOf(article)} className="bg-white" />
-              ))}
-            </HairlineFlex>
+            <ArticleGrid articles={hashtInterviews.map(entryOf)} />
           </section>
         </ScrollReveal>
       )}
@@ -96,11 +93,7 @@ export default function HomePage() {
                 {alexievichSection.description}
               </p>
             )}
-            <HairlineFlex>
-              {alexievichSection.articles.map((article) => (
-                <ArticleEntry key={article.slug} article={entryOf(article)} className="bg-white" />
-              ))}
-            </HairlineFlex>
+            <ArticleGrid articles={alexievichSection.articles.map(entryOf)} />
           </section>
         </ScrollReveal>
       )}
@@ -117,11 +110,7 @@ export default function HomePage() {
                 همهٔ مطالب ←
               </Link>
             </div>
-            <HairlineGrid className="grid-cols-1 lg:grid-cols-3">
-              {tarjomehaSection.articles.map((article) => (
-                <ArticleEntry key={article.slug} article={entryOf(article)} className="bg-white" />
-              ))}
-            </HairlineGrid>
+            <ArticleGrid articles={tarjomehaSection.articles.map(entryOf)} />
           </section>
         </ScrollReveal>
       )}

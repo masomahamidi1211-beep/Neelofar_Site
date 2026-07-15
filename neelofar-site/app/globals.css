@@ -101,23 +101,6 @@ blockquote {
   }
 }
 
-/* Same zero-gap hairline mechanism as .hairline-grid, but flex-wrap instead of
-   fixed grid columns: when the item count doesn't evenly divide the column
-   count, a trailing partial row would leave empty grid cells. Flex items grow
-   to fill whatever space is left in their row instead, so there is never a
-   blank cell regardless of how many items a section has. */
-.hairline-flex {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1px;
-  background: var(--hairline);
-  border: 1px solid var(--hairline);
-}
-
-.hairline-flex > * {
-  flex: 1 1 320px;
-}
-
 .article-figure {
   margin: 2rem 0;
 }

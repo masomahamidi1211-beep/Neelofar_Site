@@ -1,10 +1,16 @@
 import { getAllArticles, longExcerptOf } from "../lib/content-server";
-import { ArticleEntry } from "../components/article-entry";
-import { HairlineFlex } from "../components/hairline-grid";
+import { ArticleGrid } from "../components/article-grid";
 import ScrollReveal from "../components/scroll-reveal";
 
 export default function NotesPage() {
   const articles = getAllArticles();
+  const entries = articles.map((article) => ({
+    slug: article.slug,
+    title: article.title,
+    author: article.author,
+    excerpt: longExcerptOf(article, article.image ? 110 : 220),
+    image: article.image,
+  }));
 
   return (
     <div className="mx-auto max-w-[1600px] px-4 py-4 sm:px-6 lg:px-8">
@@ -12,21 +18,7 @@ export default function NotesPage() {
       <p className="mt-2 text-[#4a4a4a]">تمام مقاله‌های نیلوفر، به ترتیب ویژه‌نامه.</p>
 
       <ScrollReveal className="mt-3">
-        <HairlineFlex>
-          {articles.map((article) => (
-            <ArticleEntry
-              key={article.slug}
-              article={{
-                slug: article.slug,
-                title: article.title,
-                author: article.author,
-                excerpt: longExcerptOf(article),
-                image: article.image,
-              }}
-              className="bg-white"
-            />
-          ))}
-        </HairlineFlex>
+        <ArticleGrid articles={entries} />
       </ScrollReveal>
     </div>
   );

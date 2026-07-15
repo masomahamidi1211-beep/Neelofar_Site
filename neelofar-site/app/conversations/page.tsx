@@ -1,6 +1,5 @@
 import { getArticlesByTag, longExcerptOf } from "../lib/content-server";
-import { ArticleEntry } from "../components/article-entry";
-import { HairlineFlex } from "../components/hairline-grid";
+import { ArticleGrid } from "../components/article-grid";
 import ScrollReveal from "../components/scroll-reveal";
 
 export default function ConversationsPage() {
@@ -15,21 +14,15 @@ export default function ConversationsPage() {
 
       <ScrollReveal className="mt-5">
         {articles.length > 0 ? (
-          <HairlineFlex>
-            {articles.map((article) => (
-              <ArticleEntry
-                key={article.slug}
-                article={{
-                  slug: article.slug,
-                  title: article.title,
-                  author: article.author,
-                  excerpt: longExcerptOf(article),
-                  image: article.image,
-                }}
-                className="bg-white"
-              />
-            ))}
-          </HairlineFlex>
+          <ArticleGrid
+            articles={articles.map((article) => ({
+              slug: article.slug,
+              title: article.title,
+              author: article.author,
+              excerpt: longExcerptOf(article, article.image ? 110 : 220),
+              image: article.image,
+            }))}
+          />
         ) : (
           <div className="border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
             <p className="text-lg font-semibold text-[#111111]">به‌زودی</p>

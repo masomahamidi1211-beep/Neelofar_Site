@@ -85,21 +85,21 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-white text-[#111111]">
       <header className="sticky top-0 z-30 border-b border-[var(--hairline)] bg-white/95 backdrop-blur-sm">
-        <div className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <Link href="/" className="z-10 text-2xl font-bold tracking-[0.2em]">
+        <div className="relative mx-auto flex max-w-[1600px] items-center justify-between px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
+          <Link href="/" className="z-10 text-3xl font-extrabold tracking-[0.15em]">
             نیلوفر
           </Link>
 
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-3.5 whitespace-nowrap text-[13px] xl:gap-5 xl:text-sm lg:flex">
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-3 whitespace-nowrap text-sm font-bold lg:flex xl:gap-4 xl:text-base 2xl:gap-6 2xl:text-lg">
             {navItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`border-b pb-1 transition duration-200 ${
+                  className={`border-b-2 pb-1 transition duration-200 ${
                     active
-                      ? "border-[var(--accent)] font-semibold text-[var(--accent)]"
+                      ? "border-[var(--accent)] text-[var(--accent)]"
                       : "border-transparent hover:border-[var(--accent)]"
                   }`}
                 >
@@ -112,7 +112,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
           <button
             type="button"
             aria-label="باز کردن جست‌وجو"
-            className="z-10 hidden text-lg transition duration-200 hover:text-[var(--accent)] lg:block"
+            className="z-10 hidden text-xl transition duration-200 hover:text-[var(--accent)] lg:block"
             onClick={() => setSearchOpen(true)}
           >
             🔎

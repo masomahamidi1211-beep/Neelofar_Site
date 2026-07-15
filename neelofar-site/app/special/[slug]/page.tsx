@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { getSpecialIssue, getSpecialIssues, longExcerptOf } from "../../lib/content-server";
-import { ArticleEntry } from "../../components/article-entry";
-import { HairlineFlex } from "../../components/hairline-grid";
+import { ArticleGrid } from "../../components/article-grid";
 
 export async function generateStaticParams() {
   return getSpecialIssues().map((issue) => ({ slug: issue.slug }));
@@ -32,21 +31,17 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
               <p className="mt-2 max-w-[70ch] text-justify leading-8 text-[#4a4a4a]">{section.description}</p>
             )}
             {section.articles.length > 0 && (
-              <HairlineFlex className="mt-3">
-                {section.articles.map((article) => (
-                  <ArticleEntry
-                    key={article.slug}
-                    article={{
-                      slug: article.slug,
-                      title: article.title,
-                      author: article.author,
-                      excerpt: longExcerptOf(article),
-                      image: article.image,
-                    }}
-                    className="bg-white"
-                  />
-                ))}
-              </HairlineFlex>
+              <div className="mt-3">
+                <ArticleGrid
+                  articles={section.articles.map((article) => ({
+                    slug: article.slug,
+                    title: article.title,
+                    author: article.author,
+                    excerpt: longExcerptOf(article, article.image ? 110 : 220),
+                    image: article.image,
+                  }))}
+                />
+              </div>
             )}
           </section>
         ))}
