@@ -37,7 +37,35 @@ export default function RecommendationsClient({ books }: { books: Book[] }) {
         </p>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-6 border-b border-[var(--hairline)] pb-6 text-sm">
+      <div className="mt-8 border border-[var(--hairline)] p-6 sm:p-8">
+        <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+          <div>
+            <h2 className="text-xl font-bold sm:text-2xl">راهنمای انتخاب رمان</h2>
+            <p className="mt-2 text-sm leading-7 text-[#4a4a4a] sm:text-base">
+              راهنمای نیلوفر برای انتخاب رمان خوب، آماده‌ی مطالعه و دانلود.
+            </p>
+          </div>
+          <div className="flex w-full shrink-0 gap-3 sm:w-auto">
+            <a
+              href="/docs/rahnama-entekhab-roman.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="flex-1 border border-[var(--accent)] px-5 py-2.5 text-center text-sm font-semibold text-[var(--accent)] transition duration-200 hover:bg-[var(--accent)] hover:text-white sm:flex-none"
+            >
+              مشاهده
+            </a>
+            <a
+              href="/docs/rahnama-entekhab-roman.pdf"
+              download
+              className="flex-1 bg-[var(--accent)] px-5 py-2.5 text-center text-sm font-semibold text-white transition duration-200 hover:opacity-85 sm:flex-none"
+            >
+              دانلود
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-6 border-b border-[var(--hairline)] pb-6 text-sm">
         <label className="flex items-center gap-2">
           <span className="font-medium">ژانر</span>
           <select

@@ -19,6 +19,7 @@ export type Article = {
   wordCount: number;
   readingTimeMinutes: number;
   image: string | null;
+  tags: string[];
 };
 
 export type SpecialIssueSection = {
@@ -116,6 +117,7 @@ function articleFromFile(slug: string, fullPath: string): Article {
     wordCount,
     readingTimeMinutes: Math.max(1, Math.round(wordCount / 200)),
     image: typeof data.image === "string" ? data.image : null,
+    tags: Array.isArray(data.tags) ? data.tags : [],
   };
 }
 
@@ -136,6 +138,23 @@ export function getArticleBySlug(slug: string): Article | null {
 
 export function getBooks() {
   const file = fs.readFileSync(path.join(contentDir, "books.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export function getArticlesByTag(tag: string): Article[] {
+  return getAllArticles().filter((article) => article.tags.includes(tag));
+}
+
+export type PodcastEpisode = { title: string; description: string; url: string; date: string };
+export type MultimediaItem = { title: string; description: string; url: string; date: string };
+
+export function getPodcastEpisodes(): PodcastEpisode[] {
+  const file = fs.readFileSync(path.join(contentDir, "podcast.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export function getMultimediaItems(): MultimediaItem[] {
+  const file = fs.readFileSync(path.join(contentDir, "multimedia.json"), "utf8");
   return JSON.parse(file);
 }
 

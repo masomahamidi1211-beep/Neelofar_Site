@@ -8,6 +8,9 @@ const navItems = [
   { href: "/", label: "خانه" },
   { href: "/notes", label: "یادداشت‌ها" },
   { href: "/special", label: "ویژه‌نامه‌ها" },
+  { href: "/podcast", label: "پادکست" },
+  { href: "/conversations", label: "گفتگوها" },
+  { href: "/multimedia", label: "چندرسانه" },
   { href: "/recommendations", label: "توصیه‌های ما" },
   { href: "/forms", label: "درخواست‌نامه‌ها" },
   { href: "/about", label: "درباره ما" },
@@ -16,6 +19,9 @@ const navItems = [
 const searchItems = [
   { title: "یادداشت‌ها", href: "/notes" },
   { title: "ویژه‌نامه‌ها", href: "/special" },
+  { title: "پادکست", href: "/podcast" },
+  { title: "گفتگوها", href: "/conversations" },
+  { title: "چندرسانه", href: "/multimedia" },
   { title: "توصیه‌های ما", href: "/recommendations" },
   { title: "درخواست‌نامه‌ها", href: "/forms" },
   { title: "درباره ما", href: "/about" },
@@ -24,6 +30,9 @@ const searchItems = [
 const footerLinks = [
   { href: "/notes", label: "یادداشت‌ها" },
   { href: "/special", label: "ویژه‌نامه‌ها" },
+  { href: "/podcast", label: "پادکست" },
+  { href: "/conversations", label: "گفتگوها" },
+  { href: "/multimedia", label: "چندرسانه" },
   { href: "/about", label: "درباره ما" },
 ];
 
@@ -81,7 +90,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
             نیلوفر
           </Link>
 
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 text-sm lg:flex">
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-3.5 whitespace-nowrap text-[13px] xl:gap-5 xl:text-sm lg:flex">
             {navItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (
