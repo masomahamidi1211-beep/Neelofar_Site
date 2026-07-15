@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #111111;
+  --panel: #f2f2f2;
+  --hairline: #cccccc;
+  /* نیلوفر (water lily) accent: a deep indigo/violet-blue -- the one spot of
+     color in an otherwise black-and-white editorial system. */
+  --accent: #3f2d8f;
+  --accent-light: #b7a9e8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --font-sans: var(--font-vazirmatn);
+  --font-mono: var(--font-vazirmatn);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-vazirmatn), "Tahoma", sans-serif;
+  line-height: 1.85;
+  font-variant-numeric: tabular-nums;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(63, 45, 143, 0.22);
+}
+
+a {
+  transition: color 200ms ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+blockquote {
+  border-right: 3px solid var(--accent);
+  padding-right: 1.25rem;
+  margin: 1.5rem 0;
+  color: #333333;
+  font-style: italic;
+}
+
+.section-heading {
+  position: relative;
+  padding-right: 1rem;
+  border-right: 4px solid var(--accent);
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Zero-gap hairline grid: cells sit directly against a shared 1px line.
+   Achieved with `gap: 1px` on a track colored like the hairline, so the gap
+   itself reads as the border -- there is never real space between cells. */
+.hairline-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+/* Each cell must set its own background explicitly (bg-white, bg-black, ...) --
+   intentionally no default here so the footer's dark cells aren't fought over
+   by two equal-specificity rules. */
+
+.hairline-cell {
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .hairline-cell {
+    padding: 1.5rem;
+  }
+}
+
+/* Same zero-gap hairline mechanism as .hairline-grid, but flex-wrap instead of
+   fixed grid columns: when the item count doesn't evenly divide the column
+   count, a trailing partial row would leave empty grid cells. Flex items grow
+   to fill whatever space is left in their row instead, so there is never a
+   blank cell regardless of how many items a section has. */
+.hairline-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+.hairline-flex > * {
+  flex: 1 1 320px;
+}
+
+.article-figure {
+  margin: 2rem 0;
+}
+
+.article-figure img {
+  width: 100%;
+  display: block;
+}
+
+.article-figure figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b6b6b;
+}
+
+.telegram-placeholder {
+  margin: 2rem 0;
+  border: 1px solid var(--hairline);
+  padding: 1.25rem 1.5rem;
+}
+
+.telegram-placeholder a {
+  font-weight: 600;
+}
+
+.fn-ref a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
