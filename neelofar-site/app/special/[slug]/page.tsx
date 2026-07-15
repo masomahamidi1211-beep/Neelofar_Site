@@ -39,6 +39,8 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
                     author: article.author,
                     excerpt: longExcerptOf(article, article.image ? 110 : 220),
                     image: article.image,
+                    imagePosition: article.imagePosition,
+                    imageAlt: article.imageAlt,
                   }))}
                 />
               </div>

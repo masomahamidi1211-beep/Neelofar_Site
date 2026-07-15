@@ -7,7 +7,16 @@ export type CardArticle = {
   author: string;
   excerpt: string;
   image?: string | null;
+  /** CSS object-position override, e.g. "50% 42%" -- for images (like a
+   * book cover) where the default top-biased crop would cut off something
+   * essential such as title text. Defaults to a face-friendly top crop. */
+  imagePosition?: string | null;
+  /** Meaningful alt text override; defaults to "" (decorative -- the card's
+   * own title text already describes the link). */
+  imageAlt?: string | null;
 };
+
+const DEFAULT_IMAGE_POSITION = "50% 20%";
 
 /**
  * The standard article card for every grid section (homepage, یادداشت‌ها,
@@ -37,8 +46,9 @@ export function FeatureCard({
         <div className="aspect-square w-full shrink-0 overflow-hidden">
           <img
             src={article.image}
-            alt=""
-            className="h-full w-full object-cover [object-position:50%_20%]"
+            alt={article.imageAlt ?? ""}
+            className="h-full w-full object-cover"
+            style={{ objectPosition: article.imagePosition ?? DEFAULT_IMAGE_POSITION }}
           />
         </div>
       )}

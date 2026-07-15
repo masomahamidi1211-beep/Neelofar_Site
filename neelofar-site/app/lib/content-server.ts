@@ -19,6 +19,15 @@ export type Article = {
   wordCount: number;
   readingTimeMinutes: number;
   image: string | null;
+  /** CSS object-position for the image, e.g. "50% 42%" -- overrides the card
+   * components' default top-biased crop for images where that would cut off
+   * something essential (a book cover's title text, for example). */
+  imagePosition: string | null;
+  /** Meaningful alt text override. Card thumbnails default to alt="" (the
+   * card's own title text already describes the link), but some images --
+   * e.g. a book cover that IS the subject of the article -- need real
+   * alt text of their own. */
+  imageAlt: string | null;
   tags: string[];
 };
 
@@ -117,6 +126,8 @@ function articleFromFile(slug: string, fullPath: string): Article {
     wordCount,
     readingTimeMinutes: Math.max(1, Math.round(wordCount / 200)),
     image: typeof data.image === "string" ? data.image : null,
+    imagePosition: typeof data.imagePosition === "string" ? data.imagePosition : null,
+    imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : null,
     tags: Array.isArray(data.tags) ? data.tags : [],
   };
 }

@@ -16,8 +16,9 @@ export function CompactCard({ article, className = "" }: { article: CardArticle;
       {article.image && (
         <img
           src={article.image}
-          alt=""
-          className="h-[120px] w-[120px] shrink-0 object-cover [object-position:50%_20%]"
+          alt={article.imageAlt ?? ""}
+          className="h-[120px] w-[120px] shrink-0 object-cover"
+          style={{ objectPosition: article.imagePosition ?? "50% 20%" }}
         />
       )}
       <div className="min-w-0 flex-1">

@@ -38,7 +38,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {showCoverAtTop && (
         <img
           src={article.image as string}
-          alt={`${article.title} — مادران و دختران`}
+          alt={`${article.imageAlt ?? article.title} — مادران و دختران`}
           className="mx-auto mt-8 block max-h-[60vh] w-auto max-w-full"
         />
       )}

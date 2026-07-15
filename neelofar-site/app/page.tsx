@@ -10,7 +10,9 @@ import ScrollReveal from "./components/scroll-reveal";
 // a flagship piece earning both the featured spot and its normal section slot.
 const FEATURED_SLUGS = ["سرسخن", "هشت-گفتگو", "قصهی-مریم-و-همباغش"];
 
-function entryOf(article: Pick<Article, "slug" | "title" | "author" | "image" | "body">): CardArticle {
+function entryOf(
+  article: Pick<Article, "slug" | "title" | "author" | "image" | "imagePosition" | "imageAlt" | "body">
+): CardArticle {
   return {
     slug: article.slug,
     title: article.title,
@@ -20,6 +22,8 @@ function entryOf(article: Pick<Article, "slug" | "title" | "author" | "image" | 
     // stretching to a mostly-blank cell.
     excerpt: longExcerptOf(article, article.image ? 110 : 220),
     image: article.image,
+    imagePosition: article.imagePosition,
+    imageAlt: article.imageAlt,
   };
 }
 
