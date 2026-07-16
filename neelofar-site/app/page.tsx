@@ -3,6 +3,7 @@ import { getAllArticles, getSpecialIssue, longExcerptOf, type Article } from "./
 import { type CardArticle } from "./components/feature-card";
 import { ArticleGrid } from "./components/article-grid";
 import { PullQuote } from "./components/pull-quote";
+import { SectionIntro } from "./components/section-intro";
 import ScrollReveal from "./components/scroll-reveal";
 
 // The 3 pieces featured at the top of the page. قصه‌ی مریم و هم‌باغش
@@ -67,6 +68,15 @@ export default function HomePage() {
                 همهٔ مطالب ←
               </Link>
             </div>
+            {hashtSection.image && hashtSection.description && (
+              <SectionIntro
+                image={hashtSection.image}
+                imagePosition={hashtSection.imagePosition}
+                imageAlt={hashtSection.imageAlt}
+                text={hashtSection.description}
+                href="/special/مادران-و-دختران#hasht"
+              />
+            )}
             <ArticleGrid articles={hashtInterviews.map(entryOf)} />
           </section>
         </ScrollReveal>
@@ -92,24 +102,14 @@ export default function HomePage() {
                 همهٔ مطالب ←
               </Link>
             </div>
-            {(alexievichSection.image || alexievichSection.description) && (
-              <div className="mb-3 flex flex-col gap-4 sm:flex-row sm:items-start">
-                {alexievichSection.image && (
-                  <div className="aspect-square w-full shrink-0 overflow-hidden sm:w-48">
-                    <img
-                      src={alexievichSection.image}
-                      alt={alexievichSection.imageAlt ?? alexievichSection.title}
-                      className="h-full w-full object-cover"
-                      style={{ objectPosition: alexievichSection.imagePosition ?? "50% 20%" }}
-                    />
-                  </div>
-                )}
-                {alexievichSection.description && (
-                  <p className="max-w-[70ch] text-justify text-sm leading-8 text-[#4a4a4a]">
-                    {alexievichSection.description}
-                  </p>
-                )}
-              </div>
+            {alexievichSection.image && alexievichSection.description && (
+              <SectionIntro
+                image={alexievichSection.image}
+                imagePosition={alexievichSection.imagePosition}
+                imageAlt={alexievichSection.imageAlt}
+                text={alexievichSection.description}
+                href="/special/مادران-و-دختران#alexievich"
+              />
             )}
             <ArticleGrid articles={alexievichSection.articles.map(entryOf)} />
           </section>
