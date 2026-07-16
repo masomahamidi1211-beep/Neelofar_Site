@@ -92,10 +92,24 @@ export default function HomePage() {
                 همهٔ مطالب ←
               </Link>
             </div>
-            {alexievichSection.description && (
-              <p className="mb-3 max-w-[70ch] text-justify text-sm leading-8 text-[#4a4a4a]">
-                {alexievichSection.description}
-              </p>
+            {(alexievichSection.image || alexievichSection.description) && (
+              <div className="mb-3 flex flex-col gap-4 sm:flex-row sm:items-start">
+                {alexievichSection.image && (
+                  <div className="aspect-square w-full shrink-0 overflow-hidden sm:w-48">
+                    <img
+                      src={alexievichSection.image}
+                      alt={alexievichSection.imageAlt ?? alexievichSection.title}
+                      className="h-full w-full object-cover"
+                      style={{ objectPosition: alexievichSection.imagePosition ?? "50% 20%" }}
+                    />
+                  </div>
+                )}
+                {alexievichSection.description && (
+                  <p className="max-w-[70ch] text-justify text-sm leading-8 text-[#4a4a4a]">
+                    {alexievichSection.description}
+                  </p>
+                )}
+              </div>
             )}
             <ArticleGrid articles={alexievichSection.articles.map(entryOf)} />
           </section>

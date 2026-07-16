@@ -27,8 +27,22 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
         {issue.sections.map((section) => (
           <section key={section.key} id={section.key} className="scroll-mt-24">
             <h2 className="section-heading text-2xl font-bold">{section.title}</h2>
-            {section.description && (
-              <p className="mt-2 max-w-[70ch] text-justify leading-8 text-[#4a4a4a]">{section.description}</p>
+            {(section.image || section.description) && (
+              <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-start">
+                {section.image && (
+                  <div className="aspect-square w-full shrink-0 overflow-hidden sm:w-48">
+                    <img
+                      src={section.image}
+                      alt={section.imageAlt ?? section.title}
+                      className="h-full w-full object-cover"
+                      style={{ objectPosition: section.imagePosition ?? "50% 20%" }}
+                    />
+                  </div>
+                )}
+                {section.description && (
+                  <p className="max-w-[70ch] text-justify leading-8 text-[#4a4a4a]">{section.description}</p>
+                )}
+              </div>
             )}
             {section.articles.length > 0 && (
               <div className="mt-3">

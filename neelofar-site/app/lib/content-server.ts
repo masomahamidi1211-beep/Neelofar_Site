@@ -36,6 +36,12 @@ export type SpecialIssueSection = {
   title: string;
   description: string;
   articleSlugs: string[];
+  /** Optional lead image for the section itself (not tied to a single
+   * article) -- shown beside the section's title/description on the
+   * homepage and the ویژه‌نامه page. */
+  image?: string | null;
+  imagePosition?: string | null;
+  imageAlt?: string | null;
 };
 
 export type SpecialIssue = {
@@ -191,6 +197,9 @@ export function getSpecialIssue(slug: string): SpecialIssueResolved | null {
       key: section.key,
       title: section.title,
       description: section.description,
+      image: section.image ?? null,
+      imagePosition: section.imagePosition ?? null,
+      imageAlt: section.imageAlt ?? null,
       articles: section.articleSlugs
         .map((slug) => articlesBySlug.get(slug))
         .filter((article): article is Article => Boolean(article)),
