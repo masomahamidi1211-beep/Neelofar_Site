@@ -6,10 +6,34 @@ import { PullQuote } from "./components/pull-quote";
 import { SectionIntro } from "./components/section-intro";
 import ScrollReveal from "./components/scroll-reveal";
 
-// The 3 pieces featured at the top of the page. قصه‌ی مریم و هم‌باغش
-// deliberately also appears again in its own «ترجمه‌ها و گفتگو» section below --
-// a flagship piece earning both the featured spot and its normal section slot.
-const FEATURED_SLUGS = ["سرسخن", "هشت-گفتگو", "قصهی-مریم-و-همباغش"];
+// The single piece featured at the very top of the page, above the 4
+// sections. هشت-گفتگو and قصه‌ی مریم و هم‌باغش used to appear here too, but
+// each already has its proper home below (هشت-گفتگو as the hasht section's
+// intro, قصه‌ی مریم و هم‌باغش in ترجمه‌ها) -- showing them here as well made
+// them show up twice on the page.
+const FEATURED_SLUGS = ["سرسخن"];
+
+// Claims every article slug placed on the homepage exactly once, in render
+// order. If a slug is ever added to two lists by mistake, pickUnique()
+// silently drops the second occurrence instead of rendering the same
+// article twice. A fresh Set per call -- this must never be a module-level
+// singleton, or the second request served by this module instance would
+// find every slug already "used" and render an empty homepage.
+function createSlugPicker() {
+  const usedSlugs = new Set<string>();
+  return {
+    claim(slug: string) {
+      usedSlugs.add(slug);
+    },
+    pickUnique<T extends { slug: string }>(items: T[]): T[] {
+      return items.filter((item) => {
+        if (usedSlugs.has(item.slug)) return false;
+        usedSlugs.add(item.slug);
+        return true;
+      });
+    },
+  };
+}
 
 function entryOf(
   article: Pick<Article, "slug" | "title" | "author" | "image" | "imagePosition" | "imageAlt" | "body">
@@ -33,17 +57,23 @@ export default function HomePage() {
   const issue = getSpecialIssue("مادران-و-دختران");
   const bySlug = new Map(articles.map((a) => [a.slug, a]));
 
-  const featured = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter(
-    (a): a is NonNullable<typeof a> => Boolean(a)
-  );
-
   const hashtSection = issue?.sections.find((s) => s.key === "hasht");
   const alexievichSection = issue?.sections.find((s) => s.key === "alexievich");
   const tarjomehaSection = issue?.sections.find((s) => s.key === "tarjomeha");
 
-  // "هشت گفتگو: هزار زندگی" (the section intro) is already shown in the
-  // featured row above -- don't repeat it here, leaving exactly the 8 گفتگو pieces.
-  const hashtInterviews = (hashtSection?.articles ?? []).filter((a) => a.slug !== "هشت-گفتگو");
+  const { claim, pickUnique } = createSlugPicker();
+
+  // هشت-گفتگو's image/text are shown via the hasht section's SectionIntro
+  // block below, not as its own card -- claim its slug up front so it can
+  // never also render as a regular grid card, no matter what else changes.
+  claim("هشت-گفتگو");
+
+  const featured = pickUnique(
+    FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((a): a is NonNullable<typeof a> => Boolean(a))
+  );
+  const hashtInterviews = pickUnique(hashtSection?.articles ?? []);
+  const alexievichArticles = pickUnique(alexievichSection?.articles ?? []);
+  const tarjomehaArticles = pickUnique(tarjomehaSection?.articles ?? []);
 
   return (
     <div>
@@ -111,7 +141,7 @@ export default function HomePage() {
                 href="/special/مادران-و-دختران#alexievich"
               />
             )}
-            <ArticleGrid articles={alexievichSection.articles.map(entryOf)} />
+            <ArticleGrid articles={alexievichArticles.map(entryOf)} />
           </section>
         </ScrollReveal>
       )}
@@ -128,7 +158,7 @@ export default function HomePage() {
                 همهٔ مطالب ←
               </Link>
             </div>
-            <ArticleGrid articles={tarjomehaSection.articles.map(entryOf)} />
+            <ArticleGrid articles={tarjomehaArticles.map(entryOf)} />
           </section>
         </ScrollReveal>
       )}
