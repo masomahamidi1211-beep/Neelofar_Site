@@ -1,51 +1,50 @@
-import Link from "next/link";
 import { getAllArticles, getSpecialIssue, longExcerptOf, type Article } from "./lib/content-server";
-import { type CardArticle } from "./components/feature-card";
-import { ArticleGrid } from "./components/article-grid";
-import { PullQuote } from "./components/pull-quote";
-import { SectionIntro } from "./components/section-intro";
+import { toPersianDigits } from "./lib/date";
+import { ArticleBox, type BaruArticle } from "./components/article-box";
+import { IssuePoster } from "./components/issue-poster";
+import { DownloadBar } from "./components/download-bar";
+import { SpotIllustration } from "./components/spot-illustration";
 import ScrollReveal from "./components/scroll-reveal";
 
-// The single piece featured at the very top of the page, above the 4
-// sections. هشت-گفتگو and قصه‌ی مریم و هم‌باغش used to appear here too, but
-// each already has its proper home below (هشت-گفتگو as the hasht section's
-// intro, قصه‌ی مریم و هم‌باغش in ترجمه‌ها) -- showing them here as well made
-// them show up twice on the page.
-const FEATURED_SLUGS = ["سرسخن"];
+// The 18 articles of the ویژه‌نامه, curated once into sections A-F below.
+// Every slug appears in exactly one list -- pickUnique() (same per-render
+// safeguard used elsewhere on this site) enforces that at render time too.
+const HERO_LIST_SLUGS = ["سرسخن", "سرگردانیهای-او-روزا", "قاب-عکسی-از-سالهال-دور", "تا-رسم-نابجا-را-بجا-کنیم"];
+const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است", "خرمن-دشت-از-ما-گذشت"];
+const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
+const MOSAIC_PHOTO_SLUGS = ["زندگی-در-جنگ-و-زندگی-در-فرار-از-جنگ", "هشت-گفتگو"];
+const HORIZONTAL_SLUGS = ["لباس-پسرانه-میپوشیدم-و-عین-پسرها-رفتار-میکردم", "بچیم-زن-زود-پیر-میشه", "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ"];
+const PORTRAIT_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی", "لندی-مویه-زنان-پشتون-است"];
+const DARK_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
 
-// Claims every article slug placed on the homepage exactly once, in render
-// order. If a slug is ever added to two lists by mistake, pickUnique()
-// silently drops the second occurrence instead of rendering the same
-// article twice. A fresh Set per call -- this must never be a module-level
-// singleton, or the second request served by this module instance would
-// find every slug already "used" and render an empty homepage.
 function createSlugPicker() {
-  const usedSlugs = new Set<string>();
+  const used = new Set<string>();
   return {
-    claim(slug: string) {
-      usedSlugs.add(slug);
-    },
-    pickUnique<T extends { slug: string }>(items: T[]): T[] {
-      return items.filter((item) => {
-        if (usedSlugs.has(item.slug)) return false;
-        usedSlugs.add(item.slug);
+    pickUnique(slugs: string[]): string[] {
+      return slugs.filter((slug) => {
+        if (used.has(slug)) return false;
+        used.add(slug);
         return true;
       });
     },
   };
 }
 
-function entryOf(
-  article: Pick<Article, "slug" | "title" | "author" | "image" | "imagePosition" | "imageAlt" | "body">
-): CardArticle {
+function seasonOf(jalaliDate: string): string {
+  const month = Number(jalaliDate.split("-")[1] ?? "0");
+  if (month <= 3) return "بهار";
+  if (month <= 6) return "تابستان";
+  if (month <= 9) return "پاییز";
+  return "زمستان";
+}
+
+function toBaru(article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">): BaruArticle {
   return {
     slug: article.slug,
     title: article.title,
     author: article.author,
-    // text-only cells pull noticeably more words so they can match the
-    // height of a neighboring image cell in the same grid row instead of
-    // stretching to a mostly-blank cell.
-    excerpt: longExcerptOf(article, article.image ? 110 : 220),
+    excerpt: longExcerptOf(article, 90, 160),
+    date: toPersianDigits(article.jalaliDate.replace(/-/g, "/")),
     image: article.image,
     imagePosition: article.imagePosition,
     imageAlt: article.imageAlt,
@@ -56,119 +55,152 @@ export default function HomePage() {
   const articles = getAllArticles();
   const issue = getSpecialIssue("مادران-و-دختران");
   const bySlug = new Map(articles.map((a) => [a.slug, a]));
+  const get = (slug: string) => bySlug.get(slug);
 
-  const hashtSection = issue?.sections.find((s) => s.key === "hasht");
-  const alexievichSection = issue?.sections.find((s) => s.key === "alexievich");
-  const tarjomehaSection = issue?.sections.find((s) => s.key === "tarjomeha");
+  const { pickUnique } = createSlugPicker();
 
-  const { claim, pickUnique } = createSlugPicker();
+  const heroList = pickUnique(HERO_LIST_SLUGS).map(get).filter((a): a is Article => Boolean(a));
+  const mosaicText = pickUnique(MOSAIC_TEXT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
+  const mosaicCream = pickUnique([MOSAIC_CREAM_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
+  const mosaicPhoto = pickUnique(MOSAIC_PHOTO_SLUGS).map(get).filter((a): a is Article => Boolean(a));
+  const horizontal = pickUnique(HORIZONTAL_SLUGS).map(get).filter((a): a is Article => Boolean(a));
+  const portrait = pickUnique(PORTRAIT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
+  const dark = pickUnique(DARK_SLUGS).map(get).filter((a): a is Article => Boolean(a));
 
-  // هشت-گفتگو's image/text are shown via the hasht section's SectionIntro
-  // block below, not as its own card -- claim its slug up front so it can
-  // never also render as a regular grid card, no matter what else changes.
-  claim("هشت-گفتگو");
-
-  const featured = pickUnique(
-    FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((a): a is NonNullable<typeof a> => Boolean(a))
-  );
-  const hashtInterviews = pickUnique(hashtSection?.articles ?? []);
-  const alexievichArticles = pickUnique(alexievichSection?.articles ?? []);
-  const tarjomehaArticles = pickUnique(tarjomehaSection?.articles ?? []);
+  const sarsokhan = get("سرسخن");
+  const contributors = Array.from(new Set(articles.map((a) => a.author)));
 
   return (
-    <div>
+    <div className="bg-[var(--bg)]">
+      {/* --- Section A: split hero --- */}
       <ScrollReveal>
-        <section className="mx-auto max-w-[1600px] px-4 py-3 sm:px-6 lg:px-8">
-          <h1 className="section-heading text-xl font-bold">ویژه‌نامه «مادران و دختران»</h1>
-          <div className="mt-2">
-            <ArticleGrid articles={featured.map(entryOf)} />
+        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="grid grid-cols-1 gap-6 border-t border-[var(--line)] pt-8 lg:grid-cols-[45%_1fr] lg:gap-10 lg:divide-x lg:divide-x-reverse lg:divide-[var(--line)]">
+            <div className="lg:pl-10">
+              {sarsokhan && (
+                <IssuePoster
+                  href="/special/مادران-و-دختران"
+                  image={sarsokhan.image ?? ""}
+                  imagePosition={sarsokhan.imagePosition}
+                  imageAlt={issue?.title ?? sarsokhan.title}
+                  label="مجلهٔ نیلوفر"
+                  title={issue?.title ?? "مادران و دختران"}
+                  seasonYear={`${seasonOf(sarsokhan.jalaliDate)} ${toPersianDigits(sarsokhan.jalaliDate.split("-")[0])}`}
+                  contributors={contributors}
+                />
+              )}
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:pr-2">
+              {heroList.map((a) => (
+                <ArticleBox key={a.slug} article={toBaru(a)} variant="list" />
+              ))}
+            </div>
           </div>
         </section>
       </ScrollReveal>
 
-      {hashtSection && (
-        <ScrollReveal>
-          <section className="mx-auto max-w-[1600px] px-4 py-3 sm:px-6 lg:px-8">
-            <div className="mb-2 flex items-end justify-between">
-              <h2 className="section-heading text-xl font-bold">{hashtSection.title}</h2>
-              <Link
-                href="/special/مادران-و-دختران#hasht"
-                className="text-sm font-semibold text-[var(--accent)] transition duration-200 hover:opacity-70"
-              >
-                همهٔ مطالب ←
-              </Link>
-            </div>
-            {hashtSection.image && hashtSection.description && (
-              <SectionIntro
-                image={hashtSection.image}
-                imagePosition={hashtSection.imagePosition}
-                imageAlt={hashtSection.imageAlt}
-                text={hashtSection.description}
-                href="/special/مادران-و-دختران#hasht"
-              />
-            )}
-            <ArticleGrid articles={hashtInterviews.map(entryOf)} />
-          </section>
-        </ScrollReveal>
-      )}
-
+      {/* --- Section B: the main mosaic --- */}
       <ScrollReveal>
-        <PullQuote
-          quote="جنگ تمام هستی ما را نابود کرده است"
-          source="از «هشت گفتگو: هزار زندگی»"
-          href="/notes/هشت-گفتگو"
-        />
+        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {mosaicText.map((a) => (
+              <ArticleBox key={a.slug} article={toBaru(a)} variant="text" />
+            ))}
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {mosaicCream && <ArticleBox article={toBaru(mosaicCream)} variant="cream" />}
+            <SpotIllustration kind="lotus" />
+            <SpotIllustration kind="moon" />
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {mosaicPhoto.map((a) => (
+              <ArticleBox key={a.slug} article={toBaru(a)} variant="photo-top" />
+            ))}
+          </div>
+        </section>
       </ScrollReveal>
 
-      {alexievichSection && (
-        <ScrollReveal>
-          <section className="mx-auto max-w-[1600px] px-4 py-3 sm:px-6 lg:px-8">
-            <div className="mb-2 flex items-end justify-between">
-              <h2 className="section-heading text-xl font-bold">{alexievichSection.title}</h2>
-              <Link
-                href="/special/مادران-و-دختران#alexievich"
-                className="text-sm font-semibold text-[var(--accent)] transition duration-200 hover:opacity-70"
-              >
-                همهٔ مطالب ←
-              </Link>
-            </div>
-            {alexievichSection.image && alexievichSection.description && (
-              <SectionIntro
-                image={alexievichSection.image}
-                imagePosition={alexievichSection.imagePosition}
-                imageAlt={alexievichSection.imageAlt}
-                text={alexievichSection.description}
-                href="/special/مادران-و-دختران#alexievich"
-              />
-            )}
-            <ArticleGrid articles={alexievichArticles.map(entryOf)} />
-          </section>
-        </ScrollReveal>
-      )}
-
-      {tarjomehaSection && (
-        <ScrollReveal>
-          <section className="mx-auto max-w-[1600px] px-4 py-3 sm:px-6 lg:px-8">
-            <div className="mb-2 flex items-end justify-between">
-              <h2 className="section-heading text-xl font-bold">{tarjomehaSection.title}</h2>
-              <Link
-                href="/special/مادران-و-دختران#tarjomeha"
-                className="text-sm font-semibold text-[var(--accent)] transition duration-200 hover:opacity-70"
-              >
-                همهٔ مطالب ←
-              </Link>
-            </div>
-            <ArticleGrid articles={tarjomehaArticles.map(entryOf)} />
-          </section>
-        </ScrollReveal>
-      )}
-
+      {/* --- Section C: small horizontal cards row --- */}
       <ScrollReveal>
-        <PullQuote
-          quote="بچیم زن زود پیر میشه"
-          source="از «بچیم زن زود پیر میشه» — ز. حبیبی"
-          href="/notes/بچیم-زن-زود-پیر-میشه"
-        />
+        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {horizontal.map((a) => (
+              <ArticleBox key={a.slug} article={toBaru(a)} variant="horizontal-small" />
+            ))}
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* --- Section D: illustrated portrait row --- */}
+      <ScrollReveal>
+        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {portrait.map((a, i) => (
+              <ArticleBox
+                key={a.slug}
+                article={toBaru(a)}
+                variant="photo-top"
+                tone={i === 2 ? "cream" : "tan"}
+                authorFirst
+              />
+            ))}
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* --- Section E: publication / download block --- */}
+      <ScrollReveal>
+        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="article-box grid grid-cols-1 sm:grid-cols-2">
+            <div className="flex flex-col bg-[var(--tan)]">
+              <div className="flex flex-1 items-center justify-center p-10">
+                <svg
+                  aria-hidden="true"
+                  width="88"
+                  height="88"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  stroke="var(--ink)"
+                  strokeWidth="1.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M32 54c0-12 6-20 6-20s6 8 6 20" />
+                  <path d="M20 46c4-10 12-14 18-12" />
+                  <path d="M44 46c-4-10-12-14-18-12" />
+                  <path d="M14 40c6-8 16-10 24-6" />
+                  <path d="M50 40c-6-8-16-10-24-6" />
+                  <path d="M38 54h-4" />
+                </svg>
+              </div>
+              <DownloadBar href="/docs/rahnama-entekhab-roman.pdf" label="دانلود راهنما (PDF)" />
+            </div>
+            <div className="p-6 sm:p-10">
+              <p className="text-xs font-semibold tracking-[0.15em] text-[var(--muted)]">راهنما</p>
+              <h2 className="mt-2 text-2xl font-bold leading-snug text-[var(--title)] sm:text-3xl">
+                راهنمای انتخاب رمان
+              </h2>
+              <p className="justified-fa mt-5 text-[15px] text-[var(--ink)]">
+                در زمانه‌ای که صنعت چاپ بی‌وقفه و بی‌توجه به کیفیت اثر، مدام کتاب چاپ می‌کند، تفکیک رمان/مجموعه
+                داستان درخشان از اثر معمولی به هنر دشواری تبدیل شده است. راهنمای نیلوفر برای انتخاب رمان خوب،
+                آماده‌ی مطالعه و دانلود است.
+              </p>
+            </div>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* --- Section F: dark feature pair --- */}
+      <ScrollReveal>
+        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {dark.map((a) => (
+              <ArticleBox key={a.slug} article={toBaru(a)} variant="dark" />
+            ))}
+          </div>
+        </section>
       </ScrollReveal>
     </div>
   );

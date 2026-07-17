@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
+import Footer from "./footer";
 
 const navItems = [
   { href: "/", label: "خانه" },
@@ -25,30 +26,6 @@ const searchItems = [
   { title: "توصیه‌های ما", href: "/recommendations" },
   { title: "درخواست‌نامه‌ها", href: "/forms" },
   { title: "درباره ما", href: "/about" },
-];
-
-const footerLinks = [
-  { href: "/notes", label: "یادداشت‌ها" },
-  { href: "/special", label: "ویژه‌نامه‌ها" },
-  { href: "/podcast", label: "پادکست" },
-  { href: "/conversations", label: "گفتگوها" },
-  { href: "/multimedia", label: "چندرسانه" },
-  { href: "/about", label: "درباره ما" },
-];
-
-const programLinks = [
-  { href: "/forms/kabul", label: "کابل" },
-  { href: "/forms/herat", label: "هرات" },
-  { href: "/forms/balkh", label: "بلخ" },
-  { href: "/forms/bamyan", label: "بامیان" },
-  { href: "/forms/collaboration", label: "همکاری با ما" },
-];
-
-const socialLinks = [
-  { label: "تلگرام", href: "#" },
-  { label: "یوتیوب", href: "#" },
-  { label: "اینستاگرام", href: "#" },
-  { label: "ایکس", href: "#" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -83,24 +60,22 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div className="flex min-h-screen flex-col bg-white text-[#111111]">
-      <header className="sticky top-0 z-30 border-b border-[var(--hairline)] bg-white/95 backdrop-blur-sm">
-        <div className="relative mx-auto flex max-w-[1600px] items-center justify-between px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
-          <Link href="/" className="z-10 text-3xl font-extrabold tracking-[0.15em]">
+    <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
+      <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:gap-6 lg:px-8 lg:py-0">
+          <Link href="/" className="baru-focus shrink-0 text-[28px] font-bold text-[var(--ink)] sm:text-[32px]">
             نیلوفر
           </Link>
 
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-3 whitespace-nowrap text-sm font-bold lg:flex xl:gap-4 xl:text-base 2xl:gap-6 2xl:text-lg">
+          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-3 overflow-x-auto whitespace-nowrap lg:flex xl:gap-6">
             {navItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`border-b-2 pb-1 transition duration-200 ${
-                    active
-                      ? "border-[var(--accent)] text-[var(--accent)]"
-                      : "border-transparent hover:border-[var(--accent)]"
+                  className={`baru-link-hover baru-focus text-[20px] font-bold tracking-wide transition duration-150 ${
+                    active ? "text-[var(--title)]" : "text-[var(--ink)]"
                   }`}
                 >
                   {item.label}
@@ -109,25 +84,25 @@ export default function SiteShell({ children }: { children: ReactNode }) {
             })}
           </nav>
 
-          <button
-            type="button"
-            aria-label="باز کردن جست‌وجو"
-            className="z-10 hidden text-xl transition duration-200 hover:text-[var(--accent)] lg:block"
-            onClick={() => setSearchOpen(true)}
-          >
-            🔎
-          </button>
-
-          <div className="flex items-center gap-4 lg:hidden">
+          <div className="flex shrink-0 items-center gap-5">
             <button
               type="button"
               aria-label="باز کردن جست‌وجو"
-              className="text-lg"
+              className="baru-focus baru-link-hover text-[var(--ink)] transition duration-150"
               onClick={() => setSearchOpen(true)}
             >
-              🔎
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
             </button>
-            <button type="button" aria-label="باز کردن فهرست" className="text-lg" onClick={() => setMenuOpen(true)}>
+
+            <button
+              type="button"
+              aria-label="باز کردن فهرست"
+              className="baru-focus text-xl lg:hidden"
+              onClick={() => setMenuOpen(true)}
+            >
               ☰
             </button>
           </div>
@@ -136,63 +111,15 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
       <main className="flex-1">{children}</main>
 
-      <footer className="border-t border-[var(--hairline)] bg-black text-[#e5e5e5]">
-        <div
-          className="hairline-grid grid-cols-1 border-white/10 sm:grid-cols-3 lg:grid-cols-4"
-          style={{ background: "rgba(255,255,255,0.12)" }}
-        >
-          <div className="hairline-cell bg-black">
-            <div className="text-xl font-bold text-white">نیلوفر</div>
-            <p className="mt-4 text-sm leading-7 text-[#a3a3a3]">
-              برنامه‌ای برای گسترش کتاب‌خوانی و رمان‌خوانی در میان نوجوانان و جوانان افغانستان.
-            </p>
-          </div>
-          <div className="hairline-cell bg-black">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a3a3a3]">نیلوفر</h2>
-            <ul className="mt-4 space-y-2 text-sm">
-              {footerLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="transition duration-200 hover:text-[var(--accent-light)]">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="hairline-cell bg-black">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a3a3a3]">برنامه‌ها</h2>
-            <ul className="mt-4 space-y-2 text-sm">
-              {programLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="transition duration-200 hover:text-[var(--accent-light)]">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="hairline-cell bg-black">
-            <p className="text-sm text-[#a3a3a3]">حقوق متعلق به نیلوفر است.</p>
-            <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-[var(--accent-light)]">
-              {socialLinks.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="transition duration-200 hover:text-white">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       {searchOpen && (
-        <div className="fixed inset-0 z-40 bg-white">
+        <div className="fixed inset-0 z-40 bg-[var(--bg)]">
           <div className="mx-auto flex h-full max-w-3xl flex-col justify-center px-6">
             <button
               type="button"
               aria-label="بستن جست‌وجو"
-              className="absolute left-6 top-6 text-2xl"
+              className="baru-focus absolute left-6 top-6 text-2xl"
               onClick={() => setSearchOpen(false)}
             >
               ✕
@@ -202,10 +129,10 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               autoFocus
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              className="w-full border-b border-[#111111] bg-transparent pb-4 text-center text-3xl outline-none placeholder:text-[#9a9a9a] focus:border-[var(--accent)] sm:text-4xl"
+              className="baru-focus w-full border-b border-[var(--ink)] bg-transparent pb-4 text-center text-3xl outline-none placeholder:text-[var(--muted)] focus:border-[var(--title)] sm:text-4xl"
               placeholder="جست‌وجو..."
             />
-            <p className="mt-6 text-center text-sm text-[#6b6b6b]">
+            <p className="mt-6 text-center text-sm text-[var(--muted)]">
               کلمات را شما جستجو کنید، متن‌ها را ما پیدا می‌کنیم.
             </p>
 
@@ -216,13 +143,13 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                     key={item.href}
                     href={item.href}
                     onClick={() => setSearchOpen(false)}
-                    className="block border-b border-[var(--hairline)] py-4 text-center text-lg font-semibold transition duration-200 hover:text-[var(--accent)]"
+                    className="baru-focus block border-b border-[var(--line)] py-4 text-center text-lg font-semibold transition duration-200 hover:text-[var(--title)]"
                   >
                     {item.title}
                   </Link>
                 ))
               ) : (
-                <div className="py-8 text-center text-sm text-[#6b6b6b]">چیزی پیدا نشد.</div>
+                <div className="py-8 text-center text-sm text-[var(--muted)]">چیزی پیدا نشد.</div>
               )}
             </div>
           </div>
@@ -230,31 +157,37 @@ export default function SiteShell({ children }: { children: ReactNode }) {
       )}
 
       {menuOpen && (
-        <>
-          <div className="fixed inset-0 z-30 bg-black/40" onClick={() => setMenuOpen(false)} />
-          <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-sm border-l border-[var(--hairline)] bg-white p-6">
+        <div className="fixed inset-0 z-40 bg-[var(--bg)]">
+          <div className="mx-auto flex h-full max-w-lg flex-col px-6 py-6">
             <div className="flex items-center justify-between">
-              <div className="text-lg font-bold">فهرست</div>
-              <button type="button" aria-label="بستن فهرست" className="text-xl" onClick={() => setMenuOpen(false)}>
+              <Link href="/" onClick={() => setMenuOpen(false)} className="baru-focus text-2xl font-bold text-[var(--ink)]">
+                نیلوفر
+              </Link>
+              <button
+                type="button"
+                aria-label="بستن فهرست"
+                className="baru-focus text-2xl"
+                onClick={() => setMenuOpen(false)}
+              >
                 ✕
               </button>
             </div>
-            <nav className="mt-8 flex flex-col">
+            <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`border-b border-[var(--hairline)] py-4 text-base ${
-                    isActive(pathname, item.href) ? "font-semibold text-[var(--accent)]" : ""
+                  className={`baru-focus border-b border-[var(--line)] py-4 text-xl ${
+                    isActive(pathname, item.href) ? "font-semibold text-[var(--title)]" : "text-[var(--ink)]"
                   }`}
                 >
                   {item.label}
                 </Link>
               ))}
             </nav>
-          </aside>
-        </>
+          </div>
+        </div>
       )}
     </div>
   );

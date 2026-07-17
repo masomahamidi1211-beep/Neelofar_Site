@@ -9,6 +9,18 @@
      color in an otherwise black-and-white editorial system. */
   --accent: #3f2d8f;
   --accent-light: #b7a9e8;
+
+  /* --- baru.ir-style literary redesign tokens ---
+     Additive: pages not yet migrated to the new design keep using the
+     tokens above. New homepage + shared chrome (header/footer) use these. */
+  --bg: #ffffff;
+  --line: #e6e6e3;
+  --gutter: #f5f5f3;
+  --ink: #1e1e1c;
+  --title: #16325c;
+  --muted: #6f6f6a;
+  --cream: #f2edde;
+  --tan: #d8cfa8;
 }
 
 @theme inline {
@@ -18,6 +30,14 @@
   --color-hairline: var(--hairline);
   --color-accent: var(--accent);
   --color-accent-light: var(--accent-light);
+  --color-bg: var(--bg);
+  --color-line: var(--line);
+  --color-gutter: var(--gutter);
+  --color-ink: var(--ink);
+  --color-title: var(--title);
+  --color-muted: var(--muted);
+  --color-cream: var(--cream);
+  --color-tan: var(--tan);
   --font-sans: var(--font-vazirmatn);
   --font-mono: var(--font-vazirmatn);
 }
@@ -140,5 +160,49 @@ blockquote {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* --- baru.ir-style literary redesign utilities --- */
+
+/* The bordered rectangle every card lives in -- sharp corners, thin line,
+   pure white by default. Card variants override background only. */
+.article-box {
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+
+/* Long justified Persian excerpts: generous line-height, no hyphenation
+   (Persian doesn't hyphenate the way Latin scripts do), justify without
+   the ragged-gap look by letting the browser stretch inter-word spacing
+   only (default justify algorithm) rather than inter-letter. */
+.justified-fa {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: none;
+  line-height: 2;
+}
+
+.read-more-circle {
+  transition: box-shadow 250ms ease, transform 250ms ease;
+}
+
+.read-more-circle:hover {
+  box-shadow: 0 4px 14px rgb(30 30 28 / 15%);
+  transform: translateY(-2px);
+}
+
+.baru-focus:focus-visible {
+  outline: 2px solid var(--title);
+  outline-offset: 3px;
+}
+
+.baru-link-hover:hover {
+  color: var(--title);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .read-more-circle {
+    transition: none !important;
   }
 }
