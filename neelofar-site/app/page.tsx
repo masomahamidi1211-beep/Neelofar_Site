@@ -1,4 +1,4 @@
-import { getAllArticles, getSpecialIssue, longExcerptOf, type Article } from "./lib/content-server";
+import { getAllArticles, longExcerptOf, type Article } from "./lib/content-server";
 import { toPersianDigits } from "./lib/date";
 import { ArticleBox, type BaruArticle } from "./components/article-box";
 import { IssuePoster } from "./components/issue-poster";
@@ -16,6 +16,13 @@ const MOSAIC_PHOTO_SLUGS = ["زندگی-در-جنگ-و-زندگی-در-فرار-
 const HORIZONTAL_SLUGS = ["لباس-پسرانه-میپوشیدم-و-عین-پسرها-رفتار-میکردم", "بچیم-زن-زود-پیر-میشه", "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ"];
 const PORTRAIT_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی", "لندی-مویه-زنان-پشتون-است"];
 const DARK_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
+
+// Overlay title + crop for the hero poster only -- deliberately not read
+// from the سرسخن article's own title/imagePosition, so this block can be
+// tuned independently without touching that article, its page, or its
+// card image anywhere else on the site.
+const POSTER_TITLE = "مادران و خواهران: زندگی در جنگ و زندگی بعد از جنگ";
+const POSTER_IMAGE_POSITION = "50% 10%";
 
 function createSlugPicker() {
   const used = new Set<string>();
@@ -53,7 +60,6 @@ function toBaru(article: Pick<Article, "slug" | "title" | "author" | "jalaliDate
 
 export default function HomePage() {
   const articles = getAllArticles();
-  const issue = getSpecialIssue("مادران-و-دختران");
   const bySlug = new Map(articles.map((a) => [a.slug, a]));
   const get = (slug: string) => bySlug.get(slug);
 
@@ -81,10 +87,10 @@ export default function HomePage() {
                 <IssuePoster
                   href="/special/مادران-و-دختران"
                   image={sarsokhan.image ?? ""}
-                  imagePosition={sarsokhan.imagePosition}
-                  imageAlt={issue?.title ?? sarsokhan.title}
+                  imagePosition={POSTER_IMAGE_POSITION}
+                  imageAlt={POSTER_TITLE}
                   label="مجلهٔ نیلوفر"
-                  title={issue?.title ?? "مادران و دختران"}
+                  title={POSTER_TITLE}
                   seasonYear={`${seasonOf(sarsokhan.jalaliDate)} ${toPersianDigits(sarsokhan.jalaliDate.split("-")[0])}`}
                   contributors={contributors}
                 />
