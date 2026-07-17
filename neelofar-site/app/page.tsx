@@ -3,6 +3,7 @@ import { toPersianDigits } from "./lib/date";
 import { ArticleBox, type BaruArticle } from "./components/article-box";
 import { IssuePoster } from "./components/issue-poster";
 import { EditorialThree } from "./components/editorial-three";
+import { WideRow } from "./components/wide-row";
 import { DownloadBar } from "./components/download-bar";
 import ScrollReveal from "./components/scroll-reveal";
 
@@ -33,7 +34,9 @@ const EDITORIAL_2_REGULAR_SLUGS: [string, string] = [
 ];
 const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است"];
 const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
-const MOSAIC_PHOTO_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی"];
+// Full-width WideRow pair (orders 14-15), replacing the old vertical
+// photo-top cards for these two.
+const WIDE_ROW_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی"];
 const PORTRAIT_SLUGS = ["لندی-مویه-زنان-پشتون-است", "قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
 
 // Crop for the hero poster only -- deliberately not read from the سرسخن
@@ -139,7 +142,7 @@ export default function HomePage() {
 
   const mosaicText = pickUnique(MOSAIC_TEXT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const mosaicCream = pickUnique([MOSAIC_CREAM_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
-  const mosaicPhoto = pickUnique(MOSAIC_PHOTO_SLUGS).map(get).filter((a): a is Article => Boolean(a));
+  const wideRows = pickUnique(WIDE_ROW_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const portrait = pickUnique(PORTRAIT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
 
   const sarsokhan = get("سرسخن");
@@ -193,7 +196,7 @@ export default function HomePage() {
           would read as a duplicate rather than distinct content. */}
       {editorial2 && <EditorialSection featured={editorial2.featured} regular={editorial2.regular} />}
 
-      {/* --- Section D: the main mosaic (orders 11-15) --- */}
+      {/* --- Section D: the main mosaic (orders 11-13) --- */}
       <ScrollReveal>
         <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -202,14 +205,21 @@ export default function HomePage() {
             ))}
             {mosaicCream && <ArticleBox article={toBaru(mosaicCream)} variant="cream" />}
           </div>
-
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {mosaicPhoto.map((a) => (
-              <ArticleBox key={a.slug} article={toBaru(a)} variant="photo-top" />
-            ))}
-          </div>
         </section>
       </ScrollReveal>
+
+      {/* --- Section D.5: wide rows (orders 14-15) --- */}
+      {wideRows.length > 0 && (
+        <ScrollReveal>
+          <section className="px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
+            <div className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
+              {wideRows.map((a) => (
+                <WideRow key={a.slug} article={toBaru(a, [90, 160])} />
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
+      )}
 
       {/* --- Section E: illustrated portrait row (orders 16-18) --- */}
       <ScrollReveal>
