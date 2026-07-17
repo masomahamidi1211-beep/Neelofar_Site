@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
@@ -63,8 +64,9 @@ export default function SiteShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
       <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]">
         <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-6 lg:px-0 lg:py-0">
-          <Link href="/" className="baru-focus shrink-0 text-[28px] font-bold text-black sm:text-[32px]">
-            نیلوفر
+          <Link href="/" className="baru-focus flex shrink-0 items-center gap-2 sm:gap-3">
+            <Image src="/logo.png" alt="" width={48} height={48} priority className="h-9 w-9 sm:h-12 sm:w-12" />
+            <span className="text-[28px] font-bold text-black sm:text-[32px]">نیلوفر</span>
           </Link>
 
           <nav className="hidden min-w-0 flex-1 items-center justify-center gap-3 overflow-x-auto whitespace-nowrap lg:flex xl:gap-6">
@@ -177,7 +179,8 @@ export default function SiteShell({ children }: { children: ReactNode }) {
         <div className="fixed inset-0 z-40 bg-[var(--bg)]">
           <div className="mx-auto flex h-full max-w-lg flex-col px-6 py-6">
             <div className="flex items-center justify-between">
-              <Link href="/" onClick={() => setMenuOpen(false)} className="baru-focus text-2xl font-bold text-black">
+              <Link href="/" onClick={() => setMenuOpen(false)} className="baru-focus flex items-center gap-2 text-2xl font-bold text-black">
+                <Image src="/logo.png" alt="" width={36} height={36} className="h-8 w-8" />
                 نیلوفر
               </Link>
               <button

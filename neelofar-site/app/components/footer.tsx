@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Send } from "lucide-react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./brand-icons";
@@ -24,8 +25,9 @@ export default function Footer() {
     <footer className="border-t border-[var(--line)] bg-[var(--bg)] text-[var(--ink)]">
       <div className="mx-auto w-full px-4 py-10 sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-          <Link href="/" className="baru-focus shrink-0 text-3xl font-bold text-[var(--ink)] sm:text-4xl">
-            نیلوفر
+          <Link href="/" className="baru-focus flex shrink-0 items-center gap-3">
+            <Image src="/logo.png" alt="" width={90} height={90} className="h-16 w-16 sm:h-[90px] sm:w-[90px]" />
+            <span className="text-3xl font-bold text-[var(--ink)] sm:text-4xl">نیلوفر</span>
           </Link>
 
           <nav
