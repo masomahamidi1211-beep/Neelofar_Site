@@ -63,20 +63,20 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
       <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]">
-        <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-6 lg:px-0 lg:py-0">
+        <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[100px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-6 lg:px-0 lg:py-0">
           <Link href="/" className="baru-focus flex shrink-0 items-center gap-2 sm:gap-3">
             <Image src="/logo.png" alt="" width={48} height={48} priority className="h-9 w-9 sm:h-12 sm:w-12" />
             <span className="text-[28px] font-bold text-black sm:text-[32px]">نیلوفر</span>
           </Link>
 
-          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-3 overflow-x-auto whitespace-nowrap lg:flex xl:gap-6">
+          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-5 overflow-x-auto whitespace-nowrap lg:flex">
             {navItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`baru-focus border-b-2 pb-1 text-[20px] font-bold tracking-wide text-black transition duration-150 hover:opacity-60 ${
+                  className={`baru-focus border-b-2 pb-1 text-[14px] font-bold text-black transition duration-150 hover:opacity-60 ${
                     active ? "border-black" : "border-transparent"
                   }`}
                 >
