@@ -63,7 +63,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
       <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:gap-6 lg:px-8 lg:py-0">
-          <Link href="/" className="baru-focus shrink-0 text-[28px] font-bold text-[var(--ink)] sm:text-[32px]">
+          <Link href="/" className="baru-focus shrink-0 text-[28px] font-bold text-black sm:text-[32px]">
             نیلوفر
           </Link>
 
@@ -74,8 +74,8 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`baru-link-hover baru-focus text-[20px] font-bold tracking-wide transition duration-150 ${
-                    active ? "text-[var(--title)]" : "text-[var(--ink)]"
+                  className={`baru-focus border-b-2 pb-1 text-[20px] font-bold tracking-wide text-black transition duration-150 hover:opacity-60 ${
+                    active ? "border-black" : "border-transparent"
                   }`}
                 >
                   {item.label}
@@ -160,7 +160,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
         <div className="fixed inset-0 z-40 bg-[var(--bg)]">
           <div className="mx-auto flex h-full max-w-lg flex-col px-6 py-6">
             <div className="flex items-center justify-between">
-              <Link href="/" onClick={() => setMenuOpen(false)} className="baru-focus text-2xl font-bold text-[var(--ink)]">
+              <Link href="/" onClick={() => setMenuOpen(false)} className="baru-focus text-2xl font-bold text-black">
                 نیلوفر
               </Link>
               <button
@@ -173,18 +173,21 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               </button>
             </div>
             <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`baru-focus border-b border-[var(--line)] py-4 text-xl ${
-                    isActive(pathname, item.href) ? "font-semibold text-[var(--title)]" : "text-[var(--ink)]"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const active = isActive(pathname, item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`baru-focus border-b border-b-[var(--line)] py-4 ps-4 text-xl text-black transition duration-150 hover:opacity-60 ${
+                      active ? "border-s-2 border-s-black font-semibold" : "border-s-2 border-s-transparent"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
         </div>
