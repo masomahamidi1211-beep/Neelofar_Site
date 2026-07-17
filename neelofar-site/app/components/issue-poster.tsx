@@ -5,17 +5,17 @@ export function IssuePoster({
   image,
   imagePosition,
   imageAlt,
-  label,
   title,
-  seasonYear,
+  credit,
+  excerpt,
 }: {
   href: string;
   image: string;
   imagePosition?: string | null;
   imageAlt?: string | null;
-  label: string;
   title: string;
-  seasonYear: string;
+  credit: string;
+  excerpt: string;
 }) {
   return (
     <Link
@@ -28,10 +28,13 @@ export function IssuePoster({
         className="absolute inset-0 h-full w-full object-cover"
         style={{ objectPosition: imagePosition ?? "50% 20%" }}
       />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/60 to-transparent p-5 pt-20 sm:p-6 sm:pt-24">
-        <p className="text-xs font-semibold tracking-[0.15em] text-white/80">{label}</p>
-        <h2 className="mt-2 text-4xl leading-snug font-bold text-white sm:text-5xl">{title}</h2>
-        <p className="mt-2 text-sm text-white/70">{seasonYear}</p>
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-5 pt-28 sm:p-6 sm:pt-32">
+        <h2 className="text-4xl leading-snug font-bold text-white sm:text-5xl">{title}</h2>
+        <p className="mt-2 text-xs text-white/70">{credit}</p>
+        <p className="justified-fa mt-3 line-clamp-2 text-sm leading-7 text-white/90 sm:line-clamp-3">
+          {excerpt}{" "}
+          <span className="font-semibold whitespace-nowrap text-white">ادامه‌ی مطلب ←</span>
+        </p>
       </div>
     </Link>
   );

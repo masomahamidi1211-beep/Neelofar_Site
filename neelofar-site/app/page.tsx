@@ -9,7 +9,7 @@ import ScrollReveal from "./components/scroll-reveal";
 // The 18 articles of the ویژه‌نامه, curated once into sections A-F below.
 // Every slug appears in exactly one list -- pickUnique() (same per-render
 // safeguard used elsewhere on this site) enforces that at render time too.
-const HERO_LIST_SLUGS = ["سرسخن", "سرگردانیهای-او-روزا", "قاب-عکسی-از-سالهال-دور", "تا-رسم-نابجا-را-بجا-کنیم"];
+const HERO_LIST_SLUGS = ["سرگردانیهای-او-روزا", "قاب-عکسی-از-سالهال-دور", "تا-رسم-نابجا-را-بجا-کنیم"];
 const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است", "خرمن-دشت-از-ما-گذشت"];
 const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
 const MOSAIC_PHOTO_SLUGS = ["زندگی-در-جنگ-و-زندگی-در-فرار-از-جنگ", "هشت-گفتگو"];
@@ -17,11 +17,11 @@ const HORIZONTAL_SLUGS = ["لباس-پسرانه-میپوشیدم-و-عین-پس
 const PORTRAIT_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی", "لندی-مویه-زنان-پشتون-است"];
 const DARK_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
 
-// Overlay title + crop for the hero poster only -- deliberately not read
-// from the سرسخن article's own title/imagePosition, so this block can be
-// tuned independently without touching that article, its page, or its
-// card image anywhere else on the site.
-const POSTER_TITLE = "سرسخن";
+// Crop for the hero poster only -- deliberately not read from the سرسخن
+// article's own imagePosition, so this block can be tuned independently
+// without touching that article, its page, or its card image anywhere
+// else on the site. Title/credit/excerpt are pulled from the article's
+// real data instead of hardcoded, so they can't drift out of sync with it.
 const POSTER_IMAGE_POSITION = "50% 10%";
 
 function createSlugPicker() {
@@ -35,14 +35,6 @@ function createSlugPicker() {
       });
     },
   };
-}
-
-function seasonOf(jalaliDate: string): string {
-  const month = Number(jalaliDate.split("-")[1] ?? "0");
-  if (month <= 3) return "بهار";
-  if (month <= 6) return "تابستان";
-  if (month <= 9) return "پاییز";
-  return "زمستان";
 }
 
 function toBaru(article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">): BaruArticle {
@@ -87,10 +79,10 @@ export default function HomePage() {
                   href="/notes/سرسخن"
                   image={sarsokhan.image ?? ""}
                   imagePosition={POSTER_IMAGE_POSITION}
-                  imageAlt={POSTER_TITLE}
-                  label="مجلهٔ نیلوفر"
-                  title={POSTER_TITLE}
-                  seasonYear={`${seasonOf(sarsokhan.jalaliDate)} ${toPersianDigits(sarsokhan.jalaliDate.split("-")[0])}`}
+                  imageAlt={sarsokhan.title}
+                  title={sarsokhan.title}
+                  credit={sarsokhan.author}
+                  excerpt={longExcerptOf(sarsokhan, 60, 110)}
                 />
               )}
             </div>
