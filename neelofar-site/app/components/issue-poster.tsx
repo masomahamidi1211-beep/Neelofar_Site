@@ -8,7 +8,6 @@ export function IssuePoster({
   label,
   title,
   seasonYear,
-  contributors,
 }: {
   href: string;
   image: string;
@@ -17,7 +16,6 @@ export function IssuePoster({
   label: string;
   title: string;
   seasonYear: string;
-  contributors: string[];
 }) {
   return (
     <Link
@@ -32,11 +30,8 @@ export function IssuePoster({
       />
       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/60 to-transparent p-5 pt-20 sm:p-6 sm:pt-24">
         <p className="text-xs font-semibold tracking-[0.15em] text-white/80">{label}</p>
-        <h2 className="mt-2 text-2xl leading-snug font-bold text-white sm:text-3xl">{title}</h2>
-        <p className="mt-1 text-sm text-white/70">{seasonYear}</p>
-        <div className="mt-4 bg-[#eef2f7]/95 p-4">
-          <p className="justified-fa text-xs leading-7 text-[var(--ink)]">{contributors.join("، ")}</p>
-        </div>
+        <h2 className="mt-2 text-4xl leading-snug font-bold text-white sm:text-5xl">{title}</h2>
+        <p className="mt-2 text-sm text-white/70">{seasonYear}</p>
       </div>
     </Link>
   );

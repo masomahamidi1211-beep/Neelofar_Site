@@ -21,7 +21,7 @@ const DARK_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنجسا�
 // from the سرسخن article's own title/imagePosition, so this block can be
 // tuned independently without touching that article, its page, or its
 // card image anywhere else on the site.
-const POSTER_TITLE = "مادران و خواهران: زندگی در جنگ و زندگی بعد از جنگ";
+const POSTER_TITLE = "سرسخن";
 const POSTER_IMAGE_POSITION = "50% 10%";
 
 function createSlugPicker() {
@@ -74,11 +74,6 @@ export default function HomePage() {
   const dark = pickUnique(DARK_SLUGS).map(get).filter((a): a is Article => Boolean(a));
 
   const sarsokhan = get("سرسخن");
-  // "تیم برنامه ادبیات جهان" is سرسخن's own byline -- kept on its article
-  // page/card as usual, just left out of the poster's contributor list here.
-  const contributors = Array.from(new Set(articles.map((a) => a.author))).filter(
-    (name) => name !== "تیم برنامه ادبیات جهان"
-  );
 
   return (
     <div className="bg-[var(--bg)]">
@@ -89,14 +84,13 @@ export default function HomePage() {
             <div className="lg:pl-10">
               {sarsokhan && (
                 <IssuePoster
-                  href="/special/مادران-و-دختران"
+                  href="/notes/سرسخن"
                   image={sarsokhan.image ?? ""}
                   imagePosition={POSTER_IMAGE_POSITION}
                   imageAlt={POSTER_TITLE}
                   label="مجلهٔ نیلوفر"
                   title={POSTER_TITLE}
                   seasonYear={`${seasonOf(sarsokhan.jalaliDate)} ${toPersianDigits(sarsokhan.jalaliDate.split("-")[0])}`}
-                  contributors={contributors}
                 />
               )}
             </div>
