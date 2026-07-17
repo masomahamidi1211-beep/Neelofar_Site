@@ -89,7 +89,10 @@ export default function HomePage() {
                 />
               )}
             </div>
-            <div className="grid grid-cols-1 gap-4 lg:pr-2">
+            {/* bg-[#f9f9f9] so the ~15px gaps between rows read as canvas,
+                matching the rows' own borderless #f0f0f0-on-canvas look,
+                not the page's white background. */}
+            <div className="grid grid-cols-1 gap-[15px] bg-[#f9f9f9] lg:pr-2">
               {heroList.map((a) => (
                 <ArticleBox key={a.slug} article={toBaru(a)} variant="list" />
               ))}

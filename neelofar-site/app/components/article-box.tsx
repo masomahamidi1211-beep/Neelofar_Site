@@ -36,8 +36,9 @@ function BoxImage({ article, className }: { article: BaruArticle; className: str
  * - cream: identical to text, on --cream background.
  * - dark: a dark photographic background with a gradient overlay, all
  *   text in white, centered.
- * - list: ~110px square thumbnail beside author/headline/short teaser --
- *   the hero's left-column stack.
+ * - list: fixed-height (185px) row, borderless #f0f0f0 block with only a
+ *   bottom hairline, a 150px square thumbnail at the far side, black
+ *   title -- the hero's side-column stack.
  * - horizontal-small: a smaller thumbnail-beside-text row for Section C.
  */
 const TONE_BG: Record<"tan" | "cream", string> = {
@@ -98,13 +99,18 @@ export function ArticleBox({
 
   if (variant === "list") {
     return (
-      <Link href={href} className={`article-box baru-focus group flex items-stretch gap-4 p-4 ${className}`}>
+      <Link
+        href={href}
+        className={`baru-focus group flex h-[185px] items-center gap-5 bg-[#f0f0f0] border-b border-[#d4d4d4] pr-6 pl-5 ${className}`}
+      >
         <div className="min-w-0 flex-1">
           <AuthorLine author={article.author} />
-          <h3 className="mt-1 text-base font-bold leading-snug text-[var(--title)]">{article.title}</h3>
+          <h3 className="mt-1 text-base font-bold leading-snug text-black transition duration-150 group-hover:text-[var(--title)]">
+            {article.title}
+          </h3>
           <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{article.excerpt}</p>
         </div>
-        <BoxImage article={article} className="h-[110px] w-[110px] shrink-0 object-cover" />
+        <BoxImage article={article} className="h-[150px] w-[150px] shrink-0 object-cover" />
       </Link>
     );
   }
