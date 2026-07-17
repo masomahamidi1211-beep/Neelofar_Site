@@ -74,7 +74,11 @@ export default function HomePage() {
   const dark = pickUnique(DARK_SLUGS).map(get).filter((a): a is Article => Boolean(a));
 
   const sarsokhan = get("سرسخن");
-  const contributors = Array.from(new Set(articles.map((a) => a.author)));
+  // "تیم برنامه ادبیات جهان" is سرسخن's own byline -- kept on its article
+  // page/card as usual, just left out of the poster's contributor list here.
+  const contributors = Array.from(new Set(articles.map((a) => a.author))).filter(
+    (name) => name !== "تیم برنامه ادبیات جهان"
+  );
 
   return (
     <div className="bg-[var(--bg)]">
