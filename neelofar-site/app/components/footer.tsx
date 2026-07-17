@@ -22,7 +22,7 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="border-t border-[var(--line)] bg-[var(--bg)] text-[var(--ink)]">
-      <div className="mx-auto max-w-[1320px] px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-4 py-10 sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <Link href="/" className="baru-focus shrink-0 text-3xl font-bold text-[var(--ink)] sm:text-4xl">
             نیلوفر
@@ -60,7 +60,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-[var(--line)]">
-        <p className="mx-auto max-w-[1320px] px-4 py-4 text-center text-xs text-[var(--muted)] sm:px-6 lg:px-8">
+        <p className="mx-auto w-full px-4 py-4 text-center text-xs text-[var(--muted)] sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
           © ۱۴۰۵ نیلوفر — برنامهٔ ادبیات جهان
         </p>
       </div>

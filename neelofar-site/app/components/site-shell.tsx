@@ -62,7 +62,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
       <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]">
-        <div className="mx-auto flex max-w-[1320px] items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:gap-6 lg:px-8 lg:py-0">
+        <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-6 lg:px-0 lg:py-0">
           <Link href="/" className="baru-focus shrink-0 text-[28px] font-bold text-black sm:text-[32px]">
             نیلوفر
           </Link>
@@ -109,7 +109,23 @@ export default function SiteShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-[1320px] flex-1 border-x border-[var(--line)]">{children}</main>
+      {/* Two-layer frame: the outer layer is near-full-bleed (just a small
+          fixed inset from the true viewport edge) and carries the hairline
+          border; the inner layer caps the actual content width. Kept
+          separate so the border never touches the content column itself,
+          and so the gap between them can grow on very wide screens instead
+          of the border tracking the content's own max-width. Both layers
+          are lg+ only -- below that, content renders exactly as it did
+          before this change (full width, no frame).
+          77vw (not 75) is a deliberate calibration, not a typo: with a
+          10px frame inset, 77vw is what actually produces the ~140-150px
+          frame-to-content gap at a ~1350px viewport -- 75vw undershoots
+          the content width and overshoots the gap by ~15px. */}
+      <main className="flex-1">
+        <div className="lg:mx-[10px] lg:border-x lg:border-[var(--line)]">
+          <div className="lg:mx-auto lg:w-[77vw] lg:max-w-[1100px]">{children}</div>
+        </div>
+      </main>
 
       <Footer />
 
