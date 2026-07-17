@@ -28,7 +28,7 @@ export default function RecommendationsClient({ books }: { books: Book[] }) {
   );
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8">
+    <div className="px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
         <h1 className="text-3xl font-bold">توصیه‌های ما</h1>
         <p className="mt-4 text-lg leading-8 text-[#4a4a4a]">

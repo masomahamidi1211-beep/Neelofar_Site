@@ -15,7 +15,7 @@ export default function NotesPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-4 sm:px-6 lg:px-8">
+    <div className="px-4 py-4 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold">یادداشت‌ها</h1>
       <p className="mt-2 text-[#4a4a4a]">تمام مقاله‌های نیلوفر، به ترتیب ویژه‌نامه.</p>
 

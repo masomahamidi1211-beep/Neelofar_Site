@@ -62,7 +62,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
       <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:gap-6 lg:px-8 lg:py-0">
+        <div className="mx-auto flex max-w-[1320px] items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[110px] lg:gap-6 lg:px-8 lg:py-0">
           <Link href="/" className="baru-focus shrink-0 text-[28px] font-bold text-black sm:text-[32px]">
             نیلوفر
           </Link>
@@ -109,7 +109,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className="mx-auto w-full max-w-[1320px] flex-1 border-x border-[var(--line)]">{children}</main>
 
       <Footer />
 

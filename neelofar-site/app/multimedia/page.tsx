@@ -6,7 +6,7 @@ export default function MultimediaPage() {
   const items = getMultimediaItems();
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-4 sm:px-6 lg:px-8">
+    <div className="px-4 py-4 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold">چندرسانه</h1>
       <p className="mt-2 text-[#4a4a4a]">ویدیوها و محتوای چندرسانه‌ای نیلوفر.</p>
 

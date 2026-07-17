@@ -19,7 +19,7 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
   }
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-4 sm:px-6 lg:px-8">
+    <div className="px-4 py-4 sm:px-6 lg:px-8">
       <p className="text-xs text-[#6b6b6b]">{issue.credit}</p>
       <h1 className="mt-2 text-3xl font-bold leading-[1.5] sm:text-4xl">{issue.title}</h1>
       <p className="mt-3 text-lg text-[#4a4a4a]">{issue.subtitle}</p>

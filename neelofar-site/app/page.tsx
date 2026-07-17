@@ -70,9 +70,12 @@ export default function HomePage() {
   return (
     <div className="bg-[var(--bg)]">
       {/* --- Section A: split hero --- */}
+      {/* Divider sits on the outer, unpadded section so it touches the
+          frame's side borders edge-to-edge; padding lives on the inner
+          grid instead. */}
       <ScrollReveal>
-        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="grid grid-cols-1 gap-6 border-t border-[var(--line)] pt-8 lg:grid-cols-[45%_1fr] lg:gap-10 lg:divide-x lg:divide-x-reverse lg:divide-[var(--line)]">
+        <section className="border-t border-[var(--line)]">
+          <div className="grid grid-cols-1 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[45%_1fr] lg:gap-10 lg:divide-x lg:divide-x-reverse lg:divide-[var(--line)] lg:px-8 lg:py-14">
             <div className="lg:pl-10">
               {sarsokhan && (
                 <IssuePoster
@@ -97,7 +100,7 @@ export default function HomePage() {
 
       {/* --- Section B: the main mosaic --- */}
       <ScrollReveal>
-        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {mosaicText.map((a) => (
               <ArticleBox key={a.slug} article={toBaru(a)} variant="text" />
@@ -120,7 +123,7 @@ export default function HomePage() {
 
       {/* --- Section C: small horizontal cards row --- */}
       <ScrollReveal>
-        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {horizontal.map((a) => (
               <ArticleBox key={a.slug} article={toBaru(a)} variant="horizontal-small" />
@@ -131,7 +134,7 @@ export default function HomePage() {
 
       {/* --- Section D: illustrated portrait row --- */}
       <ScrollReveal>
-        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {portrait.map((a, i) => (
               <ArticleBox
@@ -148,7 +151,7 @@ export default function HomePage() {
 
       {/* --- Section E: publication / download block --- */}
       <ScrollReveal>
-        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="article-box grid grid-cols-1 sm:grid-cols-2">
             <div className="flex flex-col bg-[var(--tan)]">
               <div className="flex flex-1 items-center justify-center p-10">
@@ -190,7 +193,7 @@ export default function HomePage() {
 
       {/* --- Section F: dark feature pair --- */}
       <ScrollReveal>
-        <section className="mx-auto max-w-[1600px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {dark.map((a) => (
               <ArticleBox key={a.slug} article={toBaru(a)} variant="dark" />
