@@ -109,20 +109,21 @@ export default function SiteShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      {/* Two-layer frame: the outer layer is near-full-bleed (just a small
-          fixed inset from the true viewport edge) and carries the hairline
-          border; the inner layer caps the actual content width. Kept
-          separate so the border never touches the content column itself,
-          and so the gap between them can grow on very wide screens instead
-          of the border tracking the content's own max-width. Both layers
-          are lg+ only -- below that, content renders exactly as it did
-          before this change (full width, no frame).
-          77vw (not 75) is a deliberate calibration, not a typo: with a
-          10px frame inset, 77vw is what actually produces the ~140-150px
-          frame-to-content gap at a ~1350px viewport -- 75vw undershoots
-          the content width and overshoots the gap by ~15px. */}
+      {/* Two-layer frame: the outer layer is near-full-bleed (just an 8px
+          fixed inset from the true viewport edge) and is the "canvas" --
+          it carries both the hairline border (#e5e5e5, measured off the
+          baru.ir reference) and the #f9f9f9 canvas background, so the
+          margin between the border and the content column reads as paper,
+          not empty white. The inner layer caps the actual content width
+          and is left transparent so that canvas color shows through.
+          Both layers are lg+ only -- below that, content renders exactly
+          as it did before this change (full width, no frame, white bg).
+          77vw (not 75) is a deliberate calibration, not a typo: with the
+          8px frame inset, 77vw is what actually produces the measured
+          ~150px frame-to-content gap at a ~1350px viewport -- 75vw
+          undershoots the content width and overshoots the gap. */}
       <main className="flex-1">
-        <div className="lg:mx-[10px] lg:border-x lg:border-[var(--line)]">
+        <div className="lg:mx-[8px] lg:border-x lg:border-[#e5e5e5] lg:bg-[#f9f9f9]">
           <div className="lg:mx-auto lg:w-[77vw] lg:max-w-[1100px]">{children}</div>
         </div>
       </main>

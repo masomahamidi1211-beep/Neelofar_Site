@@ -75,7 +75,7 @@ export default function HomePage() {
           grid instead. */}
       <ScrollReveal>
         <section className="border-t border-[var(--line)]">
-          <div className="grid grid-cols-1 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[45%_1fr] lg:gap-10 lg:divide-x lg:divide-x-reverse lg:divide-[var(--line)] lg:px-8 lg:py-14">
+          <div className="grid grid-cols-1 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:gap-10 lg:divide-x lg:divide-x-reverse lg:divide-[#d4d4d4] lg:px-8 lg:py-14">
             <div className="lg:pl-10">
               {sarsokhan && (
                 <IssuePoster
