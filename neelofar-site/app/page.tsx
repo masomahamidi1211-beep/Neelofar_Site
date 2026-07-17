@@ -9,10 +9,16 @@ import ScrollReveal from "./components/scroll-reveal";
 // The 18 articles of the ویژه‌نامه, curated once into sections A-F below.
 // Every slug appears in exactly one list -- pickUnique() (same per-render
 // safeguard used elsewhere on this site) enforces that at render time too.
-const HERO_LIST_SLUGS = ["سرگردانیهای-او-روزا", "قاب-عکسی-از-سالهال-دور", "تا-رسم-نابجا-را-بجا-کنیم"];
+//
+// HERO_LIST_COUNT is NOT a slug list: the hero's stacked rows must always
+// start with the section-intro piece (هشت‌گفتگو, order 2) and then follow
+// the ویژه‌نامه's own order (Article.order, sorted by getAllArticles())
+// -- never a hardcoded title list, so a future article slots in correctly
+// just by its order number. See heroList below.
+const HERO_LIST_COUNT = 3;
 const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است", "خرمن-دشت-از-ما-گذشت"];
 const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
-const MOSAIC_PHOTO_SLUGS = ["زندگی-در-جنگ-و-زندگی-در-فرار-از-جنگ", "هشت-گفتگو"];
+const MOSAIC_PHOTO_SLUGS = ["زندگی-در-جنگ-و-زندگی-در-فرار-از-جنگ", "تا-رسم-نابجا-را-بجا-کنیم"];
 const HORIZONTAL_SLUGS = ["لباس-پسرانه-میپوشیدم-و-عین-پسرها-رفتار-میکردم", "بچیم-زن-زود-پیر-میشه", "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ"];
 const PORTRAIT_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی", "لندی-مویه-زنان-پشتون-است"];
 const DARK_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
@@ -57,7 +63,15 @@ export default function HomePage() {
 
   const { pickUnique } = createSlugPicker();
 
-  const heroList = pickUnique(HERO_LIST_SLUGS).map(get).filter((a): a is Article => Boolean(a));
+  // Everything except سرسخن (poster-only), already sorted by order via
+  // getAllArticles() -- so the hero list's own order, and how far it
+  // reaches into the ویژه‌نامه's sections, both fall straight out of each
+  // article's `order` field instead of being hand-picked here.
+  const heroListSlugs = articles
+    .filter((a) => a.slug !== "سرسخن")
+    .slice(0, HERO_LIST_COUNT)
+    .map((a) => a.slug);
+  const heroList = pickUnique(heroListSlugs).map(get).filter((a): a is Article => Boolean(a));
   const mosaicText = pickUnique(MOSAIC_TEXT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const mosaicCream = pickUnique([MOSAIC_CREAM_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
   const mosaicPhoto = pickUnique(MOSAIC_PHOTO_SLUGS).map(get).filter((a): a is Article => Boolean(a));
