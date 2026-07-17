@@ -3,10 +3,9 @@ import { toPersianDigits } from "./lib/date";
 import { ArticleBox, type BaruArticle } from "./components/article-box";
 import { IssuePoster } from "./components/issue-poster";
 import { DownloadBar } from "./components/download-bar";
-import { SpotIllustration } from "./components/spot-illustration";
 import ScrollReveal from "./components/scroll-reveal";
 
-// The 18 articles of the ویژه‌نامه, curated once into sections A-F below.
+// The 18 articles of the ویژه‌نامه, curated once into sections below.
 // Every slug appears in exactly one list -- pickUnique() (same per-render
 // safeguard used elsewhere on this site) enforces that at render time too.
 //
@@ -14,14 +13,14 @@ import ScrollReveal from "./components/scroll-reveal";
 // start with the section-intro piece (هشت‌گفتگو, order 2) and then follow
 // the ویژه‌نامه's own order (Article.order, sorted by getAllArticles())
 // -- never a hardcoded title list, so a future article slots in correctly
-// just by its order number. See heroList below.
-const HERO_LIST_COUNT = 3;
-const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است", "خرمن-دشت-از-ما-گذشت"];
+// just by its order number. See heroList below. Currently 9, covering all
+// of هشت گفتگو (orders 2-10), which leaves orders 11-18 (the الکسیویچ and
+// ترجمه/گفتگو pieces) for the sections after it.
+const HERO_LIST_COUNT = 9;
+const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است"];
 const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
-const MOSAIC_PHOTO_SLUGS = ["زندگی-در-جنگ-و-زندگی-در-فرار-از-جنگ", "تا-رسم-نابجا-را-بجا-کنیم"];
-const HORIZONTAL_SLUGS = ["لباس-پسرانه-میپوشیدم-و-عین-پسرها-رفتار-میکردم", "بچیم-زن-زود-پیر-میشه", "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ"];
-const PORTRAIT_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی", "لندی-مویه-زنان-پشتون-است"];
-const DARK_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
+const MOSAIC_PHOTO_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی"];
+const HORIZONTAL_SLUGS = ["لندی-مویه-زنان-پشتون-است", "قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
 
 // Crop for the hero poster only -- deliberately not read from the سرسخن
 // article's own imagePosition, so this block can be tuned independently
@@ -76,8 +75,6 @@ export default function HomePage() {
   const mosaicCream = pickUnique([MOSAIC_CREAM_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
   const mosaicPhoto = pickUnique(MOSAIC_PHOTO_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const horizontal = pickUnique(HORIZONTAL_SLUGS).map(get).filter((a): a is Article => Boolean(a));
-  const portrait = pickUnique(PORTRAIT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
-  const dark = pickUnique(DARK_SLUGS).map(get).filter((a): a is Article => Boolean(a));
 
   const sarsokhan = get("سرسخن");
 
@@ -116,18 +113,16 @@ export default function HomePage() {
       </ScrollReveal>
 
       {/* --- Section B: the main mosaic --- */}
+      {/* Only orders 11-18 remain after the hero list's 9 rows -- 3
+          no-image الکسیویچ pieces (text/text/cream, no photo needed) and
+          2 image-bearing ones (photo-top). */}
       <ScrollReveal>
         <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {mosaicText.map((a) => (
               <ArticleBox key={a.slug} article={toBaru(a)} variant="text" />
             ))}
-          </div>
-
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {mosaicCream && <ArticleBox article={toBaru(mosaicCream)} variant="cream" />}
-            <SpotIllustration kind="lotus" />
-            <SpotIllustration kind="moon" />
           </div>
 
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -139,6 +134,9 @@ export default function HomePage() {
       </ScrollReveal>
 
       {/* --- Section C: small horizontal cards row --- */}
+      {/* The remaining 3 (ترجمه‌ها و گفتگو section: لندی، قصه‌ی مریم،
+          بیست‌وپنج‌سال) -- last content left after the hero list absorbed
+          هشت گفتگو and the mosaic above absorbed الکسیویچ. */}
       <ScrollReveal>
         <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -149,24 +147,7 @@ export default function HomePage() {
         </section>
       </ScrollReveal>
 
-      {/* --- Section D: illustrated portrait row --- */}
-      <ScrollReveal>
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {portrait.map((a, i) => (
-              <ArticleBox
-                key={a.slug}
-                article={toBaru(a)}
-                variant="photo-top"
-                tone={i === 2 ? "cream" : "tan"}
-                authorFirst
-              />
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* --- Section E: publication / download block --- */}
+      {/* --- Section D: publication / download block --- */}
       <ScrollReveal>
         <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <div className="article-box grid grid-cols-1 sm:grid-cols-2">
@@ -204,17 +185,6 @@ export default function HomePage() {
                 آماده‌ی مطالعه و دانلود است.
               </p>
             </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* --- Section F: dark feature pair --- */}
-      <ScrollReveal>
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {dark.map((a) => (
-              <ArticleBox key={a.slug} article={toBaru(a)} variant="dark" />
-            ))}
           </div>
         </section>
       </ScrollReveal>
