@@ -18,12 +18,19 @@ import ScrollReveal from "./components/scroll-reveal";
 // roughly matches the سرسخن hero image beside it; orders 5-7 move into
 // their own three-column editorial block right below instead.
 const HERO_LIST_COUNT = 3;
-const EDITORIAL_FEATURED_SLUG = "تا-رسم-نابجا-را-بجا-کنیم";
-const EDITORIAL_REGULAR_SLUGS: [string, string] = [
+// Two identically-styled editorial blocks (see EditorialSection below),
+// covering orders 5-7 and 8-10 -- the rest of هشت گفتگو after the hero
+// list's first three rows.
+const EDITORIAL_1_FEATURED_SLUG = "تا-رسم-نابجا-را-بجا-کنیم";
+const EDITORIAL_1_REGULAR_SLUGS: [string, string] = [
   "زندگی-در-جنگ-و-زندگی-در-فرار-از-جنگ",
   "خرمن-دشت-از-ما-گذشت",
 ];
-const HORIZONTAL_SLUGS = ["لباس-پسرانه-میپوشیدم-و-عین-پسرها-رفتار-میکردم", "بچیم-زن-زود-پیر-میشه", "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ"];
+const EDITORIAL_2_FEATURED_SLUG = "لباس-پسرانه-میپوشیدم-و-عین-پسرها-رفتار-میکردم";
+const EDITORIAL_2_REGULAR_SLUGS: [string, string] = [
+  "بچیم-زن-زود-پیر-میشه",
+  "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ",
+];
 const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است"];
 const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
 const MOSAIC_PHOTO_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی"];
@@ -65,6 +72,52 @@ function toBaru(
   };
 }
 
+/**
+ * Both three-column editorial blocks on the homepage share this exact
+ * shell (optional heading + EditorialThree), so they can't drift apart
+ * in style -- there is only one place that renders the section/heading
+ * wrapper, and EditorialThree itself is already generic over its 3
+ * articles.
+ */
+function EditorialSection({
+  heading,
+  featured,
+  regular,
+}: {
+  heading?: string;
+  featured: Article;
+  regular: [Article, Article];
+}) {
+  return (
+    <ScrollReveal>
+      <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        {heading && <h2 className="mb-3 text-2xl font-bold text-[var(--title)]">{heading}</h2>}
+        <EditorialThree
+          featured={toBaru(featured, [90, 160])}
+          regular={[toBaru(regular[0], [260, 440]), toBaru(regular[1], [260, 440])]}
+        />
+      </section>
+    </ScrollReveal>
+  );
+}
+
+// Resolves a featured+regular trio through pickUnique, so a slug that's
+// somehow already claimed elsewhere is dropped instead of duplicated,
+// mirroring how every other section on this page stays safe against
+// accidental double-claims.
+function resolveEditorialTrio(
+  pickUnique: (slugs: string[]) => string[],
+  get: (slug: string) => Article | undefined,
+  featuredSlug: string,
+  regularSlugs: [string, string]
+): { featured: Article; regular: [Article, Article] } | null {
+  const claimed = pickUnique([featuredSlug, ...regularSlugs]);
+  const featured = claimed.includes(featuredSlug) ? get(featuredSlug) : undefined;
+  const regular = regularSlugs.filter((s) => claimed.includes(s)).map(get).filter((a): a is Article => Boolean(a));
+  if (!featured || regular.length !== 2) return null;
+  return { featured, regular: [regular[0], regular[1]] };
+}
+
 export default function HomePage() {
   const articles = getAllArticles();
   const bySlug = new Map(articles.map((a) => [a.slug, a]));
@@ -81,13 +134,9 @@ export default function HomePage() {
     .map((a) => a.slug);
   const heroList = pickUnique(heroListSlugs).map(get).filter((a): a is Article => Boolean(a));
 
-  const editorialSlugs = pickUnique([EDITORIAL_FEATURED_SLUG, ...EDITORIAL_REGULAR_SLUGS]);
-  const editorialFeatured = editorialSlugs.includes(EDITORIAL_FEATURED_SLUG) ? get(EDITORIAL_FEATURED_SLUG) : undefined;
-  const editorialRegular = EDITORIAL_REGULAR_SLUGS.filter((s) => editorialSlugs.includes(s))
-    .map(get)
-    .filter((a): a is Article => Boolean(a));
+  const editorial1 = resolveEditorialTrio(pickUnique, get, EDITORIAL_1_FEATURED_SLUG, EDITORIAL_1_REGULAR_SLUGS);
+  const editorial2 = resolveEditorialTrio(pickUnique, get, EDITORIAL_2_FEATURED_SLUG, EDITORIAL_2_REGULAR_SLUGS);
 
-  const horizontal = pickUnique(HORIZONTAL_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const mosaicText = pickUnique(MOSAIC_TEXT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const mosaicCream = pickUnique([MOSAIC_CREAM_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
   const mosaicPhoto = pickUnique(MOSAIC_PHOTO_SLUGS).map(get).filter((a): a is Article => Boolean(a));
@@ -130,31 +179,19 @@ export default function HomePage() {
       </ScrollReveal>
 
       {/* --- Section B: three-column editorial (orders 5-7) --- */}
-      {editorialFeatured && editorialRegular.length === 2 && (
-        <ScrollReveal>
-          <section className="px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
-            <h2 className="mb-3 text-2xl font-bold text-[var(--title)]">هشت گفتگو: هزار زندگی (ادامه)</h2>
-            <EditorialThree
-              featured={toBaru(editorialFeatured, [90, 160])}
-              regular={[
-                toBaru(editorialRegular[0], [260, 440]),
-                toBaru(editorialRegular[1], [260, 440]),
-              ]}
-            />
-          </section>
-        </ScrollReveal>
+      {editorial1 && (
+        <EditorialSection
+          heading="هشت گفتگو: هزار زندگی (ادامه)"
+          featured={editorial1.featured}
+          regular={editorial1.regular}
+        />
       )}
 
-      {/* --- Section C: small horizontal cards row (orders 8-10) --- */}
-      <ScrollReveal>
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {horizontal.map((a) => (
-              <ArticleBox key={a.slug} article={toBaru(a)} variant="horizontal-small" />
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
+      {/* --- Section C: three-column editorial (orders 8-10) --- */}
+      {/* No heading -- this is a direct continuation of Section B (same
+          هشت گفتگو section), and repeating the heading right below itself
+          would read as a duplicate rather than distinct content. */}
+      {editorial2 && <EditorialSection featured={editorial2.featured} regular={editorial2.regular} />}
 
       {/* --- Section D: the main mosaic (orders 11-15) --- */}
       <ScrollReveal>
