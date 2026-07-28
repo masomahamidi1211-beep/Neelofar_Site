@@ -25,7 +25,16 @@ export default function StaggerGrid({ children, className = "" }: { children: Re
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      // threshold: 0 -- fires as soon as any part of the container enters the
+      // viewport. A non-zero threshold requires that fraction of the WHOLE
+      // element's height to be simultaneously visible; for a short homepage
+      // section that's a few hundred px, so 0.1 (10%) seemed harmless, but
+      // this same component also wraps the full توصیه‌های ما book grid --
+      // 268 cards, ~26,000px tall. 10% of that is ~2,600px, more than a
+      // viewport can ever show at once, so it was mathematically impossible
+      // to trigger (confirmed: never fired even scrolled to the exact
+      // middle or the very bottom). 0 is correct at any container height.
+      { threshold: 0 }
     );
     observer.observe(el);
     return () => observer.disconnect();

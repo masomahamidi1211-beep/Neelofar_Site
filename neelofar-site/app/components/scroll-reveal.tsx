@@ -24,7 +24,11 @@ export default function ScrollReveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.15 }
+      // threshold: 0, not a fraction -- see the identical fix + explanation
+      // in stagger-grid.tsx. A non-zero threshold requires that fraction of
+      // the element's *entire* height visible at once, which silently never
+      // fires once whatever this wraps is taller than ~6x a viewport.
+      { threshold: 0 }
     );
     observer.observe(el);
     return () => observer.disconnect();
