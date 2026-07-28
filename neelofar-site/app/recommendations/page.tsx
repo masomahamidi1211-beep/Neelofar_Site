@@ -1,8 +1,8 @@
-import { getBooks } from "../lib/content-server";
+import { getBookRecommendations } from "../lib/content-server";
 import RecommendationsClient from "./RecommendationsClient";
 
 export default function RecommendationsPage() {
-  const books = getBooks();
+  const books = getBookRecommendations();
 
   return <RecommendationsClient books={books} />;
 }

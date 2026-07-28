@@ -158,6 +158,29 @@ export function getBooks() {
   return JSON.parse(file);
 }
 
+export type BookRecommendation = {
+  title: string;
+  author: string;
+  translator: string;
+  country: string;
+  genre: string;
+  note: string;
+  section: string;
+  editorialNote: string;
+};
+
+/**
+ * The real, extracted راهنمای انتخاب رمان catalog -- distinct from the
+ * fabricated getBooks()/books.json, which this doesn't touch. Country/genre
+ * are exactly what's in the source PDF (genre is really "shape of work" --
+ * رمان/داستان/مجموعه داستان -- not a Western genre system; see the UI's
+ * "شکل اثر" label instead of "ژانر").
+ */
+export function getBookRecommendations(): BookRecommendation[] {
+  const file = fs.readFileSync(path.join(process.cwd(), "data", "book-recommendations.json"), "utf8");
+  return JSON.parse(file);
+}
+
 export function getArticlesByTag(tag: string): Article[] {
   return getAllArticles().filter((article) => article.tags.includes(tag));
 }
