@@ -135,7 +135,7 @@ export function ArticleBox({
         variant === "cream" ? "bg-[var(--cream)]" : ""
       } ${className}`}
     >
-      <h3 className="text-xl font-bold leading-snug text-[var(--title)] sm:text-2xl">{article.title}</h3>
+      <h3 className="text-xl font-bold leading-snug text-black transition duration-150 group-hover:text-[var(--title)] sm:text-2xl">{article.title}</h3>
       <AuthorLine author={article.author} className="mt-2" />
       <p className="justified-fa mt-4 flex-1 pb-14 text-[15px] text-[var(--ink)]">{article.excerpt}</p>
       <ReadMoreCircle className="absolute bottom-5 start-5" />
