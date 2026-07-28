@@ -4,7 +4,6 @@ import { ArticleBox, type BaruArticle } from "./components/article-box";
 import { IssuePoster } from "./components/issue-poster";
 import { EditorialThree } from "./components/editorial-three";
 import { WideRow } from "./components/wide-row";
-import { DownloadBar } from "./components/download-bar";
 import ScrollReveal from "./components/scroll-reveal";
 
 // The 18 articles of the ویژه‌نامه, curated once into sections below.
@@ -234,48 +233,6 @@ export default function HomePage() {
                 authorFirst
               />
             ))}
-          </div>
-        </section>
-      </ScrollReveal>
-
-      {/* --- Section F: publication / download block --- */}
-      <ScrollReveal>
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="article-box grid grid-cols-1 sm:grid-cols-2">
-            <div className="flex flex-col bg-[var(--tan)]">
-              <div className="flex flex-1 items-center justify-center p-10">
-                <svg
-                  aria-hidden="true"
-                  width="88"
-                  height="88"
-                  viewBox="0 0 64 64"
-                  fill="none"
-                  stroke="var(--ink)"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M32 54c0-12 6-20 6-20s6 8 6 20" />
-                  <path d="M20 46c4-10 12-14 18-12" />
-                  <path d="M44 46c-4-10-12-14-18-12" />
-                  <path d="M14 40c6-8 16-10 24-6" />
-                  <path d="M50 40c-6-8-16-10-24-6" />
-                  <path d="M38 54h-4" />
-                </svg>
-              </div>
-              <DownloadBar href="/docs/rahnama-entekhab-roman.pdf" label="دانلود راهنما (PDF)" />
-            </div>
-            <div className="p-6 sm:p-10">
-              <p className="text-xs font-semibold tracking-[0.15em] text-[var(--muted)]">راهنما</p>
-              <h2 className="mt-2 text-2xl font-bold leading-snug text-[var(--title)] sm:text-3xl">
-                راهنمای انتخاب رمان
-              </h2>
-              <p className="justified-fa mt-5 text-[15px] text-[var(--ink)]">
-                در زمانه‌ای که صنعت چاپ بی‌وقفه و بی‌توجه به کیفیت اثر، مدام کتاب چاپ می‌کند، تفکیک رمان/مجموعه
-                داستان درخشان از اثر معمولی به هنر دشواری تبدیل شده است. راهنمای نیلوفر برای انتخاب رمان خوب،
-                آماده‌ی مطالعه و دانلود است.
-              </p>
-            </div>
           </div>
         </section>
       </ScrollReveal>
