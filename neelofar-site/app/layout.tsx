@@ -13,7 +13,15 @@ const vazirmatn = localFont({
   display: "swap",
 });
 
+// Deploy-time domain, not known at build time here -- set NEXT_PUBLIC_SITE_URL
+// in the hosting platform's environment variables once the real domain is
+// live. The fallback just has to be a valid, non-localhost URL so Next stops
+// falling back to http://localhost:3000 for OG/Twitter image URLs; it's never
+// meant to be seen in a real deployment.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://neelofar-placeholder.example";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "نیلوفر",
   description: "وب‌سایت نیلوفر برای گسترش کتاب‌خوانی و رمان‌خوانی در میان نوجوانان و جوانان افغانستان",
   icons: {
