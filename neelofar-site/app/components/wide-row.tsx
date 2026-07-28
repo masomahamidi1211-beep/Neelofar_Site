@@ -26,14 +26,16 @@ export function WideRow({ article, className = "" }: { article: BaruArticle; cla
           <img
             src={article.image}
             alt={article.imageAlt ?? ""}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition duration-200 ease-out group-hover:scale-[1.03]"
             style={{ objectPosition: article.imagePosition ?? DEFAULT_POSITION }}
           />
         </div>
       )}
       <div className="order-2 min-w-0 flex-1 sm:order-1">
         <AuthorLine author={article.author} />
-        <h3 className="mt-1 text-xl font-bold text-black sm:text-2xl">{article.title}</h3>
+        <h3 className="mt-1 text-xl font-bold text-black transition duration-200 group-hover:text-[var(--title)] sm:text-2xl">
+          {article.title}
+        </h3>
         <p className="justified-fa mt-3 line-clamp-[7] text-[15px] leading-[1.9] text-[#4a4a4a]">
           {article.excerpt} <span className="font-semibold whitespace-nowrap text-black">ادامه‌ی مطلب ←</span>
         </p>

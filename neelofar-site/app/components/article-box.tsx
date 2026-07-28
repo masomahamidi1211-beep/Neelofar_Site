@@ -21,7 +21,7 @@ function BoxImage({ article, className }: { article: BaruArticle; className: str
     <img
       src={article.image}
       alt={article.imageAlt ?? ""}
-      className={className}
+      className={`transition duration-200 ease-out group-hover:scale-[1.03] ${className}`}
       style={{ objectPosition: article.imagePosition ?? DEFAULT_POSITION }}
     />
   );
@@ -68,12 +68,12 @@ export function ArticleBox({
   if (variant === "photo-top") {
     return (
       <Link href={href} className={`article-box baru-focus group flex h-full flex-col ${className}`}>
-        <div className={tone ? `${TONE_BG[tone]} p-3` : ""}>
+        <div className={`overflow-hidden ${tone ? `${TONE_BG[tone]} p-3` : ""}`}>
           <BoxImage article={article} className={`w-full object-cover ${tone ? "aspect-[4/5]" : "aspect-[16/9]"}`} />
         </div>
         <div className="flex flex-1 flex-col p-5 sm:p-6">
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
-          <h3 className="text-xl font-bold leading-snug text-[var(--title)] sm:text-2xl">{article.title}</h3>
+          <h3 className="text-xl font-bold leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] sm:text-2xl">{article.title}</h3>
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
           <p className="justified-fa mt-4 flex-1 text-[15px] text-[var(--ink)]">{article.excerpt}</p>
         </div>
@@ -110,7 +110,9 @@ export function ArticleBox({
           </h3>
           <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{article.excerpt}</p>
         </div>
-        <BoxImage article={article} className="h-[150px] w-[150px] shrink-0 object-cover" />
+        <div className="h-[150px] w-[150px] shrink-0 overflow-hidden">
+          <BoxImage article={article} className="h-full w-full object-cover" />
+        </div>
       </Link>
     );
   }
@@ -119,10 +121,14 @@ export function ArticleBox({
     return (
       <Link href={href} className={`article-box baru-focus group flex items-stretch gap-4 p-4 ${className}`}>
         <div className="min-w-0 flex-1">
-          <h3 className="text-lg font-bold leading-snug text-[var(--title)]">{article.title}</h3>
+          <h3 className="text-lg font-bold leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]">
+            {article.title}
+          </h3>
           <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{article.excerpt}</p>
         </div>
-        <BoxImage article={article} className="h-[90px] w-[90px] shrink-0 object-cover" />
+        <div className="h-[90px] w-[90px] shrink-0 overflow-hidden">
+          <BoxImage article={article} className="h-full w-full object-cover" />
+        </div>
       </Link>
     );
   }

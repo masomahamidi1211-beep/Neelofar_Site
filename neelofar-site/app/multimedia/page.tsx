@@ -1,5 +1,6 @@
 import { getMultimediaItems } from "../lib/content-server";
-import { HairlineGrid, gridSpanFor } from "../components/hairline-grid";
+import { gridSpanFor } from "../components/hairline-grid";
+import StaggerGrid from "../components/stagger-grid";
 import { formatJalaliDate } from "../lib/date";
 
 export default function MultimediaPage() {
@@ -12,7 +13,7 @@ export default function MultimediaPage() {
 
       <div className="mt-5">
         {items.length > 0 ? (
-          <HairlineGrid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerGrid className="hairline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((item, i) => {
               const span = gridSpanFor(i, items.length, 3);
               return (
@@ -34,7 +35,7 @@ export default function MultimediaPage() {
                 </a>
               );
             })}
-          </HairlineGrid>
+          </StaggerGrid>
         ) : (
           <div className="border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
             <p className="text-lg font-semibold text-[#111111]">به‌زودی</p>

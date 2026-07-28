@@ -47,7 +47,7 @@ export function FeatureCard({
           <img
             src={article.image}
             alt={article.imageAlt ?? ""}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition duration-200 ease-out group-hover:scale-[1.03]"
             style={{ objectPosition: article.imagePosition ?? DEFAULT_IMAGE_POSITION }}
           />
         </div>

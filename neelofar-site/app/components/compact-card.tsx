@@ -14,12 +14,14 @@ export function CompactCard({ article, className = "" }: { article: CardArticle;
       className={`group flex items-start gap-4 border border-[var(--hairline)] bg-white p-4 transition duration-200 hover:bg-[var(--panel)] ${className}`}
     >
       {article.image && (
-        <img
-          src={article.image}
-          alt={article.imageAlt ?? ""}
-          className="h-[120px] w-[120px] shrink-0 object-cover"
-          style={{ objectPosition: article.imagePosition ?? "50% 20%" }}
-        />
+        <div className="h-[120px] w-[120px] shrink-0 overflow-hidden">
+          <img
+            src={article.image}
+            alt={article.imageAlt ?? ""}
+            className="h-full w-full object-cover transition duration-200 ease-out group-hover:scale-[1.03]"
+            style={{ objectPosition: article.imagePosition ?? "50% 20%" }}
+          />
+        </div>
       )}
       <div className="min-w-0 flex-1">
         <p className="text-xs text-[#6b6b6b]">{article.author}</p>

@@ -2,6 +2,11 @@
 
 import { ReactNode, useEffect, useState } from "react";
 
+/**
+ * A brief fade between route changes instead of an instant hard cut.
+ * Mount this keyed by pathname (see SiteShell) so React remounts it --
+ * and retriggers the fade -- on every navigation.
+ */
 export default function PageFade({ children }: { children: ReactNode }) {
   const [visible, setVisible] = useState(false);
 
@@ -9,9 +14,5 @@ export default function PageFade({ children }: { children: ReactNode }) {
     setVisible(true);
   }, []);
 
-  return (
-    <div className={`transition duration-500 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-      {children}
-    </div>
-  );
+  return <div className={`transition-opacity duration-200 ease-out ${visible ? "opacity-100" : "opacity-0"}`}>{children}</div>;
 }

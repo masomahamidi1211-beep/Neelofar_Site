@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { BaruArticle } from "./article-box";
+import StaggerGrid from "./stagger-grid";
 
 const DEFAULT_POSITION = "50% 20%";
 
@@ -31,11 +32,11 @@ const DEFAULT_POSITION = "50% 20%";
  */
 export function EditorialThree({ featured, regular }: { featured: BaruArticle; regular: [BaruArticle, BaruArticle] }) {
   return (
-    <div className="grid grid-cols-1 divide-y divide-[#d4d4d4] bg-[#f0f0f0] sm:grid-cols-[1.5fr_1fr_1fr] sm:divide-x sm:divide-x-reverse sm:divide-y-0">
+    <StaggerGrid className="grid grid-cols-1 divide-y divide-[#d4d4d4] bg-[#f0f0f0] sm:grid-cols-[1.5fr_1fr_1fr] sm:divide-x sm:divide-x-reverse sm:divide-y-0">
       <Column article={featured} isFeatured />
       <Column article={regular[0]} />
       <Column article={regular[1]} />
-    </div>
+    </StaggerGrid>
   );
 }
 
@@ -45,14 +46,22 @@ function Column({ article, isFeatured = false }: { article: BaruArticle; isFeatu
   return (
     <Link href={href} className="group flex flex-col p-6 sm:p-7">
       {article.image && (
-        <img
-          src={article.image}
-          alt={article.imageAlt ?? ""}
-          className="aspect-[3/2] w-full object-cover sm:aspect-auto sm:h-[220px]"
-          style={{ objectPosition: article.imagePosition ?? DEFAULT_POSITION }}
-        />
+        <div className="aspect-[3/2] w-full overflow-hidden sm:aspect-auto sm:h-[220px]">
+          <img
+            src={article.image}
+            alt={article.imageAlt ?? ""}
+            className="h-full w-full object-cover transition duration-200 ease-out group-hover:scale-[1.03]"
+            style={{ objectPosition: article.imagePosition ?? DEFAULT_POSITION }}
+          />
+        </div>
       )}
-      <h3 className={`mt-4 font-bold text-black ${isFeatured ? "text-2xl" : "text-xl"}`}>{article.title}</h3>
+      <h3
+        className={`mt-4 font-bold text-black transition duration-200 group-hover:text-[var(--title)] ${
+          isFeatured ? "text-2xl" : "text-xl"
+        }`}
+      >
+        {article.title}
+      </h3>
       <p className="mt-2 text-sm text-[var(--muted)]">{article.author}</p>
       <p
         className={`justified-fa mt-4 text-[15px] leading-[1.9] text-[#4a4a4a] ${

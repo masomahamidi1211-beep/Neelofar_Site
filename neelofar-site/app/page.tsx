@@ -5,6 +5,7 @@ import { IssuePoster } from "./components/issue-poster";
 import { EditorialThree } from "./components/editorial-three";
 import { WideRow } from "./components/wide-row";
 import ScrollReveal from "./components/scroll-reveal";
+import StaggerGrid from "./components/stagger-grid";
 
 // The 18 articles of the ویژه‌نامه, curated once into sections below.
 // Every slug appears in exactly one list -- pickUnique() (same per-render
@@ -91,15 +92,13 @@ function EditorialSection({
   regular: [Article, Article];
 }) {
   return (
-    <ScrollReveal>
-      <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        {heading && <h2 className="mb-3 text-2xl font-bold text-[var(--title)]">{heading}</h2>}
-        <EditorialThree
-          featured={toBaru(featured, [90, 160])}
-          regular={[toBaru(regular[0], [260, 440]), toBaru(regular[1], [260, 440])]}
-        />
-      </section>
-    </ScrollReveal>
+    <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      {heading && <h2 className="mb-3 text-2xl font-bold text-[var(--title)]">{heading}</h2>}
+      <EditorialThree
+        featured={toBaru(featured, [90, 160])}
+        regular={[toBaru(regular[0], [260, 440]), toBaru(regular[1], [260, 440])]}
+      />
+    </section>
   );
 }
 
@@ -152,33 +151,31 @@ export default function HomePage() {
       {/* Divider sits on the outer, unpadded section so it touches the
           frame's side borders edge-to-edge; padding lives on the inner
           grid instead. */}
-      <ScrollReveal>
-        <section className="border-t border-[var(--line)]">
-          <div className="grid grid-cols-1 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:gap-10 lg:divide-x lg:divide-x-reverse lg:divide-[#d4d4d4] lg:px-8 lg:py-14">
-            <div className="lg:pl-10">
-              {sarsokhan && (
-                <IssuePoster
-                  href="/notes/سرسخن"
-                  image={sarsokhan.image ?? ""}
-                  imagePosition={POSTER_IMAGE_POSITION}
-                  imageAlt={sarsokhan.title}
-                  title={sarsokhan.title}
-                  credit={sarsokhan.author}
-                  excerpt={longExcerptOf(sarsokhan, 60, 110)}
-                />
-              )}
-            </div>
-            {/* bg-[#f9f9f9] so the ~15px gaps between rows read as canvas,
-                matching the rows' own borderless #f0f0f0-on-canvas look,
-                not the page's white background. */}
-            <div className="grid grid-cols-1 gap-[15px] bg-[#f9f9f9] lg:pr-2">
-              {heroList.map((a) => (
-                <ArticleBox key={a.slug} article={toBaru(a)} variant="list" />
-              ))}
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
+      <section className="border-t border-[var(--line)]">
+        <div className="grid grid-cols-1 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:gap-10 lg:divide-x lg:divide-x-reverse lg:divide-[#d4d4d4] lg:px-8 lg:py-14">
+          <ScrollReveal className="lg:pl-10">
+            {sarsokhan && (
+              <IssuePoster
+                href="/notes/سرسخن"
+                image={sarsokhan.image ?? ""}
+                imagePosition={POSTER_IMAGE_POSITION}
+                imageAlt={sarsokhan.title}
+                title={sarsokhan.title}
+                credit={sarsokhan.author}
+                excerpt={longExcerptOf(sarsokhan, 60, 110)}
+              />
+            )}
+          </ScrollReveal>
+          {/* bg-[#f9f9f9] so the ~15px gaps between rows read as canvas,
+              matching the rows' own borderless #f0f0f0-on-canvas look,
+              not the page's white background. */}
+          <StaggerGrid className="grid grid-cols-1 gap-[15px] bg-[#f9f9f9] lg:pr-2">
+            {heroList.map((a) => (
+              <ArticleBox key={a.slug} article={toBaru(a)} variant="list" />
+            ))}
+          </StaggerGrid>
+        </div>
+      </section>
 
       {/* --- Section B: three-column editorial (orders 5-7) --- */}
       {editorial1 && (
@@ -196,46 +193,40 @@ export default function HomePage() {
       {editorial2 && <EditorialSection featured={editorial2.featured} regular={editorial2.regular} />}
 
       {/* --- Section D: the main mosaic (orders 11-13) --- */}
-      <ScrollReveal>
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {mosaicText.map((a) => (
-              <ArticleBox key={a.slug} article={toBaru(a)} variant="text" />
-            ))}
-            {mosaicCream && <ArticleBox article={toBaru(mosaicCream)} variant="cream" />}
-          </div>
-        </section>
-      </ScrollReveal>
+      <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {mosaicText.map((a) => (
+            <ArticleBox key={a.slug} article={toBaru(a)} variant="text" />
+          ))}
+          {mosaicCream && <ArticleBox article={toBaru(mosaicCream)} variant="cream" />}
+        </StaggerGrid>
+      </section>
 
       {/* --- Section D.5: wide rows (orders 14-15) --- */}
       {wideRows.length > 0 && (
-        <ScrollReveal>
-          <section className="px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
-            <div className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
-              {wideRows.map((a) => (
-                <WideRow key={a.slug} article={toBaru(a, [90, 160])} />
-              ))}
-            </div>
-          </section>
-        </ScrollReveal>
+        <section className="px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
+          <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
+            {wideRows.map((a) => (
+              <WideRow key={a.slug} article={toBaru(a, [90, 160])} />
+            ))}
+          </StaggerGrid>
+        </section>
       )}
 
       {/* --- Section E: illustrated portrait row (orders 16-18) --- */}
-      <ScrollReveal>
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {portrait.map((a, i) => (
-              <ArticleBox
-                key={a.slug}
-                article={toBaru(a)}
-                variant="photo-top"
-                tone={i === 2 ? "cream" : "tan"}
-                authorFirst
-              />
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
+      <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {portrait.map((a, i) => (
+            <ArticleBox
+              key={a.slug}
+              article={toBaru(a)}
+              variant="photo-top"
+              tone={i === 2 ? "cream" : "tan"}
+              authorFirst
+            />
+          ))}
+        </StaggerGrid>
+      </section>
     </div>
   );
 }

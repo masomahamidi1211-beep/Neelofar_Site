@@ -1,6 +1,5 @@
 import { getAllArticles, longExcerptOf } from "../lib/content-server";
 import { ArticleGrid } from "../components/article-grid";
-import ScrollReveal from "../components/scroll-reveal";
 
 export default function NotesPage() {
   const articles = getAllArticles();
@@ -19,9 +18,7 @@ export default function NotesPage() {
       <h1 className="text-3xl font-bold">یادداشت‌ها</h1>
       <p className="mt-2 text-[#4a4a4a]">تمام مقاله‌های نیلوفر، به ترتیب ویژه‌نامه.</p>
 
-      <ScrollReveal className="mt-3">
-        <ArticleGrid articles={entries} />
-      </ScrollReveal>
+      <ArticleGrid articles={entries} className="mt-3" />
     </div>
   );
 }

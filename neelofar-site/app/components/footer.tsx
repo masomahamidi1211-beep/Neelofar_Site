@@ -44,7 +44,7 @@ export default function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
+                className="footer-link nav-underline baru-focus pb-1 text-white transition duration-150 hover:opacity-70"
               >
                 {link.label}
               </Link>

@@ -30,7 +30,7 @@ export function SectionIntro({
   href?: string;
 }) {
   return (
-    <div className="mb-3 flex flex-col border border-[var(--hairline)] bg-white sm:flex-row">
+    <div className={`mb-3 flex flex-col border border-[var(--hairline)] bg-white sm:flex-row ${href ? "group" : ""}`}>
       <div
         className={`aspect-square w-full shrink-0 overflow-hidden sm:w-64 ${
           href ? "sm:aspect-[3/4]" : "sm:aspect-auto"
@@ -39,7 +39,7 @@ export function SectionIntro({
         <img
           src={image}
           alt={imageAlt ?? ""}
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover ${href ? "transition duration-200 ease-out group-hover:scale-[1.03]" : ""}`}
           style={{ objectPosition: imagePosition ?? "50% 20%" }}
         />
       </div>
@@ -48,7 +48,7 @@ export function SectionIntro({
         {href && (
           <Link
             href={href}
-            className="mt-3 inline-block text-sm font-semibold text-[var(--accent)] transition duration-200 hover:opacity-70"
+            className="mt-3 inline-block text-sm font-semibold text-[var(--accent)] transition duration-200 group-hover:opacity-70"
           >
             ادامه‌ی مطلب ←
           </Link>

@@ -25,7 +25,7 @@ export function IssuePoster({
       <img
         src={image}
         alt={imageAlt ?? ""}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover transition duration-200 ease-out group-hover:scale-[1.03]"
         style={{ objectPosition: imagePosition ?? "50% 20%" }}
       />
       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-5 pt-28 sm:p-6 sm:pt-32">

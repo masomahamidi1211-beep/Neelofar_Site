@@ -1,5 +1,6 @@
 import { FeatureCard, type CardArticle } from "./feature-card";
-import { HairlineGrid, gridSpanFor } from "./hairline-grid";
+import { gridSpanFor } from "./hairline-grid";
+import StaggerGrid from "./stagger-grid";
 
 const GRID_COLS = 3;
 
@@ -13,7 +14,7 @@ const GRID_COLS = 3;
  */
 export function ArticleGrid({ articles, className = "" }: { articles: CardArticle[]; className?: string }) {
   return (
-    <HairlineGrid className={`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${className}`}>
+    <StaggerGrid className={`hairline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${className}`}>
       {articles.map((article, i) => {
         const span = gridSpanFor(i, articles.length, GRID_COLS);
         return (
@@ -25,6 +26,6 @@ export function ArticleGrid({ articles, className = "" }: { articles: CardArticl
           />
         );
       })}
-    </HairlineGrid>
+    </StaggerGrid>
   );
 }

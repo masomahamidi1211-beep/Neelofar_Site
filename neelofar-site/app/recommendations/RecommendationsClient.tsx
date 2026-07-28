@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { toPersianDigits } from "../lib/date";
 import type { BookRecommendation } from "../lib/content-server";
+import StaggerGrid from "../components/stagger-grid";
 
 const ALL = "همه";
 
@@ -137,7 +138,7 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
               </p>
             </div>
           ) : (
-            <div className="book-grid hairline-grid mt-2 grid-cols-1 md:grid-cols-2">
+            <StaggerGrid className="book-grid hairline-grid mt-2 grid-cols-1 md:grid-cols-2">
               {visibleBooks.map((book, index) => {
                 const isLastOdd = index === visibleBooks.length - 1 && visibleBooks.length % 2 === 1;
                 return (
@@ -172,7 +173,7 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
                 </div>
                 );
               })}
-            </div>
+            </StaggerGrid>
           )}
         </>
       )}

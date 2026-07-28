@@ -12,26 +12,27 @@ export default function ConversationsPage() {
         آرشیو گفتگوهای نیلوفر با نویسندگان و مترجمان ادبیات فارسی.
       </p>
 
-      <ScrollReveal className="mt-5">
-        {articles.length > 0 ? (
-          <ArticleGrid
-            articles={articles.map((article) => ({
-              slug: article.slug,
-              title: article.title,
-              author: article.author,
-              excerpt: longExcerptOf(article, article.image ? 110 : 220),
-              image: article.image,
-              imagePosition: article.imagePosition,
-              imageAlt: article.imageAlt,
-            }))}
-          />
-        ) : (
+      {articles.length > 0 ? (
+        <ArticleGrid
+          className="mt-5"
+          articles={articles.map((article) => ({
+            slug: article.slug,
+            title: article.title,
+            author: article.author,
+            excerpt: longExcerptOf(article, article.image ? 110 : 220),
+            image: article.image,
+            imagePosition: article.imagePosition,
+            imageAlt: article.imageAlt,
+          }))}
+        />
+      ) : (
+        <ScrollReveal className="mt-5">
           <div className="border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
             <p className="text-lg font-semibold text-[#111111]">به‌زودی</p>
             <p className="mt-2 text-sm">گفتگوهای بیشتر به‌زودی اینجا منتشر می‌شود.</p>
           </div>
-        )}
-      </ScrollReveal>
+        </ScrollReveal>
+      )}
     </div>
   );
 }
