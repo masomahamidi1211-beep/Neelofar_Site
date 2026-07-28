@@ -48,7 +48,8 @@ with `<sup class="fn-ref"><a id="fnref-N" href="#fn-N">N</a></sup>`.
 ## Replacing Google Form URLs
 
 1. Open `content/forms.json`.
-2. Replace the `PASTE_..._HERE` placeholder values with your real Google Form links.
+2. Replace `null` with your real Google Form link for that province/section. `/forms/[slug]`
+   renders a «به‌زودی» message in place of the form for any slug whose value is still `null`.
 
 ## Known Next.js 16 / Turbopack quirk
 

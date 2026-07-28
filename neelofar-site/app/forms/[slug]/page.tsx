@@ -39,12 +39,12 @@ export async function generateStaticParams() {
 export default async function FormPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const forms = getForms();
-  const url = forms[slug];
 
-  if (!url) {
+  if (!(slug in forms)) {
     notFound();
   }
 
+  const url: string | null = forms[slug];
   const announcement = roundAnnouncements[slug];
   const showSharedBanner = slug === "kabul" || slug === "balkh";
 
@@ -80,7 +80,16 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {NO_IFRAME_SLUGS.has(slug) ? (
+      {!url ? (
+        <div className="mt-8 border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
+          <p className="text-lg font-semibold text-[#111111]">به‌زودی</p>
+          <p className="mt-2 text-sm">
+            {slug === "collaboration"
+              ? "فرم همکاری با ما به‌زودی فعال می‌شود."
+              : "فرم درخواست‌نامهٔ این بخش به‌زودی فعال می‌شود."}
+          </p>
+        </div>
+      ) : NO_IFRAME_SLUGS.has(slug) ? (
         <div className="mt-8 border border-[var(--hairline)] bg-[var(--panel)] p-8 text-center">
           <p className="text-sm text-[#4a4a4a]">
             فرم درخواست‌نامه در همین صفحه قابل نمایش نیست؛ از طریق دکمه زیر آن را در یک تب جدید باز کنید.
