@@ -74,6 +74,15 @@ a:hover {
   color: var(--accent);
 }
 
+/* Footer is on a black background -- links must fade in place (opacity
+   only), not shift to the site's indigo accent like every other link,
+   which would fail contrast and clash with the black/white scheme. Two
+   classes (not one -- pseudo-class) so this beats the plain a:hover
+   above on specificity regardless of source order. */
+.footer-link:hover {
+  color: #fff;
+}
+
 blockquote {
   border-right: 3px solid var(--accent);
   padding-right: 1.25rem;

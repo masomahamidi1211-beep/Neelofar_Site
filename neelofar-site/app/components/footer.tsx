@@ -22,12 +22,18 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[var(--line)] bg-[var(--bg)] text-[var(--ink)]">
+    <footer className="border-t border-[#333] bg-[#0a0a0a] text-white">
       <div className="mx-auto w-full px-4 py-10 sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-          <Link href="/" className="baru-focus flex shrink-0 items-center gap-3">
-            <Image src="/logo.png" alt="" width={90} height={90} className="h-16 w-16 sm:h-[90px] sm:w-[90px]" />
-            <span className="text-3xl font-bold text-[var(--ink)] sm:text-4xl">نیلوفر</span>
+          <Link href="/" className="footer-link baru-focus flex shrink-0 items-center gap-3">
+            <Image
+              src="/logo.png"
+              alt=""
+              width={90}
+              height={90}
+              className="h-16 w-16 [filter:brightness(0)_invert(1)] sm:h-[90px] sm:w-[90px]"
+            />
+            <span className="text-3xl font-bold text-white sm:text-4xl">نیلوفر</span>
           </Link>
 
           <nav
@@ -35,14 +41,18 @@ export default function Footer() {
             className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold lg:justify-center"
           >
             {quickLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="baru-focus baru-link-hover transition duration-150">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
+              >
                 {link.label}
               </Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-4">
-            <p className="text-sm font-semibold text-[var(--muted)]">ما را دنبال کنید</p>
+            <p className="text-sm font-semibold text-white">ما را دنبال کنید</p>
             <div className="flex items-center gap-4">
               {socialLinks.map(({ label, href, Icon }) => (
                 <a
@@ -51,7 +61,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="baru-focus baru-link-hover text-[var(--ink)] transition duration-150"
+                  className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
                 >
                   <Icon size={20} strokeWidth={1.5} />
                 </a>
@@ -61,8 +71,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[var(--line)]">
-        <p className="mx-auto w-full px-4 py-4 text-center text-xs text-[var(--muted)] sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
+      <div className="border-t border-[#333]">
+        <p className="mx-auto w-full px-4 py-4 text-center text-xs text-white sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
           © ۱۴۰۵ نیلوفر — برنامهٔ ادبیات جهان
         </p>
       </div>
