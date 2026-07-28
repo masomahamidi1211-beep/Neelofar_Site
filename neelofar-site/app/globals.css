@@ -120,6 +120,17 @@ blockquote {
    intentionally no default here so the footer's dark cells aren't fought over
    by two equal-specificity rules. */
 
+/* توصیه‌های ما book catalog: its own hairline tint (blue-gray, to read
+   against the cards' light-blue background) instead of the shared gray --
+   scoped to .book-grid so every other .hairline-grid usage on the site
+   (podcast, forms, article grids, ...) is untouched. Two classes beat the
+   plain .hairline-grid rule above on specificity regardless of source
+   order, same fix as .footer-link:hover. */
+.book-grid.hairline-grid {
+  background: #c9dceb;
+  border-color: #c9dceb;
+}
+
 .hairline-cell {
   padding: 1.25rem;
 }

@@ -137,13 +137,13 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
               </p>
             </div>
           ) : (
-            <div className="hairline-grid mt-2 grid-cols-1 md:grid-cols-2">
+            <div className="book-grid hairline-grid mt-2 grid-cols-1 md:grid-cols-2">
               {visibleBooks.map((book, index) => {
                 const isLastOdd = index === visibleBooks.length - 1 && visibleBooks.length % 2 === 1;
                 return (
                 <div
                   key={`${book.section}-${book.title}-${index}`}
-                  className={`hairline-cell bg-white ${isLastOdd ? "md:col-span-2" : ""}`}
+                  className={`hairline-cell bg-[#eaf3fb] ${isLastOdd ? "md:col-span-2" : ""}`}
                 >
                   <h2 className="text-xl font-bold">{book.title}</h2>
                   <p className="mt-3 text-sm text-[#4a4a4a]">نویسنده: {book.author}</p>
