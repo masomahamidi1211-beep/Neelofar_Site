@@ -32,6 +32,10 @@ const EDITORIAL_2_REGULAR_SLUGS: [string, string] = [
   "بچیم-زن-زود-پیر-میشه",
   "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ",
 ];
+// Full-width WideRow sitting directly above the mosaic (Section D) --
+// topically unrelated to الکسیویچ (it's about حسین فخری), so it isn't part
+// of that curated trio, just positioned immediately before it.
+const PRE_MOSAIC_WIDE_ROW_SLUG = "چرا-حسین-فخری-حافظهی-ادبیات-افغانستان-است";
 const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است"];
 const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
 // Full-width WideRow pair (orders 14-15), replacing the old vertical
@@ -138,6 +142,7 @@ export default function HomePage() {
   const editorial1 = resolveEditorialTrio(pickUnique, get, EDITORIAL_1_FEATURED_SLUG, EDITORIAL_1_REGULAR_SLUGS);
   const editorial2 = resolveEditorialTrio(pickUnique, get, EDITORIAL_2_FEATURED_SLUG, EDITORIAL_2_REGULAR_SLUGS);
 
+  const preMosaicWideRow = pickUnique([PRE_MOSAIC_WIDE_ROW_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
   const mosaicText = pickUnique(MOSAIC_TEXT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const mosaicCream = pickUnique([MOSAIC_CREAM_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
   const wideRows = pickUnique(WIDE_ROW_SLUGS).map(get).filter((a): a is Article => Boolean(a));
@@ -191,6 +196,16 @@ export default function HomePage() {
           هشت گفتگو section), and repeating the heading right below itself
           would read as a duplicate rather than distinct content. */}
       {editorial2 && <EditorialSection featured={editorial2.featured} regular={editorial2.regular} />}
+
+      {/* --- Wide row directly above Section D, same gray treatment as the
+          الکسیویچ wide rows below (Section D.5) --- */}
+      {preMosaicWideRow && (
+        <section className="px-4 pt-10 sm:px-6 lg:px-8 lg:pt-14">
+          <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
+            <WideRow article={toBaru(preMosaicWideRow, [140, 260])} />
+          </StaggerGrid>
+        </section>
+      )}
 
       {/* --- Section D: the main mosaic (orders 11-13) --- */}
       <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
