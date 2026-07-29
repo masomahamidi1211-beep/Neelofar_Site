@@ -58,6 +58,10 @@ body {
   box-sizing: border-box;
 }
 
+.article-body {
+  font-family: var(--font-noto-naskh), var(--font-vazirmatn), "Tahoma", sans-serif;
+}
+
 img {
   max-width: 100%;
 }

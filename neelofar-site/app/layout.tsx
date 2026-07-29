@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Noto_Naskh_Arabic } from "next/font/google";
 import "./globals.css";
 import SiteShell from "./components/site-shell";
 
@@ -10,6 +11,15 @@ const vazirmatn = localFont({
     { path: "../public/fonts/Vazirmatn-Bold.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-vazirmatn",
+  display: "swap",
+});
+
+// Article body text only (see .article-body in globals.css) -- headings,
+// nav, and UI chrome stay on Vazirmatn.
+const notoNaskh = Noto_Naskh_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  variable: "--font-noto-naskh",
   display: "swap",
 });
 
@@ -50,7 +60,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl" className={`${vazirmatn.variable} h-full antialiased`}>
+    <html
+      lang="fa"
+      dir="rtl"
+      className={`${vazirmatn.variable} ${notoNaskh.variable} h-full antialiased`}
+    >
       <body className="min-h-full bg-white text-[#111111]">
         <SiteShell>{children}</SiteShell>
       </body>
