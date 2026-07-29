@@ -15,15 +15,15 @@ const vazirmatn = localFont({
 
 // Article title/author/body only (see .article-title/.article-author/
 // .article-body in globals.css) -- nav, footer, and other page headings
-// stay on Vazirmatn. Sahel has no 500 (Medium) weight file, so SemiBold
-// (600) stands in for "Medium" on author names.
-const sahel = localFont({
+// stay on Vazirmatn. Sourced from baru.ir's own self-hosted @font-face
+// (IRLotus/IRLotusBold) -- only Regular and Bold exist, no Medium, so
+// the author line reuses Regular.
+const irLotus = localFont({
   src: [
-    { path: "../public/fonts/Sahel-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/Sahel-SemiBold.woff2", weight: "600", style: "normal" },
-    { path: "../public/fonts/Sahel-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/IRLotus-Regular.woff", weight: "400", style: "normal" },
+    { path: "../public/fonts/IRLotus-Bold.woff", weight: "700", style: "normal" },
   ],
-  variable: "--font-sahel",
+  variable: "--font-ir-lotus",
   display: "swap",
 });
 
@@ -67,7 +67,7 @@ export default function RootLayout({
     <html
       lang="fa"
       dir="rtl"
-      className={`${vazirmatn.variable} ${sahel.variable} h-full antialiased`}
+      className={`${vazirmatn.variable} ${irLotus.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-white text-[#111111]">
         <SiteShell>{children}</SiteShell>
