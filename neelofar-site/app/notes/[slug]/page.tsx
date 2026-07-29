@@ -1,7 +1,17 @@
 import { notFound } from "next/navigation";
-import { getArticleBySlug, getAllArticles } from "../../lib/content-server";
+import {
+  getArticleBySlug,
+  getAllArticles,
+  getOtherArticlesByAuthor,
+  getOtherArticlesInSameIssue,
+  getSpecialIssueContainingArticle,
+} from "../../lib/content-server";
 import { formatJalaliDate, toPersianDigits } from "../../lib/date";
 import GiscusComments from "../../components/giscus-comments";
+import { ArticleSidebar } from "../../components/article-sidebar";
+import { ShareIcons } from "../../components/share-icons";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://neelofar-placeholder.example";
 
 export async function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.slug }));
@@ -24,51 +34,79 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   // showing the cover again up top would duplicate it.
   const showCoverAtTop = Boolean(article.image) && !article.body.includes(article.image as string);
 
+  const authorArticles = getOtherArticlesByAuthor(article.author, slug);
+  const issue = getSpecialIssueContainingArticle(slug);
+  const issueRelated = getOtherArticlesInSameIssue(slug, 5);
+  // Falls back to a general "بیشتر بخوانید" pool (most recent other pieces,
+  // not by this same author -- that list is already covered above) when the
+  // article isn't part of any ویژه‌نامه.
+  const relatedArticles =
+    issueRelated.length > 0
+      ? issueRelated
+      : getAllArticles()
+          .filter((a) => a.slug !== slug && a.author !== article.author)
+          .slice(0, 4);
+  const relatedHeading = issue ? "از متن‌های ویژه‌نامه" : "بیشتر بخوانید";
+
   return (
-    <article className="mx-auto max-w-[70ch] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <h1 className="article-title text-4xl leading-[1.6] sm:text-5xl">{article.title}</h1>
-      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-base text-[#6b6b6b]">
-        <span className="article-author text-[#111111]">{article.author}</span>
-        <span>·</span>
-        <span>{formatJalaliDate(article.jalaliDate)}</span>
-        <span>·</span>
-        <span>{toPersianDigits(String(article.readingTimeMinutes))} دقیقه زمان مطالعه</span>
-      </div>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[7fr_3fr] lg:gap-16">
+        <article className="min-w-0 max-w-[70ch]">
+          <h1 className="article-title text-4xl leading-[1.6] sm:text-5xl">{article.title}</h1>
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-base text-[#6b6b6b]">
+            <span className="article-author text-[#111111]">{article.author}</span>
+            <span>·</span>
+            <span>{formatJalaliDate(article.jalaliDate)}</span>
+            <span>·</span>
+            <span>{toPersianDigits(String(article.readingTimeMinutes))} دقیقه زمان مطالعه</span>
+          </div>
 
-      {showCoverAtTop && (
-        <img
-          src={article.image as string}
-          alt={`${article.imageAlt ?? article.title} — مادران و دختران`}
-          className="mx-auto mt-8 block max-h-[60vh] w-auto max-w-full"
+          {showCoverAtTop && (
+            <img
+              src={article.image as string}
+              alt={`${article.imageAlt ?? article.title} — مادران و دختران`}
+              className="mx-auto mt-8 block max-h-[60vh] w-auto max-w-full"
+            />
+          )}
+
+          <div
+            className="article-body prose prose-neutral mt-10 max-w-none text-justify text-xl leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold"
+            dangerouslySetInnerHTML={{ __html: article.body }}
+          />
+
+          {article.footnotes.length > 0 && (
+            <div className="mt-14 border-t border-[var(--hairline)] pt-8">
+              <h2 className="section-heading text-xl font-bold">پانوشت‌ها</h2>
+              <ol className="mt-4 space-y-2 text-base leading-7 text-[#4a4a4a]">
+                {article.footnotes.map((fn) => (
+                  <li key={fn.id} id={`fn-${fn.id}`}>
+                    {fn.text}{" "}
+                    <a href={`#fnref-${fn.id}`} className="text-sm text-[#6b6b6b]" aria-label="بازگشت به متن">
+                      ↩
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-[var(--hairline)] pt-6">
+            <p className="text-base text-[#6b6b6b]">
+              نویسنده: <span className="font-semibold text-[#111111]">{article.author}</span>
+            </p>
+            <ShareIcons url={`${SITE_URL}/notes/${slug}`} title={article.title} />
+          </div>
+
+          <GiscusComments />
+        </article>
+
+        <ArticleSidebar
+          authorName={article.author}
+          authorArticles={authorArticles}
+          relatedHeading={relatedHeading}
+          relatedArticles={relatedArticles}
         />
-      )}
-
-      <div
-        className="article-body prose prose-neutral mt-10 max-w-none text-justify text-xl leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold"
-        dangerouslySetInnerHTML={{ __html: article.body }}
-      />
-
-      {article.footnotes.length > 0 && (
-        <div className="mt-14 border-t border-[var(--hairline)] pt-8">
-          <h2 className="section-heading text-xl font-bold">پانوشت‌ها</h2>
-          <ol className="mt-4 space-y-2 text-base leading-7 text-[#4a4a4a]">
-            {article.footnotes.map((fn) => (
-              <li key={fn.id} id={`fn-${fn.id}`}>
-                {fn.text}{" "}
-                <a href={`#fnref-${fn.id}`} className="text-sm text-[#6b6b6b]" aria-label="بازگشت به متن">
-                  ↩
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-
-      <div className="mt-14 border-t border-[var(--hairline)] pt-6 text-base text-[#6b6b6b]">
-        نویسنده: <span className="font-semibold text-[#111111]">{article.author}</span>
       </div>
-
-      <GiscusComments />
-    </article>
+    </div>
   );
 }

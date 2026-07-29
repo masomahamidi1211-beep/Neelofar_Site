@@ -190,6 +190,44 @@ export function getArticlesByTag(tag: string): Article[] {
   return getAllArticles().filter((article) => article.tags.includes(tag));
 }
 
+/** Other articles by the same author, for the article-page sidebar's
+ * "از متن‌های نویسنده" list. Empty when the author has no other pieces --
+ * callers should hide that section entirely rather than show an empty box. */
+export function getOtherArticlesByAuthor(author: string, excludeSlug: string): Article[] {
+  return getAllArticles().filter((article) => article.author === author && article.slug !== excludeSlug);
+}
+
+/** The ویژه‌نامه (if any) a given article slug belongs to, searched across
+ * every section of every issue -- an article's own frontmatter `section`
+ * key isn't unique across issues, so this is the reliable way to find it. */
+export function getSpecialIssueContainingArticle(slug: string): SpecialIssue | null {
+  return (
+    getSpecialIssues().find((issue) =>
+      issue.sections.some((section) => section.articleSlugs.includes(slug))
+    ) ?? null
+  );
+}
+
+/** Other articles from the same ویژه‌نامه as `slug`, across all of that
+ * issue's sections, capped to `limit`. Used for the sidebar's "از متن‌های
+ * ویژه‌نامه" list; callers should fall back to getAllArticles()-based
+ * "بیشتر بخوانید" when this returns an empty array (article isn't part of
+ * any ویژه‌نامه). */
+export function getOtherArticlesInSameIssue(slug: string, limit = 5): Article[] {
+  const issue = getSpecialIssueContainingArticle(slug);
+  if (!issue) return [];
+
+  const otherSlugs = issue.sections
+    .flatMap((section) => section.articleSlugs)
+    .filter((s) => s !== slug);
+
+  const articlesBySlug = new Map(getAllArticles().map((article) => [article.slug, article]));
+  return otherSlugs
+    .map((s) => articlesBySlug.get(s))
+    .filter((article): article is Article => Boolean(article))
+    .slice(0, limit);
+}
+
 export type PodcastEpisode = { title: string; description: string; url: string; date: string };
 export type MultimediaItem = { title: string; description: string; url: string; date: string };
 
