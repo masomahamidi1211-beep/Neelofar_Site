@@ -53,12 +53,12 @@ export function FeatureCard({
         </div>
       )}
       <div className="hairline-cell flex flex-1 flex-col">
-        <p className="text-xs text-[#6b6b6b]">{article.author}</p>
-        <h3 className="mt-1 max-w-2xl text-lg font-bold leading-snug transition duration-200 group-hover:text-[var(--accent)]">
+        <p className="article-author text-xs text-[#6b6b6b]">{article.author}</p>
+        <h3 className="article-title mt-1 max-w-2xl text-lg leading-snug transition duration-200 group-hover:text-[var(--accent)]">
           {article.title}
         </h3>
         <p
-          className={`mt-3 max-w-2xl text-justify text-[15px] leading-8 text-[#333333] ${
+          className={`article-body mt-3 max-w-2xl text-justify text-[15px] leading-8 text-[#333333] ${
             hasImage ? "line-clamp-[6]" : "line-clamp-[16]"
           }`}
         >

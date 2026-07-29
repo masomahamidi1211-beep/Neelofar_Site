@@ -56,15 +56,15 @@ function Column({ article, isFeatured = false }: { article: BaruArticle; isFeatu
         </div>
       )}
       <h3
-        className={`mt-4 font-bold text-black transition duration-200 group-hover:text-[var(--title)] ${
+        className={`article-title mt-4 text-black transition duration-200 group-hover:text-[var(--title)] ${
           isFeatured ? "text-2xl" : "text-xl"
         }`}
       >
         {article.title}
       </h3>
-      <p className="mt-2 text-sm text-[var(--muted)]">{article.author}</p>
+      <p className="article-author mt-2 text-sm text-[var(--muted)]">{article.author}</p>
       <p
-        className={`justified-fa mt-4 text-[15px] leading-[1.9] text-[#4a4a4a] ${
+        className={`article-body justified-fa mt-4 text-[15px] leading-[1.9] text-[#4a4a4a] ${
           isFeatured ? "line-clamp-[9]" : "line-clamp-[16]"
         }`}
       >
