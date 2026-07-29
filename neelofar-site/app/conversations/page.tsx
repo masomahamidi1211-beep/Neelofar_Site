@@ -1,5 +1,6 @@
 import { getArticlesByTag, longExcerptOf } from "../lib/content-server";
-import { ArticleGrid } from "../components/article-grid";
+import { WideRow } from "../components/wide-row";
+import StaggerGrid from "../components/stagger-grid";
 import ScrollReveal from "../components/scroll-reveal";
 
 export default function ConversationsPage() {
@@ -13,18 +14,23 @@ export default function ConversationsPage() {
       </p>
 
       {articles.length > 0 ? (
-        <ArticleGrid
-          className="mt-5"
-          articles={articles.map((article) => ({
-            slug: article.slug,
-            title: article.title,
-            author: article.author,
-            excerpt: longExcerptOf(article, article.image ? 110 : 220),
-            image: article.image,
-            imagePosition: article.imagePosition,
-            imageAlt: article.imageAlt,
-          }))}
-        />
+        <StaggerGrid className="mt-5 divide-y divide-[#d4d4d4] bg-[#f7f6ed]">
+          {articles.map((article) => (
+            <WideRow
+              key={article.slug}
+              article={{
+                slug: article.slug,
+                title: article.title,
+                author: article.author,
+                excerpt: longExcerptOf(article, 140, 260),
+                date: "",
+                image: article.image,
+                imagePosition: article.imagePosition,
+                imageAlt: article.imageAlt,
+              }}
+            />
+          ))}
+        </StaggerGrid>
       ) : (
         <ScrollReveal className="mt-5">
           <div className="border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
