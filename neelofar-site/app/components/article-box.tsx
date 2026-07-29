@@ -73,9 +73,9 @@ export function ArticleBox({
         </div>
         <div className="flex flex-1 flex-col p-5 sm:p-6">
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
-          <h3 className="article-title text-xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] sm:text-2xl">{article.title}</h3>
+          <h3 className="article-title text-2xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] sm:text-3xl">{article.title}</h3>
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
-          <p className="article-body justified-fa mt-4 flex-1 text-[15px] text-[var(--ink)]">{article.excerpt}</p>
+          <p className="article-body justified-fa mt-4 flex-1 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
         </div>
       </Link>
     );
@@ -90,8 +90,8 @@ export function ArticleBox({
         <BoxImage article={article} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-black/55" />
         <div className="relative">
-          <h3 className="article-title text-2xl leading-snug text-white sm:text-3xl">{article.title}</h3>
-          <p className="article-body justified-fa mx-auto mt-4 max-w-md text-[15px] text-white/85">{article.excerpt}</p>
+          <h3 className="article-title text-3xl leading-snug text-white sm:text-4xl">{article.title}</h3>
+          <p className="article-body justified-fa mx-auto mt-4 max-w-md text-[17px] text-white/85">{article.excerpt}</p>
         </div>
       </Link>
     );
@@ -105,10 +105,10 @@ export function ArticleBox({
       >
         <div className="min-w-0 flex-1">
           <AuthorLine author={article.author} />
-          <h3 className="article-title mt-1 text-base leading-snug text-black transition duration-150 group-hover:text-[var(--title)]">
+          <h3 className="article-title mt-1 text-lg leading-snug text-black transition duration-150 group-hover:text-[var(--title)]">
             {article.title}
           </h3>
-          <p className="article-body mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{article.excerpt}</p>
+          <p className="article-body mt-2 line-clamp-2 text-base leading-6 text-[var(--muted)]">{article.excerpt}</p>
         </div>
         <div className="h-[150px] w-[150px] shrink-0 overflow-hidden">
           <BoxImage article={article} className="h-full w-full object-cover" />
@@ -121,10 +121,10 @@ export function ArticleBox({
     return (
       <Link href={href} className={`article-box baru-focus group flex items-stretch gap-4 p-4 ${className}`}>
         <div className="min-w-0 flex-1">
-          <h3 className="article-title text-lg leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]">
+          <h3 className="article-title text-xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]">
             {article.title}
           </h3>
-          <p className="article-body mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{article.excerpt}</p>
+          <p className="article-body mt-2 line-clamp-2 text-base leading-6 text-[var(--muted)]">{article.excerpt}</p>
         </div>
         <div className="h-[90px] w-[90px] shrink-0 overflow-hidden">
           <BoxImage article={article} className="h-full w-full object-cover" />
@@ -141,9 +141,9 @@ export function ArticleBox({
         variant === "cream" ? "bg-[var(--cream)]" : ""
       } ${className}`}
     >
-      <h3 className="article-title text-xl leading-snug text-black transition duration-150 group-hover:text-[var(--title)] sm:text-2xl">{article.title}</h3>
+      <h3 className="article-title text-2xl leading-snug text-black transition duration-150 group-hover:text-[var(--title)] sm:text-3xl">{article.title}</h3>
       <AuthorLine author={article.author} className="mt-2" />
-      <p className="article-body justified-fa mt-4 flex-1 pb-14 text-[15px] text-[var(--ink)]">{article.excerpt}</p>
+      <p className="article-body justified-fa mt-4 flex-1 pb-14 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
       <ReadMoreCircle className="absolute bottom-5 start-5" />
     </Link>
   );

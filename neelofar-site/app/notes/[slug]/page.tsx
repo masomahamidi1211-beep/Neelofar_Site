@@ -26,8 +26,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <article className="mx-auto max-w-[70ch] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <h1 className="article-title text-3xl leading-[1.6] sm:text-4xl">{article.title}</h1>
-      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[#6b6b6b]">
+      <h1 className="article-title text-4xl leading-[1.6] sm:text-5xl">{article.title}</h1>
+      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-base text-[#6b6b6b]">
         <span className="article-author text-[#111111]">{article.author}</span>
         <span>·</span>
         <span>{formatJalaliDate(article.jalaliDate)}</span>
@@ -44,7 +44,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       )}
 
       <div
-        className="article-body prose prose-neutral mt-10 max-w-none text-justify text-lg leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-bold"
+        className="article-body prose prose-neutral mt-10 max-w-none text-justify text-xl leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold"
         dangerouslySetInnerHTML={{ __html: article.body }}
       />
 
