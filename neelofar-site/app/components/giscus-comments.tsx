@@ -15,7 +15,7 @@ const GISCUS_CONFIGURED = !GISCUS_REPO.endsWith("/placeholder");
 export default function GiscusComments() {
   return (
     <div className="mt-6 border border-[var(--hairline)] p-6">
-      <div className="text-sm text-[#6b6b6b]">
+      <div className="text-base text-[#6b6b6b]">
         این بخش برای بارگذاری نظرات با Giscus آماده است. برای فعال‌سازی، مقادیر `GISCUS_REPO` و
         `GISCUS_REPO_ID` را در این فایل با مقادیر واقعی جایگزین کنید.
       </div>

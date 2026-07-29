@@ -57,8 +57,8 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
   return (
     <div className="px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
-        <h1 className="text-3xl font-bold">توصیه‌های ما</h1>
-        <p className="mt-4 text-lg leading-8 text-[#4a4a4a]">
+        <h1 className="text-4xl font-bold">توصیه‌های ما</h1>
+        <p className="mt-4 text-xl leading-8 text-[#4a4a4a]">
           در زمانه‌ای که صنعت چاپ بی‌وقفه و بی‌توجه به کیفیت اثر، مدام کتاب چاپ می‌کند، تفکیک رمان/مجموعه داستان
           درخشان از اثر معمولی به هنر دشواری تبدیل شده است. فهرست زیر، برگرفته از راهنمای انتخاب رمان نیلوفر، قابل
           جستجو و فیلتر است.
@@ -67,7 +67,7 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
           href="/docs/rahnama-entekhab-roman.pdf"
           target="_blank"
           rel="noreferrer"
-          className="mt-3 inline-block text-sm text-[#6b6b6b] underline decoration-[var(--hairline)] underline-offset-4 transition duration-150 hover:text-[var(--accent)]"
+          className="mt-3 inline-block text-base text-[#6b6b6b] underline decoration-[var(--hairline)] underline-offset-4 transition duration-150 hover:text-[var(--accent)]"
         >
           مشاهدهٔ نسخهٔ کامل راهنما (PDF)
         </a>
@@ -75,8 +75,8 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
 
       {books.length === 0 ? (
         <div className="mt-16 border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
-          <p className="text-lg font-semibold text-[#111111]">به‌زودی</p>
-          <p className="mt-2 text-sm">فهرست کتاب‌های پیشنهادی نیلوفر به‌زودی اینجا منتشر می‌شود.</p>
+          <p className="text-xl font-semibold text-[#111111]">به‌زودی</p>
+          <p className="mt-2 text-base">فهرست کتاب‌های پیشنهادی نیلوفر به‌زودی اینجا منتشر می‌شود.</p>
         </div>
       ) : (
         <>
@@ -88,17 +88,17 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="جستجو در عنوان، نویسنده یا مترجم…"
-                className="w-full border border-[var(--hairline)] bg-white px-4 py-3 text-base outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
+                className="w-full border border-[var(--hairline)] bg-white px-4 py-3 text-lg outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
               />
             </label>
 
-            <div className="mt-4 flex flex-wrap gap-6 text-sm">
+            <div className="mt-4 flex flex-wrap gap-6 text-base">
               <label className="flex items-center gap-2">
                 <span className="font-medium">شکل اثر</span>
                 <select
                   value={genre}
                   onChange={(event) => setGenre(event.target.value)}
-                  className="border border-[var(--hairline)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
+                  className="border border-[var(--hairline)] bg-white px-3 py-2 text-base outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
                 >
                   {genres.map((item) => (
                     <option key={item} value={item}>
@@ -112,7 +112,7 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
                 <select
                   value={country}
                   onChange={(event) => setCountry(event.target.value)}
-                  className="border border-[var(--hairline)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
+                  className="border border-[var(--hairline)] bg-white px-3 py-2 text-base outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
                 >
                   {countries.map((item) => (
                     <option key={item} value={item}>
@@ -124,14 +124,14 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
             </div>
           </div>
 
-          <p className="mt-4 text-sm text-[#6b6b6b]" aria-live="polite">
+          <p className="mt-4 text-base text-[#6b6b6b]" aria-live="polite">
             {toPersianDigits(String(visibleBooks.length))} کتاب یافت شد
           </p>
 
           {visibleBooks.length === 0 ? (
             <div className="mt-8 border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
-              <p className="text-lg font-semibold text-[#111111]">نتیجه‌ای پیدا نشد</p>
-              <p className="mt-2 text-sm">
+              <p className="text-xl font-semibold text-[#111111]">نتیجه‌ای پیدا نشد</p>
+              <p className="mt-2 text-base">
                 {hasActiveFilters
                   ? "با این جستجو یا فیلترها کتابی یافت نشد. عبارت جستجو یا فیلترها را تغییر دهید."
                   : "کتابی برای نمایش وجود ندارد."}
@@ -146,27 +146,27 @@ export default function RecommendationsClient({ books }: { books: BookRecommenda
                   key={`${book.section}-${book.title}-${index}`}
                   className={`hairline-cell bg-[#eaf3fb] ${isLastOdd ? "md:col-span-2" : ""}`}
                 >
-                  <h2 className="text-xl font-bold">{book.title}</h2>
-                  <p className="mt-3 text-sm text-[#4a4a4a]">نویسنده: {book.author}</p>
-                  {book.translator && <p className="mt-1 text-sm text-[#4a4a4a]">مترجم: {book.translator}</p>}
+                  <h2 className="text-2xl font-bold">{book.title}</h2>
+                  <p className="mt-3 text-base text-[#4a4a4a]">نویسنده: {book.author}</p>
+                  {book.translator && <p className="mt-1 text-base text-[#4a4a4a]">مترجم: {book.translator}</p>}
 
                   <div className="mt-3 flex flex-wrap gap-2">
                     {book.genre && (
-                      <span className="border border-[var(--hairline)] px-2 py-0.5 text-xs text-[#4a4a4a]">
+                      <span className="border border-[var(--hairline)] px-2 py-0.5 text-sm text-[#4a4a4a]">
                         {book.genre}
                       </span>
                     )}
                     {book.country && (
-                      <span className="border border-[var(--hairline)] px-2 py-0.5 text-xs text-[#4a4a4a]">
+                      <span className="border border-[var(--hairline)] px-2 py-0.5 text-sm text-[#4a4a4a]">
                         {book.country}
                       </span>
                     )}
                   </div>
 
-                  {book.note && <p className="mt-3 text-xs text-[#6b6b6b]">{book.note}</p>}
+                  {book.note && <p className="mt-3 text-sm text-[#6b6b6b]">{book.note}</p>}
 
                   {book.editorialNote && (
-                    <p className="mt-3 border-r-2 border-[var(--accent)] pr-3 text-xs leading-6 text-[var(--accent)]">
+                    <p className="mt-3 border-r-2 border-[var(--accent)] pr-3 text-sm leading-6 text-[var(--accent)]">
                       یادداشت ویراستاری: {book.editorialNote}
                     </p>
                   )}

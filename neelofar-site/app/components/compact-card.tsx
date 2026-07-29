@@ -24,11 +24,11 @@ export function CompactCard({ article, className = "" }: { article: CardArticle;
         </div>
       )}
       <div className="min-w-0 flex-1">
-        <p className="text-xs text-[#6b6b6b]">{article.author}</p>
-        <h3 className="mt-1 text-base font-bold leading-snug transition duration-200 group-hover:text-[var(--accent)]">
+        <p className="text-sm text-[#6b6b6b]">{article.author}</p>
+        <h3 className="mt-1 text-lg font-bold leading-snug transition duration-200 group-hover:text-[var(--accent)]">
           {article.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#4a4a4a]">{article.excerpt}</p>
+        <p className="mt-2 line-clamp-2 text-base leading-6 text-[#4a4a4a]">{article.excerpt}</p>
       </div>
     </Link>
   );

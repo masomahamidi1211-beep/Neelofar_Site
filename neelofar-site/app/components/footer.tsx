@@ -33,12 +33,12 @@ export default function Footer() {
               height={90}
               className="h-16 w-16 [filter:brightness(0)_invert(1)] sm:h-[90px] sm:w-[90px]"
             />
-            <span className="text-3xl font-bold text-white sm:text-4xl">نیلوفر</span>
+            <span className="text-4xl font-bold text-white sm:text-5xl">نیلوفر</span>
           </Link>
 
           <nav
             aria-label="لینک‌های سریع"
-            className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold lg:justify-center"
+            className="flex flex-wrap gap-x-6 gap-y-3 text-base font-semibold lg:justify-center"
           >
             {quickLinks.map((link) => (
               <Link
@@ -52,7 +52,7 @@ export default function Footer() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <p className="text-sm font-semibold text-white">ما را دنبال کنید</p>
+            <p className="text-base font-semibold text-white">ما را دنبال کنید</p>
             <div className="flex items-center gap-4">
               {socialLinks.map(({ label, href, Icon }) => (
                 <a
@@ -72,7 +72,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-[#333]">
-        <p className="mx-auto w-full px-4 py-4 text-center text-xs text-white sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
+        <p className="mx-auto w-full px-4 py-4 text-center text-sm text-white sm:px-6 lg:w-[77vw] lg:max-w-[1100px] lg:px-0">
           © ۱۴۰۵ نیلوفر — برنامهٔ ادبیات جهان
         </p>
       </div>

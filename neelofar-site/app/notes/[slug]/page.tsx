@@ -50,12 +50,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {article.footnotes.length > 0 && (
         <div className="mt-14 border-t border-[var(--hairline)] pt-8">
-          <h2 className="section-heading text-lg font-bold">پانوشت‌ها</h2>
-          <ol className="mt-4 space-y-2 text-sm leading-7 text-[#4a4a4a]">
+          <h2 className="section-heading text-xl font-bold">پانوشت‌ها</h2>
+          <ol className="mt-4 space-y-2 text-base leading-7 text-[#4a4a4a]">
             {article.footnotes.map((fn) => (
               <li key={fn.id} id={`fn-${fn.id}`}>
                 {fn.text}{" "}
-                <a href={`#fnref-${fn.id}`} className="text-xs text-[#6b6b6b]" aria-label="بازگشت به متن">
+                <a href={`#fnref-${fn.id}`} className="text-sm text-[#6b6b6b]" aria-label="بازگشت به متن">
                   ↩
                 </a>
               </li>
@@ -64,7 +64,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       )}
 
-      <div className="mt-14 border-t border-[var(--hairline)] pt-6 text-sm text-[#6b6b6b]">
+      <div className="mt-14 border-t border-[var(--hairline)] pt-6 text-base text-[#6b6b6b]">
         نویسنده: <span className="font-semibold text-[#111111]">{article.author}</span>
       </div>
 

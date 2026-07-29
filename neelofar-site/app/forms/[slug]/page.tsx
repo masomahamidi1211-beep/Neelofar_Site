@@ -50,18 +50,18 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <h1 className="text-3xl font-bold">{labels[slug]}</h1>
+      <h1 className="text-4xl font-bold">{labels[slug]}</h1>
 
-      {announcement && <p className="mt-4 text-lg font-semibold text-[var(--accent)]">{announcement}</p>}
+      {announcement && <p className="mt-4 text-xl font-semibold text-[var(--accent)]">{announcement}</p>}
 
       {showSharedBanner && (
         <div className="mt-4 border border-[var(--accent)] bg-[var(--accent)]/5 p-5">
-          <p className="text-sm leading-8 text-[#333333]">{SHARED_BANNER}</p>
+          <p className="text-base leading-8 text-[#333333]">{SHARED_BANNER}</p>
         </div>
       )}
 
       {slug === "collaboration" ? (
-        <p className="mt-4 text-lg leading-8 text-[#4a4a4a]">
+        <p className="mt-4 text-xl leading-8 text-[#4a4a4a]">
           نیلوفر را جمعی از پژوهشگران، نویسندگان و دوستداران فرهنگ عمدتاً به صورت رضاکارانه پیش می‌برند. در صورت
           علاقمندی به همکاری با ما، از طریق ارسال فرم زیرین می‌توانید با ما به تماس شوید.
         </p>
@@ -70,7 +70,7 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
           {programInfo.map((item, index) => (
             <div
               key={item}
-              className={`hairline-cell bg-white text-sm text-[#333333] ${
+              className={`hairline-cell bg-white text-base text-[#333333] ${
                 index === programInfo.length - 1 ? "col-span-2" : ""
               }`}
             >
@@ -82,8 +82,8 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
 
       {!url ? (
         <div className="mt-8 border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
-          <p className="text-lg font-semibold text-[#111111]">به‌زودی</p>
-          <p className="mt-2 text-sm">
+          <p className="text-xl font-semibold text-[#111111]">به‌زودی</p>
+          <p className="mt-2 text-base">
             {slug === "collaboration"
               ? "فرم همکاری با ما به‌زودی فعال می‌شود."
               : "فرم درخواست‌نامهٔ این بخش به‌زودی فعال می‌شود."}
@@ -91,14 +91,14 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
         </div>
       ) : NO_IFRAME_SLUGS.has(slug) ? (
         <div className="mt-8 border border-[var(--hairline)] bg-[var(--panel)] p-8 text-center">
-          <p className="text-sm text-[#4a4a4a]">
+          <p className="text-base text-[#4a4a4a]">
             فرم درخواست‌نامه در همین صفحه قابل نمایش نیست؛ از طریق دکمه زیر آن را در یک تب جدید باز کنید.
           </p>
           <a
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-5 inline-block bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:opacity-85"
+            className="mt-5 inline-block bg-[var(--accent)] px-6 py-3 text-base font-semibold text-white transition duration-200 hover:opacity-85"
           >
             باز کردن فرم درخواست‌نامه
           </a>

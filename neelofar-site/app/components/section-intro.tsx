@@ -44,11 +44,11 @@ export function SectionIntro({
         />
       </div>
       <div className="flex flex-1 flex-col justify-between p-5">
-        <p className={`text-justify text-sm leading-8 text-[#4a4a4a] ${href ? "line-clamp-[8]" : ""}`}>{text}</p>
+        <p className={`text-justify text-base leading-8 text-[#4a4a4a] ${href ? "line-clamp-[8]" : ""}`}>{text}</p>
         {href && (
           <Link
             href={href}
-            className="mt-3 inline-block text-sm font-semibold text-[var(--accent)] transition duration-200 group-hover:opacity-70"
+            className="mt-3 inline-block text-base font-semibold text-[var(--accent)] transition duration-200 group-hover:opacity-70"
           >
             ادامه‌ی مطلب ←
           </Link>

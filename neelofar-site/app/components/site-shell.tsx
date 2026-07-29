@@ -95,7 +95,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[100px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-6 lg:px-0 lg:py-0">
           <Link href="/" className="baru-focus flex shrink-0 items-center gap-2 sm:gap-3">
             <Image src="/logo.png" alt="" width={48} height={48} priority className="h-9 w-9 sm:h-12 sm:w-12" />
-            <span className="text-[28px] font-bold text-black sm:text-[32px]">نیلوفر</span>
+            <span className="text-[30px] font-bold text-black sm:text-[34px]">نیلوفر</span>
           </Link>
 
           <nav className="hidden min-w-0 flex-1 items-center justify-center gap-5 overflow-x-auto whitespace-nowrap lg:flex">
@@ -105,7 +105,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`baru-focus nav-underline pb-1 text-[14px] font-bold text-black ${
+                  className={`baru-focus nav-underline pb-1 text-[16px] font-bold text-black ${
                     active ? "is-active" : ""
                   }`}
                 >
@@ -131,7 +131,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
             <button
               type="button"
               aria-label="باز کردن فهرست"
-              className="baru-focus text-xl lg:hidden"
+              className="baru-focus text-2xl lg:hidden"
               onClick={() => setMenuOpen(true)}
             >
               ☰
@@ -177,7 +177,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
             <button
               type="button"
               aria-label="بستن جست‌وجو"
-              className="baru-focus absolute left-6 top-6 text-2xl"
+              className="baru-focus absolute left-6 top-6 text-3xl"
               onClick={() => setSearchOpen(false)}
             >
               ✕
@@ -187,10 +187,10 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               autoFocus
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              className="baru-focus w-full border-b border-[var(--ink)] bg-transparent pb-4 text-center text-3xl outline-none placeholder:text-[var(--muted)] focus:border-[var(--title)] sm:text-4xl"
+              className="baru-focus w-full border-b border-[var(--ink)] bg-transparent pb-4 text-center text-4xl outline-none placeholder:text-[var(--muted)] focus:border-[var(--title)] sm:text-5xl"
               placeholder="جست‌وجو..."
             />
-            <p className="mt-6 text-center text-sm text-[var(--muted)]">
+            <p className="mt-6 text-center text-base text-[var(--muted)]">
               کلمات را شما جستجو کنید، متن‌ها را ما پیدا می‌کنیم.
             </p>
 
@@ -201,13 +201,13 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                     key={item.href}
                     href={item.href}
                     onClick={() => setSearchOpen(false)}
-                    className="baru-focus block border-b border-[var(--line)] py-4 text-center text-lg font-semibold transition duration-200 hover:text-[var(--title)]"
+                    className="baru-focus block border-b border-[var(--line)] py-4 text-center text-xl font-semibold transition duration-200 hover:text-[var(--title)]"
                   >
                     {item.title}
                   </Link>
                 ))
               ) : (
-                <div className="py-8 text-center text-sm text-[var(--muted)]">چیزی پیدا نشد.</div>
+                <div className="py-8 text-center text-base text-[var(--muted)]">چیزی پیدا نشد.</div>
               )}
             </div>
           </div>
@@ -229,14 +229,14 @@ export default function SiteShell({ children }: { children: ReactNode }) {
           >
             <div className="flex h-full flex-col px-6 py-6">
               <div className="flex items-center justify-between">
-                <Link href="/" onClick={() => setMenuOpen(false)} className="baru-focus flex items-center gap-2 text-2xl font-bold text-black">
+                <Link href="/" onClick={() => setMenuOpen(false)} className="baru-focus flex items-center gap-2 text-3xl font-bold text-black">
                   <Image src="/logo.png" alt="" width={36} height={36} className="h-8 w-8" />
                   نیلوفر
                 </Link>
                 <button
                   type="button"
                   aria-label="بستن فهرست"
-                  className="baru-focus text-2xl"
+                  className="baru-focus text-3xl"
                   onClick={() => setMenuOpen(false)}
                 >
                   ✕
@@ -250,7 +250,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`baru-focus border-b border-b-[var(--line)] py-4 ps-4 text-xl text-black transition duration-150 hover:opacity-60 ${
+                      className={`baru-focus border-b border-b-[var(--line)] py-4 ps-4 text-2xl text-black transition duration-150 hover:opacity-60 ${
                         active ? "border-s-2 border-s-black font-semibold" : "border-s-2 border-s-transparent"
                       }`}
                     >

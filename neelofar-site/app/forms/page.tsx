@@ -12,8 +12,8 @@ export default function FormsPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
       <div className="max-w-3xl">
-        <h1 className="text-3xl font-bold">درخواست‌نامه‌ها</h1>
-        <p className="mt-4 text-lg leading-8 text-[#4a4a4a]">
+        <h1 className="text-4xl font-bold">درخواست‌نامه‌ها</h1>
+        <p className="mt-4 text-xl leading-8 text-[#4a4a4a]">
           نیلوفر فعلاً «برنامه ادبیات جهان» را در شهرهای کابل، هرات، بلخ و بامیان برای دختران نوجوان و جوان برگزار
           می‌کند. در صورت علاقمندی به اشتراک در برنامه‌ی ما، می‌توانید از طریق فرم زیرین درخواست بدهید.
         </p>
@@ -22,8 +22,8 @@ export default function FormsPage() {
         {forms.map((form) => (
           <Link key={form.slug} href={`/forms/${form.slug}`} className="group block bg-white transition duration-200 hover:bg-[var(--panel)]">
             <div className="hairline-cell">
-              <h2 className="text-xl font-bold transition duration-200 group-hover:text-[var(--accent)]">{form.label}</h2>
-              <p className="mt-3 text-sm text-[#4a4a4a]">مشاهده‌ی فرم{form.slug === "collaboration" ? " همکاری" : " درخواست"}</p>
+              <h2 className="text-2xl font-bold transition duration-200 group-hover:text-[var(--accent)]">{form.label}</h2>
+              <p className="mt-3 text-base text-[#4a4a4a]">مشاهده‌ی فرم{form.slug === "collaboration" ? " همکاری" : " درخواست"}</p>
             </div>
           </Link>
         ))}

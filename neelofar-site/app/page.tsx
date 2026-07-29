@@ -97,7 +97,7 @@ function EditorialSection({
 }) {
   return (
     <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      {heading && <h2 className="mb-3 text-2xl font-bold text-[var(--title)]">{heading}</h2>}
+      {heading && <h2 className="mb-3 text-3xl font-bold text-[var(--title)]">{heading}</h2>}
       <EditorialThree
         featured={toBaru(featured, [90, 160])}
         regular={[toBaru(regular[0], [260, 440]), toBaru(regular[1], [260, 440])]}
