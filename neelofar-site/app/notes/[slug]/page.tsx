@@ -26,9 +26,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <article className="mx-auto max-w-[70ch] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <h1 className="text-3xl font-bold leading-[1.6] sm:text-4xl">{article.title}</h1>
+      <h1 className="article-title text-3xl leading-[1.6] sm:text-4xl">{article.title}</h1>
       <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[#6b6b6b]">
-        <span className="font-semibold text-[#111111]">{article.author}</span>
+        <span className="article-author text-[#111111]">{article.author}</span>
         <span>·</span>
         <span>{formatJalaliDate(article.jalaliDate)}</span>
         <span>·</span>

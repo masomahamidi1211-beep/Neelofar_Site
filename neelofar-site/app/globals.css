@@ -58,8 +58,22 @@ body {
   box-sizing: border-box;
 }
 
+.article-title,
+.article-author,
 .article-body {
-  font-family: var(--font-noto-naskh), var(--font-vazirmatn), "Tahoma", sans-serif;
+  font-family: var(--font-sahel), var(--font-vazirmatn), "Tahoma", sans-serif;
+}
+
+.article-title {
+  font-weight: 700;
+}
+
+.article-author {
+  font-weight: 600;
+}
+
+.article-body {
+  font-weight: 400;
 }
 
 img {

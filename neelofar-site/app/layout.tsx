@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Noto_Naskh_Arabic } from "next/font/google";
 import "./globals.css";
 import SiteShell from "./components/site-shell";
 
@@ -14,12 +13,17 @@ const vazirmatn = localFont({
   display: "swap",
 });
 
-// Article body text only (see .article-body in globals.css) -- headings,
-// nav, and UI chrome stay on Vazirmatn.
-const notoNaskh = Noto_Naskh_Arabic({
-  subsets: ["arabic"],
-  weight: ["400", "700"],
-  variable: "--font-noto-naskh",
+// Article title/author/body only (see .article-title/.article-author/
+// .article-body in globals.css) -- nav, footer, and other page headings
+// stay on Vazirmatn. Sahel has no 500 (Medium) weight file, so SemiBold
+// (600) stands in for "Medium" on author names.
+const sahel = localFont({
+  src: [
+    { path: "../public/fonts/Sahel-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/Sahel-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../public/fonts/Sahel-Bold.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-sahel",
   display: "swap",
 });
 
@@ -63,7 +67,7 @@ export default function RootLayout({
     <html
       lang="fa"
       dir="rtl"
-      className={`${vazirmatn.variable} ${notoNaskh.variable} h-full antialiased`}
+      className={`${vazirmatn.variable} ${sahel.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-white text-[#111111]">
         <SiteShell>{children}</SiteShell>
