@@ -42,6 +42,11 @@ export type SpecialIssueSection = {
   image?: string | null;
   imagePosition?: string | null;
   imageAlt?: string | null;
+  /** "grid" (default) is the standard hairline ArticleGrid. "wide-row"
+   * renders the section's articles as full-width WideRow entries instead
+   * -- e.g. a single-piece section meant to read as one editorial row
+   * rather than a grid cell. */
+  layout?: "grid" | "wide-row";
 };
 
 export type SpecialIssue = {
@@ -223,6 +228,7 @@ export function getSpecialIssue(slug: string): SpecialIssueResolved | null {
       image: section.image ?? null,
       imagePosition: section.imagePosition ?? null,
       imageAlt: section.imageAlt ?? null,
+      layout: section.layout,
       articles: section.articleSlugs
         .map((slug) => articlesBySlug.get(slug))
         .filter((article): article is Article => Boolean(article)),
