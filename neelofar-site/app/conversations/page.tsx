@@ -27,6 +27,7 @@ export default function ConversationsPage() {
                 image: article.image,
                 imagePosition: article.imagePosition,
                 imageAlt: article.imageAlt,
+                subtitle: article.subtitle,
               }}
             />
           ))}

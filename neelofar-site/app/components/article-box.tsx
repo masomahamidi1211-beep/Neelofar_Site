@@ -11,6 +11,9 @@ export type BaruArticle = {
   image?: string | null;
   imagePosition?: string | null;
   imageAlt?: string | null;
+  /** Optional credit lines shown below the title, smaller than it -- most
+   * articles don't have these; only rendered where present. */
+  subtitle?: string[] | null;
 };
 
 const DEFAULT_POSITION = "50% 20%";

@@ -14,6 +14,9 @@ export type CardArticle = {
   /** Meaningful alt text override; defaults to "" (decorative -- the card's
    * own title text already describes the link). */
   imageAlt?: string | null;
+  /** Optional credit lines shown below the title, smaller than it -- most
+   * articles don't have these; only rendered where present. */
+  subtitle?: string[] | null;
 };
 
 const DEFAULT_IMAGE_POSITION = "50% 20%";
@@ -57,6 +60,13 @@ export function FeatureCard({
         <h3 className="article-title mt-1 max-w-2xl text-xl leading-snug transition duration-200 group-hover:text-[var(--accent)]">
           {article.title}
         </h3>
+        {article.subtitle && (
+          <div className="article-author mt-1 space-y-0.5 text-sm text-[#6b6b6b]">
+            {article.subtitle.map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
+          </div>
+        )}
         <p
           className={`article-body mt-3 max-w-2xl text-justify text-[17px] leading-8 text-[#333333] ${
             hasImage ? "line-clamp-[6]" : "line-clamp-[16]"

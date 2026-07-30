@@ -29,6 +29,11 @@ export type Article = {
    * alt text of their own. */
   imageAlt: string | null;
   tags: string[];
+  /** Optional subtitle lines shown directly below the title, smaller than
+   * the title itself -- e.g. a گفتگو's "متن گفت‌وگو با X ..." credit lines.
+   * Most articles don't need this; card/row components only render it when
+   * present. */
+  subtitle: string[] | null;
 };
 
 export type SpecialIssueSection = {
@@ -139,6 +144,7 @@ function articleFromFile(slug: string, fullPath: string): Article {
     image: typeof data.image === "string" ? data.image : null,
     imagePosition: typeof data.imagePosition === "string" ? data.imagePosition : null,
     imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : null,
+    subtitle: Array.isArray(data.subtitle) ? data.subtitle : null,
     tags: Array.isArray(data.tags) ? data.tags : [],
   };
 }

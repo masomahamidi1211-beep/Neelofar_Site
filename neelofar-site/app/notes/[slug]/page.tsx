@@ -53,6 +53,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-[7fr_3fr] lg:gap-16">
         <article className="min-w-0 max-w-[70ch]">
           <h1 className="article-title text-4xl leading-[1.6] sm:text-5xl">{article.title}</h1>
+          {article.subtitle && (
+            <div className="article-author mt-3 space-y-1 text-lg text-[#6b6b6b]">
+              {article.subtitle.map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
+          )}
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-base text-[#6b6b6b]">
             <span className="article-author text-[#111111]">{article.author}</span>
             <span>·</span>

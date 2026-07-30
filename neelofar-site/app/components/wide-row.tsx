@@ -36,6 +36,13 @@ export function WideRow({ article, className = "" }: { article: BaruArticle; cla
         <h3 className="article-title mt-1 text-2xl text-black transition duration-200 group-hover:text-[var(--title)] sm:text-3xl">
           {article.title}
         </h3>
+        {article.subtitle && (
+          <div className="article-author mt-1 space-y-0.5 text-base text-[#6b6b6b]">
+            {article.subtitle.map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
+          </div>
+        )}
         <p className="article-body justified-fa mt-3 line-clamp-[7] text-[17px] leading-[1.9] text-[#4a4a4a]">
           {article.excerpt} <span className="font-semibold whitespace-nowrap text-black">ادامه‌ی مطلب ←</span>
         </p>

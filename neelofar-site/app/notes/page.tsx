@@ -11,6 +11,7 @@ export default function NotesPage() {
     image: article.image,
     imagePosition: article.imagePosition,
     imageAlt: article.imageAlt,
+    subtitle: article.subtitle,
   }));
 
   return (
