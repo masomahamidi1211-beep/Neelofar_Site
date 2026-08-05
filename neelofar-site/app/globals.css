@@ -223,6 +223,24 @@ blockquote {
   color: #6b6b6b;
 }
 
+/* A modest, inline-scale variant of .article-figure -- e.g. a book cover
+   referenced in passing, not the article's own full-width illustrations. */
+.article-figure-small {
+  margin: 1.5rem 0;
+  max-width: 280px;
+}
+
+.article-figure-small img {
+  width: 100%;
+  display: block;
+}
+
+.article-figure-small figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b6b6b;
+}
+
 .telegram-placeholder {
   margin: 2rem 0;
   border: 1px solid var(--hairline);
