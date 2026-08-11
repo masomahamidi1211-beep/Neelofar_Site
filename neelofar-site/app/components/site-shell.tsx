@@ -11,6 +11,7 @@ const navItems = [
   { href: "/", label: "خانه" },
   { href: "/notes", label: "یادداشت‌ها" },
   { href: "/special", label: "ویژه‌نامه‌ها" },
+  { href: "/magazine", label: "مجله نیلوفر" },
   { href: "/podcast", label: "پادکست" },
   { href: "/conversations", label: "گفتگوها" },
   { href: "/multimedia", label: "چندرسانه" },
@@ -22,6 +23,7 @@ const navItems = [
 const searchItems = [
   { title: "یادداشت‌ها", href: "/notes" },
   { title: "ویژه‌نامه‌ها", href: "/special" },
+  { title: "مجله نیلوفر", href: "/magazine" },
   { title: "پادکست", href: "/podcast" },
   { title: "گفتگوها", href: "/conversations" },
   { title: "چندرسانه", href: "/multimedia" },

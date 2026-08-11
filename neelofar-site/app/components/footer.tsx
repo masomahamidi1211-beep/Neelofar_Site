@@ -6,6 +6,7 @@ import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./brand-icons";
 const quickLinks = [
   { href: "/notes", label: "یادداشت‌ها" },
   { href: "/special", label: "ویژه‌نامه‌ها" },
+  { href: "/magazine", label: "مجله نیلوفر" },
   { href: "/podcast", label: "پادکست" },
   { href: "/conversations", label: "گفتگوها" },
   { href: "/multimedia", label: "چندرسانه" },
