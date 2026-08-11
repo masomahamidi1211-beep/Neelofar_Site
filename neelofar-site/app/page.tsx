@@ -36,8 +36,20 @@ const EDITORIAL_2_REGULAR_SLUGS: [string, string] = [
 // topically unrelated to الکسیویچ (it's about حسین فخری), so it isn't part
 // of that curated trio, just positioned immediately before it.
 const PRE_MOSAIC_WIDE_ROW_SLUG = "چرا-حسین-فخری-حافظهی-ادبیات-افغانستان-است";
-const MOSAIC_TEXT_SLUGS = ["الکسیویچخوانی-در-مزار", "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است"];
-const MOSAIC_CREAM_SLUG = "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند";
+const MOSAIC_SLUGS = [
+  "الکسیویچخوانی-در-مزار",
+  "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است",
+  "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند",
+];
+// The 16:9 photo-top crop is much shorter than the square crop these same
+// images use on the special-issue grid, so the shared frontmatter
+// imagePosition (tuned for the square crop) needs its own override here --
+// same rationale as POSTER_IMAGE_POSITION. zan-23's default top-biased crop
+// already works for both shapes, so it's left unset.
+const MOSAIC_IMAGE_POSITIONS: Record<string, string> = {
+  "الکسیویچخوانی-در-مزار": "50% 65%",
+  "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است": "50% 89%",
+};
 // Full-width WideRow pair (orders 14-15), replacing the old vertical
 // photo-top cards for these two.
 const WIDE_ROW_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی"];
@@ -65,7 +77,12 @@ function createSlugPicker() {
 
 function toBaru(
   article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">,
-  excerptBounds: [number, number] = [90, 160]
+  excerptBounds: [number, number] = [90, 160],
+  // Same idea as POSTER_IMAGE_POSITION below: a card's own imagePosition is
+  // shared with every other spot that image appears (the special-issue
+  // grid uses a square crop), so a homepage slot needing a different crop
+  // shape overrides it here instead of mutating the article's frontmatter.
+  imagePositionOverride?: string
 ): BaruArticle {
   return {
     slug: article.slug,
@@ -74,7 +91,7 @@ function toBaru(
     excerpt: longExcerptOf(article, excerptBounds[0], excerptBounds[1]),
     date: toPersianDigits(article.jalaliDate.replace(/-/g, "/")),
     image: article.image,
-    imagePosition: article.imagePosition,
+    imagePosition: imagePositionOverride ?? article.imagePosition,
     imageAlt: article.imageAlt,
   };
 }
@@ -143,8 +160,7 @@ export default function HomePage() {
   const editorial2 = resolveEditorialTrio(pickUnique, get, EDITORIAL_2_FEATURED_SLUG, EDITORIAL_2_REGULAR_SLUGS);
 
   const preMosaicWideRow = pickUnique([PRE_MOSAIC_WIDE_ROW_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
-  const mosaicText = pickUnique(MOSAIC_TEXT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
-  const mosaicCream = pickUnique([MOSAIC_CREAM_SLUG]).map(get).filter((a): a is Article => Boolean(a))[0];
+  const mosaic = pickUnique(MOSAIC_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const wideRows = pickUnique(WIDE_ROW_SLUGS).map(get).filter((a): a is Article => Boolean(a));
   const portrait = pickUnique(PORTRAIT_SLUGS).map(get).filter((a): a is Article => Boolean(a));
 
@@ -210,10 +226,13 @@ export default function HomePage() {
       {/* --- Section D: the main mosaic (orders 11-13) --- */}
       <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {mosaicText.map((a) => (
-            <ArticleBox key={a.slug} article={toBaru(a)} variant="text" />
+          {mosaic.map((a) => (
+            <ArticleBox
+              key={a.slug}
+              article={toBaru(a, [90, 160], MOSAIC_IMAGE_POSITIONS[a.slug])}
+              variant="photo-top"
+            />
           ))}
-          {mosaicCream && <ArticleBox article={toBaru(mosaicCream)} variant="cream" />}
         </StaggerGrid>
       </section>
 
