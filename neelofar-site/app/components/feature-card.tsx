@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CSSProperties } from "react";
+import { CardDoodle } from "./card-doodle";
 
 export type CardArticle = {
   slug: string;
@@ -55,7 +56,7 @@ export function FeatureCard({
           />
         </div>
       )}
-      <div className="hairline-cell flex flex-1 flex-col">
+      <div className="hairline-cell relative z-0 flex flex-1 flex-col">
         <p className="article-author text-sm text-[#6b6b6b]">{article.author}</p>
         <h3 className="article-title mt-1 max-w-2xl text-xl leading-snug transition duration-200 group-hover:text-[var(--accent)]">
           {article.title}
@@ -77,6 +78,7 @@ export function FeatureCard({
         <span className="mt-auto inline-block pt-3 text-sm font-semibold text-[var(--accent)]">
           ادامه‌ی مطلب ←
         </span>
+        <CardDoodle className="bottom-10 end-4" />
       </div>
     </Link>
   );

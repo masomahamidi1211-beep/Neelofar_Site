@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AuthorLine } from "./author-line";
+import { CardDoodle } from "./card-doodle";
 import { ReadMoreCircle } from "./read-more-circle";
 
 export type BaruArticle = {
@@ -74,11 +75,12 @@ export function ArticleBox({
         <div className={`overflow-hidden ${tone ? `${TONE_BG[tone]} p-3` : ""}`}>
           <BoxImage article={article} className={`w-full object-cover ${tone ? "aspect-[4/5]" : "aspect-[16/9]"}`} />
         </div>
-        <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <div className="relative z-0 flex flex-1 flex-col p-5 sm:p-6">
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
           <h3 className="article-title text-2xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] sm:text-3xl">{article.title}</h3>
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
           <p className="article-body justified-fa mt-4 flex-1 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
+          <CardDoodle className="bottom-4 end-4" />
         </div>
       </Link>
     );
@@ -140,7 +142,7 @@ export function ArticleBox({
   return (
     <Link
       href={href}
-      className={`article-box baru-focus group relative flex h-full flex-col p-5 sm:p-6 ${
+      className={`article-box baru-focus group relative z-0 flex h-full flex-col p-5 sm:p-6 ${
         variant === "cream" ? "bg-[var(--cream)]" : ""
       } ${className}`}
     >
@@ -148,6 +150,7 @@ export function ArticleBox({
       <AuthorLine author={article.author} className="mt-2" />
       <p className="article-body justified-fa mt-4 flex-1 pb-14 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
       <ReadMoreCircle className="absolute bottom-5 start-5" />
+      <CardDoodle className="bottom-4 end-4" />
     </Link>
   );
 }
