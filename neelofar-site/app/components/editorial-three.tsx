@@ -5,6 +5,8 @@ import StaggerGrid from "./stagger-grid";
 
 const DEFAULT_POSITION = "50% 20%";
 
+type DoodleSpec = { src: string; alt: string };
+
 /**
  * The homepage's three-column editorial block: one solid #f0f0f0 slab,
  * zero gaps, 1px #d4d4d4 hairlines between columns instead of individual
@@ -34,17 +36,17 @@ const DEFAULT_POSITION = "50% 20%";
 export function EditorialThree({
   featured,
   regular,
-  featuredDoodle = false,
+  featuredDoodle,
 }: {
   featured: BaruArticle;
   regular: [BaruArticle, BaruArticle];
-  /** Shows the small decorative flower mark in the featured column's
-   * corner -- opt-in per call site, not tied to the article itself. */
-  featuredDoodle?: boolean;
+  /** Shows a small decorative sticker in the featured column's corner --
+   * opt-in per call site, not tied to the article itself. */
+  featuredDoodle?: DoodleSpec;
 }) {
   return (
     <StaggerGrid className="grid grid-cols-1 divide-y divide-[#d4d4d4] bg-[#f0f0f0] sm:grid-cols-[1.5fr_1fr_1fr] sm:divide-x sm:divide-x-reverse sm:divide-y-0">
-      <Column article={featured} isFeatured showDoodle={featuredDoodle} />
+      <Column article={featured} isFeatured doodle={featuredDoodle} />
       <Column article={regular[0]} />
       <Column article={regular[1]} />
     </StaggerGrid>
@@ -54,11 +56,11 @@ export function EditorialThree({
 function Column({
   article,
   isFeatured = false,
-  showDoodle = false,
+  doodle,
 }: {
   article: BaruArticle;
   isFeatured?: boolean;
-  showDoodle?: boolean;
+  doodle?: DoodleSpec;
 }) {
   const href = `/notes/${article.slug}`;
 
@@ -89,7 +91,7 @@ function Column({
       >
         {article.excerpt} <span className="font-semibold whitespace-nowrap text-black">ادامه‌ی مطلب ←</span>
       </p>
-      {showDoodle && <CardDoodle className="bottom-4 end-4" />}
+      {doodle && <CardDoodle src={doodle.src} alt={doodle.alt} className="bottom-4 end-4" />}
     </Link>
   );
 }

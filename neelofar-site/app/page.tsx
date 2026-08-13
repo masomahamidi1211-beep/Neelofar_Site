@@ -23,11 +23,13 @@ const HERO_LIST_COUNT = 3;
 // covering orders 5-7 and 8-10 -- the rest of هشت گفتگو after the hero
 // list's first three rows.
 const EDITORIAL_1_FEATURED_SLUG = "تا-رسم-نابجا-را-بجا-کنیم";
+const EDITORIAL_1_FEATURED_DOODLE = { src: "/images/logo-05.png", alt: "نشان تزئینی" };
 const EDITORIAL_1_REGULAR_SLUGS: [string, string] = [
   "زندگی-در-جنگ-و-زندگی-در-فرار-از-جنگ",
   "خرمن-دشت-از-ما-گذشت",
 ];
 const EDITORIAL_2_FEATURED_SLUG = "لباس-پسرانه-میپوشیدم-و-عین-پسرها-رفتار-میکردم";
+const EDITORIAL_2_FEATURED_DOODLE = { src: "/images/logo-03.png", alt: "نشان تزئینی نیلوفر" };
 const EDITORIAL_2_REGULAR_SLUGS: [string, string] = [
   "بچیم-زن-زود-پیر-میشه",
   "از-نسلی-به-نسل-دیگر-و-از-جنگی-به-جنگ",
@@ -107,12 +109,12 @@ function EditorialSection({
   heading,
   featured,
   regular,
-  featuredDoodle = false,
+  featuredDoodle,
 }: {
   heading?: string;
   featured: Article;
   regular: [Article, Article];
-  featuredDoodle?: boolean;
+  featuredDoodle?: { src: string; alt: string };
 }) {
   return (
     <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -207,6 +209,7 @@ export default function HomePage() {
           heading="هشت گفتگو: هزار زندگی (ادامه)"
           featured={editorial1.featured}
           regular={editorial1.regular}
+          featuredDoodle={EDITORIAL_1_FEATURED_DOODLE}
         />
       )}
 
@@ -215,7 +218,11 @@ export default function HomePage() {
           هشت گفتگو section), and repeating the heading right below itself
           would read as a duplicate rather than distinct content. */}
       {editorial2 && (
-        <EditorialSection featured={editorial2.featured} regular={editorial2.regular} featuredDoodle />
+        <EditorialSection
+          featured={editorial2.featured}
+          regular={editorial2.regular}
+          featuredDoodle={EDITORIAL_2_FEATURED_DOODLE}
+        />
       )}
 
       {/* --- Wide row directly above Section D, same gray treatment as the

@@ -1,21 +1,29 @@
 /**
- * A hand-drawn flower mark that sits in a card's otherwise-empty bottom
- * corner -- the gap that appears under a short excerpt when CSS grid
- * stretches it to match a taller sibling in the same row. logo-03.png is
- * a pre-processed transparent cutout (see scripts note below) of the
- * original white-background scan, so it reads as a sticker placed
- * directly on the card rather than a small boxed photo -- no container
- * background/border/shadow here, full opacity, object-contain so the
- * whole illustration always shows uncropped. Purely decorative (the
- * whole card is already the link), hidden from the accessibility tree,
- * and hidden below sm: since single-column mobile cards size to their
- * own content and don't get stretched this way.
+ * A hand-drawn sticker mark that sits in a card's otherwise-empty corner --
+ * the gap that appears when CSS grid stretches a card to match a taller
+ * sibling in the same row, or the natural margin beside a shorter title.
+ * `src` points to a pre-processed transparent cutout of a white-background
+ * scan (luminance-to-alpha, cropped to the ink's bounding box), so it
+ * reads as a sticker placed directly on the card rather than a small boxed
+ * photo -- no container background/border/shadow here, full opacity,
+ * object-contain so the whole illustration always shows uncropped. Purely
+ * decorative (the whole card is already the link), hidden from the
+ * accessibility tree, and hidden below sm: since single-column mobile
+ * cards size to their own content and don't get stretched this way.
  */
-export function CardDoodle({ className = "" }: { className?: string }) {
+export function CardDoodle({
+  src = "/images/logo-03.png",
+  alt = "نشان تزئینی نیلوفر",
+  className = "",
+}: {
+  src?: string;
+  alt?: string;
+  className?: string;
+}) {
   return (
     <img
-      src="/images/logo-03.png"
-      alt="نشان تزئینی نیلوفر"
+      src={src}
+      alt={alt}
       aria-hidden="true"
       // -z-10 keeps it behind the card's own text: when an excerpt is long
       // enough to reach the corner after all, the (static-positioned, so
