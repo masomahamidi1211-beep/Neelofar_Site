@@ -48,7 +48,7 @@ const MOSAIC_SLUGS = [
 // already works for both shapes, so it's left unset.
 const MOSAIC_IMAGE_POSITIONS: Record<string, string> = {
   "الکسیویچخوانی-در-مزار": "50% 65%",
-  "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است": "50% 89%",
+  "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است": "50% 55%",
 };
 // Full-width WideRow pair (orders 14-15), replacing the old vertical
 // photo-top cards for these two.
