@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { BaruArticle } from "./article-box";
+import { CardDoodle } from "./card-doodle";
 import StaggerGrid from "./stagger-grid";
 
 const DEFAULT_POSITION = "50% 20%";
@@ -30,21 +31,39 @@ const DEFAULT_POSITION = "50% 20%";
  * gap is what keeps all three columns bottom-aligned despite the shared
  * photo height and differing title sizes.
  */
-export function EditorialThree({ featured, regular }: { featured: BaruArticle; regular: [BaruArticle, BaruArticle] }) {
+export function EditorialThree({
+  featured,
+  regular,
+  featuredDoodle = false,
+}: {
+  featured: BaruArticle;
+  regular: [BaruArticle, BaruArticle];
+  /** Shows the small decorative flower mark in the featured column's
+   * corner -- opt-in per call site, not tied to the article itself. */
+  featuredDoodle?: boolean;
+}) {
   return (
     <StaggerGrid className="grid grid-cols-1 divide-y divide-[#d4d4d4] bg-[#f0f0f0] sm:grid-cols-[1.5fr_1fr_1fr] sm:divide-x sm:divide-x-reverse sm:divide-y-0">
-      <Column article={featured} isFeatured />
+      <Column article={featured} isFeatured showDoodle={featuredDoodle} />
       <Column article={regular[0]} />
       <Column article={regular[1]} />
     </StaggerGrid>
   );
 }
 
-function Column({ article, isFeatured = false }: { article: BaruArticle; isFeatured?: boolean }) {
+function Column({
+  article,
+  isFeatured = false,
+  showDoodle = false,
+}: {
+  article: BaruArticle;
+  isFeatured?: boolean;
+  showDoodle?: boolean;
+}) {
   const href = `/notes/${article.slug}`;
 
   return (
-    <Link href={href} className="group flex flex-col p-6 sm:p-7">
+    <Link href={href} className="group relative z-0 flex flex-col p-6 sm:p-7">
       {article.image && (
         <div className="aspect-[3/2] w-full overflow-hidden sm:aspect-auto sm:h-[220px]">
           <img
@@ -70,6 +89,7 @@ function Column({ article, isFeatured = false }: { article: BaruArticle; isFeatu
       >
         {article.excerpt} <span className="font-semibold whitespace-nowrap text-black">ادامه‌ی مطلب ←</span>
       </p>
+      {showDoodle && <CardDoodle className="bottom-4 end-4" />}
     </Link>
   );
 }

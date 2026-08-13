@@ -107,10 +107,12 @@ function EditorialSection({
   heading,
   featured,
   regular,
+  featuredDoodle = false,
 }: {
   heading?: string;
   featured: Article;
   regular: [Article, Article];
+  featuredDoodle?: boolean;
 }) {
   return (
     <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -118,6 +120,7 @@ function EditorialSection({
       <EditorialThree
         featured={toBaru(featured, [90, 160])}
         regular={[toBaru(regular[0], [260, 440]), toBaru(regular[1], [260, 440])]}
+        featuredDoodle={featuredDoodle}
       />
     </section>
   );
@@ -211,7 +214,9 @@ export default function HomePage() {
       {/* No heading -- this is a direct continuation of Section B (same
           هشت گفتگو section), and repeating the heading right below itself
           would read as a duplicate rather than distinct content. */}
-      {editorial2 && <EditorialSection featured={editorial2.featured} regular={editorial2.regular} />}
+      {editorial2 && (
+        <EditorialSection featured={editorial2.featured} regular={editorial2.regular} featuredDoodle />
+      )}
 
       {/* --- Wide row directly above Section D, same gray treatment as the
           الکسیویچ wide rows below (Section D.5) --- */}
