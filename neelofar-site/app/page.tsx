@@ -46,11 +46,11 @@ const MOSAIC_SLUGS = [
 // The 16:9 photo-top crop is much shorter than the square crop these same
 // images use on the special-issue grid, so the shared frontmatter
 // imagePosition (tuned for the square crop) needs its own override here --
-// same rationale as POSTER_IMAGE_POSITION. zan-23's default top-biased crop
-// already works for both shapes, so it's left unset.
+// same rationale as POSTER_IMAGE_POSITION.
 const MOSAIC_IMAGE_POSITIONS: Record<string, string> = {
   "الکسیویچخوانی-در-مزار": "50% 65%",
   "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است": "50% 55%",
+  "افغانستان-بدون-الکسیویچ-و-ضرورت-ادبیات-مستند": "50% 24%",
 };
 // Full-width WideRow pair (orders 14-15), replacing the old vertical
 // photo-top cards for these two.
