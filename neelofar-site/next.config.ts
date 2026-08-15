@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
         destination: encodeURI("/notes/کوچهی-ما-تلاشی-برای-حفظ-زندگی-از-دسترفته"),
         permanent: true,
       },
+      // «لندی، مویه زنان پشتون است» removed from the site entirely --
+      // anyone who had the old URL bookmarked/shared lands on یادداشت‌ها
+      // instead of a dead 404.
+      {
+        source: encodeURI("/notes/لندی-مویه-زنان-پشتون-است"),
+        destination: "/notes",
+        permanent: true,
+      },
     ];
   },
 };

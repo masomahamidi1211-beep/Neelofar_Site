@@ -7,7 +7,7 @@ import { WideRow } from "./components/wide-row";
 import ScrollReveal from "./components/scroll-reveal";
 import StaggerGrid from "./components/stagger-grid";
 
-// The 18 articles of the ویژه‌نامه, curated once into sections below.
+// The 17 articles of the ویژه‌نامه, curated once into sections below.
 // Every slug appears in exactly one list -- pickUnique() (same per-render
 // safeguard used elsewhere on this site) enforces that at render time too.
 //
@@ -55,7 +55,7 @@ const MOSAIC_IMAGE_POSITIONS: Record<string, string> = {
 // Full-width WideRow pair (orders 14-15), replacing the old vertical
 // photo-top cards for these two.
 const WIDE_ROW_SLUGS = ["شاهکار-یا-دروغپردازی-گزارشی-درباب-حواشی-تاکتیکها-و", "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی"];
-const PORTRAIT_SLUGS = ["لندی-مویه-زنان-پشتون-است", "قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
+const PORTRAIT_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"];
 
 // Crop for the hero poster only -- deliberately not read from the سرسخن
 // article's own imagePosition, so this block can be tuned independently
@@ -259,15 +259,19 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* --- Section E: illustrated portrait row (orders 16-18) --- */}
+      {/* --- Section E: illustrated portrait row (orders 17-18) --- */}
+      {/* Two columns, not three -- لندی، مویه زنان پشتون است (the row's
+          original third piece) was deleted, and stretching this back to a
+          3-col grid would leave a permanent blank trailing cell instead of
+          just sizing the row to what's actually here. */}
       <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {portrait.map((a, i) => (
             <ArticleBox
               key={a.slug}
               article={toBaru(a)}
               variant="photo-top"
-              tone={i === 2 ? "cream" : "tan"}
+              tone={i % 2 === 0 ? "tan" : "cream"}
               authorFirst
             />
           ))}
