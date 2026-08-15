@@ -62,7 +62,7 @@ const PORTRAIT_SLUGS = ["قصهی-مریم-و-همباغش", "بیستو-پنج�
 // without touching that article, its page, or its card image anywhere
 // else on the site. Title/credit/excerpt are pulled from the article's
 // real data instead of hardcoded, so they can't drift out of sync with it.
-const POSTER_IMAGE_POSITION = "50% 10%";
+const POSTER_IMAGE_POSITION = "50% 60%";
 
 function createSlugPicker() {
   const used = new Set<string>();
