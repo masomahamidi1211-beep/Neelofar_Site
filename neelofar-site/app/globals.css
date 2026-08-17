@@ -247,6 +247,35 @@ blockquote {
   padding: 1.25rem 1.5rem;
 }
 
+/* A footnote sits right under the paragraph that references it (see
+   inlineFootnotes in content-server.ts), matching the source .docx's own
+   near-the-reference placement -- a thin rule standing in for the page
+   break Word would otherwise put between body text and the note, smaller
+   gray type starting with the note's own number. */
+.article-footnote {
+  margin: 0.75rem 0 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #6b6b6b;
+}
+
+/* Specificity has to clear .article-body's own [&_p]:mb-6 (a plain
+   ".article-body p" rule) since these are <p> tags too -- two classes
+   beats one class + one tag, so this wins regardless of source order. */
+.article-body .article-footnote-item {
+  margin-bottom: 0;
+}
+
+.article-body .article-footnote-item + .article-footnote-item {
+  margin-top: 0.4rem;
+}
+
+.article-footnote-back {
+  color: #6b6b6b;
+}
+
 .telegram-placeholder a {
   font-weight: 600;
 }

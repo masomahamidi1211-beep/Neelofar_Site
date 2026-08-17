@@ -5,6 +5,7 @@ import {
   getOtherArticlesByAuthor,
   getOtherArticlesInSameIssue,
   getSpecialIssueContainingArticle,
+  inlineFootnotes,
 } from "../../lib/content-server";
 import { formatJalaliDate, toPersianDigits } from "../../lib/date";
 import GiscusComments from "../../components/giscus-comments";
@@ -58,6 +59,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   // width. Compute the same condition here so the wrapper can drop the
   // grid entirely instead of rendering an empty second column.
   const hasSidebarContent = authorArticles.length > 0 || relatedArticles.length > 0;
+  // Matches the source .docx's own footnote placement (near the reference,
+  // divider line, smaller type) instead of bundling every note into one
+  // end-of-article list -- see inlineFootnotes for the full rationale.
+  const bodyWithFootnotes = inlineFootnotes(article.body, article.footnotes);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
@@ -89,24 +94,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
           <div
             className="article-body prose prose-neutral mt-10 max-w-none text-justify text-xl leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold"
-            dangerouslySetInnerHTML={{ __html: article.body }}
+            dangerouslySetInnerHTML={{ __html: bodyWithFootnotes }}
           />
-
-          {article.footnotes.length > 0 && (
-            <div className="mt-14 border-t border-[var(--hairline)] pt-8">
-              <h2 className="section-heading text-xl font-bold">پانوشت‌ها</h2>
-              <ol className="mt-4 space-y-2 text-base leading-7 text-[#4a4a4a]">
-                {article.footnotes.map((fn) => (
-                  <li key={fn.id} id={`fn-${fn.id}`}>
-                    {fn.text}{" "}
-                    <a href={`#fnref-${fn.id}`} className="text-sm text-[#6b6b6b]" aria-label="بازگشت به متن">
-                      ↩
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
 
           <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-[var(--hairline)] pt-6">
             <p className="text-base text-[#6b6b6b]">
