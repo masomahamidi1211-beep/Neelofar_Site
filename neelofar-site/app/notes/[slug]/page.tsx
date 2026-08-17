@@ -47,11 +47,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           .filter((a) => a.slug !== slug && a.author !== article.author)
           .slice(0, 4);
   const relatedHeading = issue ? "از متن‌های ویژه‌نامه" : "بیشتر بخوانید";
+  // Mirrors ArticleSidebar's own null-check: when it has nothing to render,
+  // the two-column grid still reserved a blank 3fr track for it, pinning
+  // the article to the 7fr side instead of letting it center in the full
+  // width. Compute the same condition here so the wrapper can drop the
+  // grid entirely instead of rendering an empty second column.
+  const hasSidebarContent = authorArticles.length > 0 || relatedArticles.length > 0;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[7fr_3fr] lg:gap-16">
-        <article className="min-w-0 max-w-[70ch]">
+      <div className={hasSidebarContent ? "grid grid-cols-1 gap-12 lg:grid-cols-[7fr_3fr] lg:gap-16" : ""}>
+        <article className={`min-w-0 max-w-[70ch] ${hasSidebarContent ? "" : "mx-auto"}`}>
           <h1 className="article-title text-4xl leading-[1.6] sm:text-5xl">{article.title}</h1>
           {article.subtitle && (
             <div className="article-author mt-3 space-y-1 text-lg text-[#6b6b6b]">
