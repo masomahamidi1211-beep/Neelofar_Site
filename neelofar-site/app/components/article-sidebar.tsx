@@ -61,7 +61,15 @@ export function ArticleSidebar({
   if (authorArticles.length === 0 && relatedArticles.length === 0) return null;
 
   return (
-    <aside className="mt-14 space-y-12 lg:mt-0">
+    // Sticky (desktop only) + self-start: a short sidebar sitting in a grid
+    // row next to a much longer article otherwise ends near the top and
+    // leaves a large trailing blank column as the reader scrolls past it.
+    // Pinning it near the header instead keeps it visibly filled the whole
+    // time it's still relevant, and it scrolls away normally once the
+    // article itself runs out. self-start is required for sticky to have
+    // room to move -- without it the grid item stretches to the row's full
+    // height by default, which cancels the sticky positioning entirely.
+    <aside className="mt-14 space-y-12 lg:sticky lg:top-[120px] lg:mt-0 lg:self-start">
       <SidebarList heading={`از متن‌های ${authorName}`} articles={authorArticles} />
       <SidebarList heading={relatedHeading} articles={relatedArticles} />
     </aside>

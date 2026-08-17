@@ -37,16 +37,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const authorArticles = getOtherArticlesByAuthor(article.author, slug);
   const issue = getSpecialIssueContainingArticle(slug);
   const issueRelated = getOtherArticlesInSameIssue(slug, 5);
-  // Falls back to a general "بیشتر بخوانید" pool (most recent other pieces,
-  // not by this same author -- that list is already covered above) when the
-  // article isn't part of any ویژه‌نامه.
+  // Falls back to a general "سایر یادداشت‌ها" pool (other pieces on the
+  // site, not by this same author -- that list is already covered above)
+  // when the article isn't part of any ویژه‌نامه. This is what keeps the
+  // sidebar from ever being genuinely empty for a standalone piece like
+  // «چرا حسین فخری...» or «کوچه‌ی ما...». Sized at 5 (not 4) so the sidebar
+  // carries a bit more content for long articles -- it still won't match a
+  // very long article's height 1:1, which is why the sidebar is sticky
+  // (see ArticleSidebar) rather than trying to pad it out further.
   const relatedArticles =
     issueRelated.length > 0
       ? issueRelated
       : getAllArticles()
           .filter((a) => a.slug !== slug && a.author !== article.author)
-          .slice(0, 4);
-  const relatedHeading = issue ? "از متن‌های ویژه‌نامه" : "بیشتر بخوانید";
+          .slice(0, 5);
+  const relatedHeading = issue ? "از متن‌های ویژه‌نامه" : "سایر یادداشت‌ها";
   // Mirrors ArticleSidebar's own null-check: when it has nothing to render,
   // the two-column grid still reserved a blank 3fr track for it, pinning
   // the article to the 7fr side instead of letting it center in the full
