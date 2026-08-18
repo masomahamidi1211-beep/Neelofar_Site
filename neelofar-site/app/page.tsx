@@ -110,17 +110,25 @@ function EditorialSection({
   featured,
   regular,
   featuredDoodle,
+  featuredImagePosition,
 }: {
   heading?: string;
   featured: Article;
   regular: [Article, Article];
   featuredDoodle?: { src: string; alt: string };
+  // Same rationale as POSTER_IMAGE_POSITION/MOSAIC_IMAGE_POSITIONS: the
+  // featured column's fixed h-[220px] desktop crop is much shorter than
+  // the square crop this same image uses elsewhere (یادداشت‌ها,
+  // ویژه‌نامه), so a card whose subject sits high in the frame needs its
+  // own override here instead of a compromise value that's wrong in both
+  // places.
+  featuredImagePosition?: string;
 }) {
   return (
     <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
       {heading && <h2 className="mb-3 text-3xl font-bold text-[var(--title)]">{heading}</h2>}
       <EditorialThree
-        featured={toBaru(featured, [90, 160])}
+        featured={toBaru(featured, [90, 160], featuredImagePosition)}
         regular={[toBaru(regular[0], [260, 440]), toBaru(regular[1], [260, 440])]}
         featuredDoodle={featuredDoodle}
       />
@@ -210,6 +218,7 @@ export default function HomePage() {
           featured={editorial1.featured}
           regular={editorial1.regular}
           featuredDoodle={EDITORIAL_1_FEATURED_DOODLE}
+          featuredImagePosition="50% 5%"
         />
       )}
 
