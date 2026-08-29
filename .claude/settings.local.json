@@ -3,7 +3,10 @@
     "allow": [
       "PowerShell(\\(Get-Content \"e:\\\\Web\\\\WLP website\\\\neelofar-site\\\\content\\\\articles\\\\قصهی-مریم-و-همباغش.md\" | Measure-Object -Line\\).Lines)",
       "PowerShell(node \"C:\\\\Users\\\\DELL\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\e--Web-WLP-website\\\\1cd0673d-e43b-4e73-b486-1cd33e221790\\\\scratchpad\\\\debug-slug.mjs\")",
-      "PowerShell(node \"C:\\\\Users\\\\DELL\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\e--Web-WLP-website\\\\1cd0673d-e43b-4e73-b486-1cd33e221790\\\\scratchpad\\\\debug-frontmatter.mjs\")"
+      "PowerShell(node \"C:\\\\Users\\\\DELL\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\e--Web-WLP-website\\\\1cd0673d-e43b-4e73-b486-1cd33e221790\\\\scratchpad\\\\debug-frontmatter.mjs\")",
+      "Bash(cp \"../zan 27.jpg\" \"public/images/madaran/zan-27.jpg\")",
+      "Bash(cp \"../zan 28.jpg\" \"public/images/madaran/zan-28.jpg\")",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

@@ -11,6 +11,7 @@ import { formatJalaliDate, toPersianDigits } from "../../lib/date";
 import GiscusComments from "../../components/giscus-comments";
 import { ArticleSidebar } from "../../components/article-sidebar";
 import { ShareIcons } from "../../components/share-icons";
+import ArticleBody from "../../components/article-body";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://neelofar-placeholder.example";
 
@@ -92,9 +93,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             />
           )}
 
-          <div
-            className="article-body prose prose-neutral mt-10 max-w-none text-justify text-xl leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold"
-            dangerouslySetInnerHTML={{ __html: bodyWithFootnotes }}
+          <ArticleBody
+            bodyHtml={bodyWithFootnotes}
+            footnotes={article.footnotes}
           />
 
           <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-[var(--hairline)] pt-6">

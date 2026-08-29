@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useState } from "react";
+import { Menu, Search, X } from "lucide-react";
 import Footer from "./footer";
 import PageFade from "./page-fade";
 
@@ -50,13 +51,19 @@ function useEnterExit(open: boolean, durationMs: number) {
 
   useEffect(() => {
     if (open) {
-      setMounted(true);
+      const mountTimeout = setTimeout(() => setMounted(true), 0);
       const raf = requestAnimationFrame(() => setVisible(true));
-      return () => cancelAnimationFrame(raf);
+      return () => {
+        clearTimeout(mountTimeout);
+        cancelAnimationFrame(raf);
+      };
     }
-    setVisible(false);
+    const hideRaf = requestAnimationFrame(() => setVisible(false));
     const timeout = setTimeout(() => setMounted(false), durationMs);
-    return () => clearTimeout(timeout);
+    return () => {
+      cancelAnimationFrame(hideRaf);
+      clearTimeout(timeout);
+    };
   }, [open, durationMs]);
 
   return { mounted, visible };
@@ -93,21 +100,24 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
-      <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]">
-        <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-6 sm:px-6 lg:h-[100px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-6 lg:px-0 lg:py-0">
-          <Link href="/" className="baru-focus flex shrink-0 items-center gap-2 sm:gap-3">
+      <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]/95 backdrop-blur-sm">
+        <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:h-[104px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-7 lg:px-0 lg:py-0">
+          <Link href="/" className="baru-focus flex shrink-0 items-center gap-2 sm:gap-3" aria-label="نیلوفر، صفحه اصلی">
             <Image src="/logo.png" alt="" width={48} height={48} priority className="h-9 w-9 sm:h-12 sm:w-12" />
-            <span className="text-[30px] font-bold text-black sm:text-[34px]">نیلوفر</span>
+            <span className="flex flex-col leading-none">
+              <span className="text-[28px] font-bold text-black sm:text-[34px]">نیلوفر</span>
+              <span className="mt-1 hidden text-[10px] font-medium tracking-wide text-[var(--muted)] sm:block">برنامه ادبیات جهان</span>
+            </span>
           </Link>
 
-          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-5 overflow-x-auto whitespace-nowrap lg:flex">
+          <nav aria-label="ناوبری اصلی" className="hidden min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto whitespace-nowrap lg:flex xl:gap-5">
             {navItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`baru-focus nav-underline pb-1 text-[16px] font-bold text-black ${
+                  className={`baru-focus nav-underline pb-1 text-[15px] font-bold text-black xl:text-[16px] ${
                     active ? "is-active" : ""
                   }`}
                 >
@@ -124,10 +134,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               className="baru-focus baru-link-hover text-[var(--ink)] transition duration-150"
               onClick={() => setSearchOpen(true)}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="7" />
-                <path d="m20 20-3.5-3.5" />
-              </svg>
+              <Search size={20} strokeWidth={1.75} />
             </button>
 
             <button
@@ -136,7 +143,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               className="baru-focus text-2xl lg:hidden"
               onClick={() => setMenuOpen(true)}
             >
-              ☰
+              <Menu size={24} strokeWidth={1.75} />
             </button>
           </div>
         </div>
@@ -241,7 +248,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                   className="baru-focus text-3xl"
                   onClick={() => setMenuOpen(false)}
                 >
-                  ✕
+                  <X size={28} strokeWidth={1.5} />
                 </button>
               </div>
               <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">

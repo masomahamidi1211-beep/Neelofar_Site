@@ -6,7 +6,7 @@ import { toPersianDigits } from "./date";
 
 const contentDir = path.join(process.cwd(), "content");
 
-export type Footnote = { id: string; text: string };
+export type Footnote = { id: string; text: string; title?: string; url?: string };
 
 export type Article = {
   slug: string;
@@ -127,45 +127,22 @@ export function longExcerptOf(article: Pick<Article, "body">, minWords = 140, ma
 }
 
 /**
- * Matches the source .docx's own footnote style -- a note sits near its
- * reference (traditionally, at the bottom of the page it's referenced on;
- * this site has no pages, so "the paragraph that references it" is the
- * practical equivalent), separated from body text by a thin rule, in
- * smaller gray type starting with its number. Replaces the old approach of
- * bundling every footnote into one list at the article's end.
- *
- * Only ever called at render time (app/notes/[slug]/page.tsx), never
- * stored back onto Article.body -- longExcerptOf's own <p> scan (above)
- * would otherwise pick up footnote text as if it were body prose.
+ * Replace the markdown footnote anchor with a mount point for the client
+ * popover. Keeping the article HTML intact means inline formatting around a
+ * marker continues to be handled by marked rather than a second parser.
  */
 export function inlineFootnotes(bodyHtml: string, footnotes: Footnote[]): string {
   if (footnotes.length === 0) return bodyHtml;
 
   const footnoteById = new Map(footnotes.map((fn) => [fn.id, fn]));
-  const seen = new Set<string>();
 
-  return bodyHtml.replace(/<p>([\s\S]*?)<\/p>/g, (paragraph, inner: string) => {
-    const ids = [...inner.matchAll(/id="fnref-(\d+)"/g)]
-      .map((m) => m[1])
-      .filter((id) => footnoteById.has(id) && !seen.has(id));
-    if (ids.length === 0) return paragraph;
-    ids.forEach((id) => seen.add(id));
-
-    // A paragraph can reference more than one footnote (شاهکار-یا-دروغپردازی
-    // has several with 2-3 refs apiece) -- those share a single divider and
-    // are listed underneath it rather than each getting its own, so dense
-    // reference spots don't stack multiple rules back to back.
-    const items = ids
-      .map((id) => {
-        const fn = footnoteById.get(id)!;
-        return (
-          `<p class="article-footnote-item" id="fn-${id}">${toPersianDigits(id)}. ${fn.text} ` +
-          `<a href="#fnref-${id}" class="article-footnote-back" aria-label="بازگشت به متن">↩</a></p>`
-        );
-      })
-      .join("");
-    return `${paragraph}<div class="article-footnote">${items}</div>`;
-  });
+  return bodyHtml.replace(
+    /<sup class="fn-ref"><a id="fnref-(\d+)" href="#fn-(\d+)">([\s\S]*?)<\/a><\/sup>/g,
+    (marker, id: string) =>
+      footnoteById.has(id)
+        ? `<span class="inline-footnote-placeholder" data-footnote-id="${id}" data-footnote-number="${toPersianDigits(id)}"></span>`
+        : marker
+  );
 }
 
 function articleFromFile(slug: string, fullPath: string): Article {
@@ -180,7 +157,14 @@ function articleFromFile(slug: string, fullPath: string): Article {
     section: data.section ?? "",
     order: typeof data.order === "number" ? data.order : 0,
     jalaliDate: normalizeDate(data.jalaliDate),
-    footnotes: Array.isArray(data.footnotes) ? data.footnotes : [],
+    footnotes: Array.isArray(data.footnotes)
+      ? data.footnotes.map((footnote) => ({
+          id: String(footnote.id),
+          text: String(footnote.text ?? ""),
+          ...(typeof footnote.title === "string" ? { title: footnote.title } : {}),
+          ...(typeof footnote.url === "string" ? { url: footnote.url } : {}),
+        }))
+      : [],
     body,
     wordCount,
     readingTimeMinutes: Math.max(1, Math.round(wordCount / 200)),

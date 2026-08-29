@@ -341,6 +341,44 @@ blockquote {
   color: var(--title);
 }
 
+.inline-footnote-popover::before,
+.inline-footnote-popover::after {
+  content: "";
+  position: absolute;
+  left: var(--footnote-arrow-left);
+  height: 0;
+  width: 0;
+  transform: translateX(-50%);
+}
+
+.inline-footnote-popover-below::before {
+  top: -9px;
+  border-right: 9px solid transparent;
+  border-bottom: 9px solid var(--line);
+  border-left: 9px solid transparent;
+}
+
+.inline-footnote-popover-below::after {
+  top: -8px;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--cream);
+  border-left: 8px solid transparent;
+}
+
+.inline-footnote-popover-above::before {
+  bottom: -9px;
+  border-top: 9px solid var(--line);
+  border-right: 9px solid transparent;
+  border-left: 9px solid transparent;
+}
+
+.inline-footnote-popover-above::after {
+  bottom: -8px;
+  border-top: 8px solid var(--cream);
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .read-more-circle {
     transition: none !important;
