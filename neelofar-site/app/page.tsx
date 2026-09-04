@@ -15,7 +15,7 @@ function toBaru(
     author: article.author,
     excerpt: longExcerptOf(article, excerptBounds[0], excerptBounds[1]),
     date: toPersianDigits(article.jalaliDate.replace(/-/g, "/")),
-    image: article.image,
+    image: "/images/zan-0.png", // Explicitly assign zan-0 sticker to hero
     imagePosition: imagePositionOverride ?? article.imagePosition,
     imageAlt: article.imageAlt,
   };
@@ -56,36 +56,17 @@ export default function HomePage() {
     <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-        {/* 1. TOP HERO: سرسخن (ZAN-0 ON THE LEFT SIDE) */}
+        {/* 1. TOP HERO: سرسخن */}
         {heroArticle && (
           <section className="border-b border-[#e5ded4] pb-10">
-            <div className="bg-[#f3ede2] p-6 md:p-8 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col md:flex-row items-center gap-8">
-              
-              {/* TEXT CONTENT (RIGHT SIDE IN RTL) */}
-              <div className="w-full md:w-7/12 flex-1">
-                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[#d8ccbc]">
-                  <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
-                    سرمقاله نیلوفر
-                  </span>
-                  <span className="text-xs text-[#786e65] font-sans">یادداشت نخست</span>
-                </div>
-                {/* Override imagePosition to 'none' so old article image is deleted/hidden */}
-                <WideRow article={toBaru(heroArticle, [220, 380], "none")} />
+            <div className="bg-[#f3ede2] p-6 md:p-8 rounded-xl border border-[#e2d8c9] shadow-sm">
+              <div className="flex items-center gap-3 mb-6 pb-3 border-b border-[#d8ccbc]">
+                <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
+                  سرمقاله نیلوفر
+                </span>
+                <span className="text-xs text-[#786e65] font-sans">یادداشت نخست</span>
               </div>
-
-              {/* NEW ZAN-0 STICKER IMAGE CONTAINER (LEFT SIDE IN RTL) */}
-              <div className="w-full md:w-5/12 flex justify-center items-center p-2 shrink-0">
-                <img
-                  src="/images/zan-0.png"
-                  alt="تصویر سرسخن - مادران و دختران"
-                  className="w-full max-w-[280px] md:max-w-[320px] h-auto object-contain
-                             filter drop-shadow-[0_0_4px_rgba(255,255,255,1)] 
-                             drop-shadow-[0_0_12px_rgba(255,255,255,0.95)] 
-                             drop-shadow-[0_10px_20px_rgba(42,36,33,0.15)]
-                             transform -rotate-1 hover:rotate-0 transition-all duration-300"
-                />
-              </div>
-
+              <WideRow article={toBaru(heroArticle, [220, 380])} />
             </div>
           </section>
         )}
