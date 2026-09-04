@@ -15,7 +15,7 @@ function toBaru(
     author: article.author,
     excerpt: longExcerptOf(article, excerptBounds[0], excerptBounds[1]),
     date: toPersianDigits(article.jalaliDate.replace(/-/g, "/")),
-    image: "/images/zan-0.png", // Explicitly assign zan-0 sticker to hero
+    image: article.image,
     imagePosition: imagePositionOverride ?? article.imagePosition,
     imageAlt: article.imageAlt,
   };
