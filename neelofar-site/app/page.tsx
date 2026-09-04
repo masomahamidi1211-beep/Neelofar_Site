@@ -6,7 +6,7 @@ import StaggerGrid from "./components/stagger-grid";
 
 function toBaru(
   article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">,
-  excerptBounds: [number, number] = [100, 200],
+  excerptBounds: [number, number] = [120, 240],
   imagePositionOverride?: string
 ): BaruArticle {
   return {
@@ -32,57 +32,109 @@ export default function HomePage() {
     });
   };
 
-  // 1. Hero Pin (سرسخن)
+  // 1. Primary Editorial Header (سرسخن)
   const heroArticle = findArticle("سرسخن", "کوچه‌ی ما", "کوچه ما");
 
-  // 2. Main Grid Pins
-  const pinArticles = [
-    findArticle("فخری"),
+  // 2. Lead Feature (حسین فخری)
+  const fakhriArticle = findArticle("فخری");
+
+  // 3. Cultural & Documentary Essays
+  const essayArticles = [
     findArticle("الکسیویچ‌خوانی"),
     findArticle("ضرورت"),
     findArticle("سلطان‌زاده", "سلطان‌ازده"),
     findArticle("شاه‌کار", "شاهکار", "تابوت‌های رویین"),
     findArticle("بامیان"),
+  ].filter((a): a is Article => Boolean(a));
+
+  // 4. Conversations & Voices (Foreign Authors & Local Stories)
+  const dialogueArticles = [
     findArticle("مریم"),
     findArticle("همل"),
     findArticle("سارا"),
   ].filter((a): a is Article => Boolean(a));
 
   return (
-    <div className="bg-[#f8f6f2] min-h-screen py-8 text-[#1c1917]">
-      <div className="max-w-[1400px] mx-auto px-4 space-y-8">
+    <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-        {/* FEATURED PIN: سرسخن */}
-        {heroArticle && (
-          <section className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#e7e5e4] hover:shadow-md transition-shadow duration-300">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="bg-[#1c1917] text-white text-xs font-bold px-3 py-1 rounded-full">
-                📌 سرسخن
-              </span>
-              <span className="text-xs text-[#78716c]">یادداشت ویژه</span>
+        {/* SECTION 1: HERO EDITORIAL (سرسخن + FEATURED PROFILE) */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch border-b border-[#e5ded4] pb-12">
+          
+          {/* Primary Editorial Block: سرسخن */}
+          {heroArticle && (
+            <div className="lg:col-span-7 bg-[#f3ede2] p-8 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-6 pb-3 border-b border-[#d8ccbc]">
+                  <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
+                    سرمقاله نیلوفر
+                  </span>
+                  <span className="text-xs text-[#786e65] font-sans">یادداشت نخست</span>
+                </div>
+                <WideRow article={toBaru(heroArticle, [200, 360])} />
+              </div>
             </div>
-            <WideRow article={toBaru(heroArticle, [180, 320])} />
-          </section>
-        )}
+          )}
 
-        {/* PINTEREST STAGGERED GRID */}
-        {pinArticles.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-6 pb-2 border-b border-[#e7e5e4]">
-              <h2 className="text-xl font-bold">پیشنهاد خواندن</h2>
-              <span className="text-xs text-[#78716c]">{pinArticles.length} مطلب</span>
+          {/* Lead Cultural Feature: حسین فخری */}
+          {fakhriArticle && (
+            <div className="lg:col-span-5 bg-white p-7 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="mb-4 pb-2 border-b border-[#e2d8c9]">
+                  <span className="text-xs font-sans font-bold text-[#8c2222] tracking-widest uppercase">
+                    پرونده ویژه ادبیات
+                  </span>
+                </div>
+                <ArticleBox article={toBaru(fakhriArticle, [130, 220])} variant="photo-top" />
+              </div>
+            </div>
+          )}
+
+        </section>
+
+        {/* SECTION 2: ESSAYS & TEACHER WRITINGS */}
+        {essayArticles.length > 0 && (
+          <section className="border-b border-[#e5ded4] pb-12">
+            <div className="flex items-center justify-between mb-8 pb-2 border-b-2 border-[#2a2421]">
+              <h2 className="text-xl font-bold tracking-tight">یادداشت‌ها و نوشتارها</h2>
+              <span className="text-xs font-sans text-[#786e65]">نقد، تحلیل و روایت</span>
             </div>
 
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-              {pinArticles.map((a, i) => (
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {essayArticles.map((a, i) => (
                 <div
                   key={a.slug}
-                  className="bg-white rounded-2xl overflow-hidden border border-[#e7e5e4] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 p-5"
+                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs hover:shadow-md transition-all duration-300"
                 >
                   <ArticleBox
                     article={toBaru(a, [90, 160])}
                     variant="photo-top"
                     tone={i % 2 === 0 ? "tan" : "cream"}
+                  />
+                </div>
+              ))}
+            </StaggerGrid>
+          </section>
+        )}
+
+        {/* SECTION 3: INTERNATIONAL DIALOGUES & PERSPECTIVES */}
+        {dialogueArticles.length > 0 && (
+          <section className="pb-12">
+            <div className="flex items-center justify-between mb-8 pb-2 border-b-2 border-[#2a2421]">
+              <h2 className="text-xl font-bold tracking-tight">گفتگوها و روایت‌های جهانی</h2>
+              <span className="text-xs font-sans text-[#786e65]">مصاحبه‌های اختصاصی</span>
+            </div>
+
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {dialogueArticles.map((a, i) => (
+                <div
+                  key={a.slug}
+                  className="bg-[#f3ede2] p-6 rounded-xl border border-[#e2d8c9] shadow-xs hover:shadow-md transition-all duration-300"
+                >
+                  <ArticleBox
+                    article={toBaru(a, [90, 160])}
+                    variant="photo-top"
+                    tone="tan"
                     authorFirst
                   />
                 </div>
