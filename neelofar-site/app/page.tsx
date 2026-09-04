@@ -32,10 +32,10 @@ export default function HomePage() {
     });
   };
 
-  // 1. Standalone Top Section (سرسخن ALONE)
+  // 1. Standalone Top Hero (سرسخن)
   const heroArticle = findArticle("سرسخن", "کوچه‌ی ما", "کوچه ما");
 
-  // 2. Upper 3 Grid Titles (Including حسین فخری)
+  // 2. Upper 3 Grid Titles
   const upperGridArticles = [
     findArticle("فخری"),
     findArticle("الکسیویچ‌خوانی"),
@@ -56,22 +56,40 @@ export default function HomePage() {
     <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-        {/* 1. TOP SECTION: سرسخن (ALONE AT THE TOP) */}
+        {/* 1. TOP HERO: سرسخن (ALONE AT TOP WITH STICKER) */}
         {heroArticle && (
           <section className="border-b border-[#e5ded4] pb-10">
-            <div className="bg-[#f3ede2] p-8 rounded-xl border border-[#e2d8c9] shadow-sm">
-              <div className="flex items-center gap-3 mb-6 pb-3 border-b border-[#d8ccbc]">
-                <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
-                  سرمقاله نیلوفر
-                </span>
-                <span className="text-xs text-[#786e65] font-sans">یادداشت نخست</span>
+            <div className="bg-[#f3ede2] p-6 md:p-8 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col md:flex-row items-center gap-8">
+              
+              {/* STICKER CONTAINER */}
+              <div className="w-full md:w-5/12 flex justify-center items-center p-2">
+                <img
+                  src="/images/zan-0.png"
+                  alt="مادران و دختران"
+                  className="w-full max-w-[300px] h-auto object-contain
+                             filter drop-shadow-[0_0_3px_rgba(255,255,255,1)] 
+                             drop-shadow-[0_0_10px_rgba(255,255,255,0.9)] 
+                             drop-shadow-[0_12px_24px_rgba(42,36,33,0.18)]
+                             transform -rotate-2 hover:rotate-0 transition-transform duration-300"
+                />
               </div>
-              <WideRow article={toBaru(heroArticle, [220, 380])} />
+
+              {/* TEXT CONTENT */}
+              <div className="w-full md:w-7/12">
+                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[#d8ccbc]">
+                  <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
+                    سرمقاله نیلوفر
+                  </span>
+                  <span className="text-xs text-[#786e65] font-sans">یادداشت نخست</span>
+                </div>
+                <WideRow article={toBaru(heroArticle, [220, 380])} />
+              </div>
+
             </div>
           </section>
         )}
 
-        {/* 2. UPPER SECTION: 3 CARDS */}
+        {/* 2. UPPER 3 GRID CARDS */}
         {upperGridArticles.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-8 pb-2 border-b-2 border-[#2a2421]">
@@ -109,7 +127,7 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* 4. LOWER SECTION: 3 CARDS */}
+        {/* 4. LOWER 3 GRID CARDS */}
         {lowerGridArticles.length > 0 && (
           <section className="pb-12">
             <div className="flex items-center justify-between mb-8 pb-2 border-b-2 border-[#2a2421]">
