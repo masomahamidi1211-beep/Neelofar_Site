@@ -6,7 +6,7 @@ import StaggerGrid from "./components/stagger-grid";
 
 function toBaru(
   article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">,
-  excerptBounds: [number, number] = [90, 160],
+  excerptBounds: [number, number] = [120, 240],
   imagePositionOverride?: string
 ): BaruArticle {
   return {
@@ -24,7 +24,6 @@ function toBaru(
 export default function HomePage() {
   const articles = getAllArticles();
 
-  // Helper function to match articles safely by title keywords
   const findArticle = (...keywords: string[]) => {
     return articles.find((a) => {
       if (!a || !a.title) return false;
@@ -33,87 +32,111 @@ export default function HomePage() {
     });
   };
 
-  // 1. چرا حسین فخری حافظه‌ی ادبیات افغانستان است؟
-  const heroArticle = findArticle("فخری");
+  // 1. First Article: سرسخن
+  const heroArticle = findArticle("سرسخن", "کوچه‌ی ما", "کوچه ما");
 
-  // 2. الکسیویچ‌خوانی در مزار
-  // 3. افغانستان بدون الکسیویچ و ضرورت «ادبیات مستند»
-  // 4. آیا آصف سلطان‌زاده الکسیویچ افغانستان است؟
-  const groupOne = [
+  // 2. Featured Focus: حسین فخری
+  const secondaryHero = findArticle("فخری");
+
+  // 3. Main Grid (3 Columns)
+  const mainGridArticles = [
     findArticle("الکسیویچ‌خوانی"),
     findArticle("ضرورت"),
     findArticle("سلطان‌زاده", "سلطان‌ازده"),
   ].filter((a): a is Article => Boolean(a));
 
-  // 5. شاه‌کار یا دروغ‌پردازی؟
-  // 6. یادداشت‌هایی از بامیان
-  const wideRows = [
+  // 4. Wide Feature Rows
+  const wideRowArticles = [
     findArticle("شاه‌کار", "شاهکار", "تابوت‌های رویین"),
     findArticle("بامیان"),
   ].filter((a): a is Article => Boolean(a));
 
-  // 7. قصه مریم
-  // 8. بیست و پنج سال در خدمت صداهای جنوب جهانی (یوتا هِمِل‌غایش)
-  // 9. گفتگو با سارا راخفوس
-  // 10. سرسخن / «کوچه‌ی ما»
-  const groupTwo = [
+  // 5. Interviews & Profiles Grid
+  const interviewArticles = [
     findArticle("مریم"),
     findArticle("همل"),
     findArticle("سارا"),
-    findArticle("کوچه‌ی ما", "کوچه ما", "سرسخن"),
   ].filter((a): a is Article => Boolean(a));
 
   return (
-    <div className="bg-[var(--bg)]">
-      {/* Hero Section: حسین فخری */}
+    <div className="bg-[var(--bg)] min-h-screen">
+      {/* SECTION 1: سرسخن (Top Hero Banner) */}
       {heroArticle && (
-        <section className="px-4 pt-10 sm:px-6 lg:px-8 lg:pt-14">
-          <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
-            <WideRow article={toBaru(heroArticle, [140, 260])} />
-          </StaggerGrid>
+        <section className="px-4 pt-8 pb-4 sm:px-6 lg:px-8 border-b border-[#e5e5e5]">
+          <div className="max-w-7xl mx-auto">
+            <span className="inline-block bg-[#1a1a1a] text-white text-xs font-bold px-3 py-1 mb-4 rounded-sm tracking-wider">
+              سرسخن
+            </span>
+            <StaggerGrid className="bg-[#fcfbf9] p-6 lg:p-10 border border-[#e0dad1] shadow-sm rounded-lg">
+              <WideRow article={toBaru(heroArticle, [160, 300])} />
+            </StaggerGrid>
+          </div>
         </section>
       )}
 
-      {/* Grid 1: الکسیویچ‌خوانی, ضرورت ادبیات مستند, آصف سلطان‌زاده */}
-      {groupOne.length > 0 && (
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {groupOne.map((a) => (
-              <ArticleBox
-                key={a.slug}
-                article={toBaru(a, [90, 160])}
-                variant="photo-top"
-              />
-            ))}
-          </StaggerGrid>
+      {/* SECTION 2: چرا حسین فخری ... */}
+      {secondaryHero && (
+        <section className="px-4 py-8 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f5f3ef] rounded-md overflow-hidden border border-[#e0dad1]">
+              <WideRow article={toBaru(secondaryHero, [140, 260])} />
+            </StaggerGrid>
+          </div>
         </section>
       )}
 
-      {/* Wide Rows: شاهکار / تابوت‌های رویین + یادداشت‌هایی از بامیان */}
-      {wideRows.length > 0 && (
-        <section className="px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
-          <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
-            {wideRows.map((a) => (
-              <WideRow key={a.slug} article={toBaru(a, [90, 160])} />
-            ))}
-          </StaggerGrid>
+      {/* SECTION 3: 3-Column Literary Analysis Grid */}
+      {mainGridArticles.length > 0 && (
+        <section className="px-4 py-10 sm:px-6 lg:px-8 bg-[#fdfdfd]">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-xl font-bold mb-6 pb-2 border-b-2 border-[#1a1a1a] w-fit">
+              ادبیات و نقد
+            </h2>
+            <StaggerGrid className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              {mainGridArticles.map((a) => (
+                <ArticleBox
+                  key={a.slug}
+                  article={toBaru(a, [90, 150])}
+                  variant="photo-top"
+                />
+              ))}
+            </StaggerGrid>
+          </div>
         </section>
       )}
 
-      {/* Grid 2: قصه مریم, گفتگو با همِل‌غایش, گفتگو با سارا راخفوس, سرسخن / کوچه‌ی ما */}
-      {groupTwo.length > 0 && (
-        <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <StaggerGrid className={`grid grid-cols-1 gap-4 ${groupTwo.length === 4 ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
-            {groupTwo.map((a, i) => (
-              <ArticleBox
-                key={a.slug}
-                article={toBaru(a)}
-                variant="photo-top"
-                tone={i % 2 === 0 ? "tan" : "cream"}
-                authorFirst
-              />
-            ))}
-          </StaggerGrid>
+      {/* SECTION 4: Wide Highlight Rows */}
+      {wideRowArticles.length > 0 && (
+        <section className="px-4 py-10 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f5f3ef] rounded-md overflow-hidden border border-[#e0dad1]">
+              {wideRowArticles.map((a) => (
+                <WideRow key={a.slug} article={toBaru(a, [100, 180])} />
+              ))}
+            </StaggerGrid>
+          </div>
+        </section>
+      )}
+
+      {/* SECTION 5: Interviews & Narratives */}
+      {interviewArticles.length > 0 && (
+        <section className="px-4 py-12 sm:px-6 lg:px-8 bg-[#f9f8f6] border-t border-[#e5e5e5]">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-xl font-bold mb-6 pb-2 border-b-2 border-[#1a1a1a] w-fit">
+              گفتگوها و روایت‌ها
+            </h2>
+            <StaggerGrid className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              {interviewArticles.map((a, i) => (
+                <ArticleBox
+                  key={a.slug}
+                  article={toBaru(a, [90, 160])}
+                  variant="photo-top"
+                  tone={i % 2 === 0 ? "tan" : "cream"}
+                  authorFirst
+                />
+              ))}
+            </StaggerGrid>
+          </div>
         </section>
       )}
     </div>
