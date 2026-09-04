@@ -6,8 +6,7 @@ import StaggerGrid from "./components/stagger-grid";
 
 function toBaru(
   article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">,
-  excerptBounds: [number, number] = [120, 240],
-  imagePositionOverride?: string
+  excerptBounds: [number, number] = [120, 240]
 ): BaruArticle {
   return {
     slug: article.slug,
@@ -16,7 +15,7 @@ function toBaru(
     excerpt: longExcerptOf(article, excerptBounds[0], excerptBounds[1]),
     date: toPersianDigits(article.jalaliDate.replace(/-/g, "/")),
     image: article.image,
-    imagePosition: imagePositionOverride ?? article.imagePosition,
+    imagePosition: article.imagePosition,
     imageAlt: article.imageAlt,
   };
 }
@@ -52,78 +51,72 @@ export default function HomePage() {
   ].filter((a): a is Article => Boolean(a));
 
   return (
-    <div className="bg-[#faf8f5] text-[#1c1917] min-h-screen">
-      {/* 1. HERO: سرسخن */}
-      {heroArticle && (
-        <section className="max-w-6xl mx-auto px-4 pt-10 pb-8 border-b border-[#e7e5e4]">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="h-2 w-2 rounded-full bg-[#991b1b]" />
-            <h2 className="text-sm tracking-widest font-bold uppercase text-[#78716c]">سرسخن</h2>
-          </div>
-          <div className="bg-white p-8 md:p-12 rounded-xl shadow-sm border border-[#e7e5e4]">
-            <WideRow article={toBaru(heroArticle, [180, 320])} />
-          </div>
-        </section>
-      )}
+    <div className="bg-[#fbf9f5] min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-4 space-y-12">
+        {/* 1. سرسخن */}
+        {heroArticle && (
+          <section className="bg-[#f4efe6] border-2 border-[#1c1917] p-8 md:p-10 shadow-[4px_4px_0px_0px_rgba(28,25,23,1)]">
+            <span className="bg-[#1c1917] text-white text-xs font-bold px-3 py-1 uppercase tracking-widest inline-block mb-4">
+              سرسخن
+            </span>
+            <WideRow article={toBaru(heroArticle, [200, 350])} />
+          </section>
+        )}
 
-      {/* 2. FEATURED: حسین فخری */}
-      {secondaryHero && (
-        <section className="max-w-6xl mx-auto px-4 py-12 border-b border-[#e7e5e4]">
-          <div className="bg-[#f5f2eb] p-6 md:p-8 rounded-xl border border-[#e7e5e4]">
+        {/* 2. حسین فخری */}
+        {secondaryHero && (
+          <section className="border-t border-b border-[#d6d3d1] py-8">
             <WideRow article={toBaru(secondaryHero, [140, 260])} />
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      {/* 3. ESSAYS & CRITICISM */}
-      {groupOne.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 py-14">
-          <div className="flex items-center justify-between mb-8 pb-3 border-b-2 border-[#1c1917]">
-            <h3 className="text-2xl font-bold font-serif">ادبیات و نقد</h3>
-            <span className="text-xs text-[#78716c]">گزیده نوشتارها</span>
-          </div>
-          <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {groupOne.map((a) => (
-              <ArticleBox key={a.slug} article={toBaru(a, [100, 160])} variant="photo-top" />
-            ))}
-          </StaggerGrid>
-        </section>
-      )}
-
-      {/* 4. LONG READS */}
-      {wideRows.length > 0 && (
-        <section className="bg-[#f0ebe1] py-14 border-y border-[#e7e5e4]">
-          <div className="max-w-6xl mx-auto px-4">
-            <StaggerGrid className="space-y-6">
-              {wideRows.map((a) => (
-                <div key={a.slug} className="bg-white p-6 rounded-lg shadow-sm">
-                  <WideRow article={toBaru(a, [100, 180])} />
+        {/* 3. نقد و ادبیات */}
+        {groupOne.length > 0 && (
+          <section>
+            <h2 className="text-xl font-bold mb-6 text-center border-b border-[#d6d3d1] pb-3">
+              — یادداشت‌ها و بررسی‌ها —
+            </h2>
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {groupOne.map((a) => (
+                <div key={a.slug} className="bg-white border border-[#e7e5e4] p-4 shadow-sm">
+                  <ArticleBox article={toBaru(a, [90, 150])} variant="photo-top" />
                 </div>
               ))}
             </StaggerGrid>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      {/* 5. INTERVIEWS */}
-      {groupTwo.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 py-16">
-          <div className="flex items-center justify-between mb-8 pb-3 border-b-2 border-[#1c1917]">
-            <h3 className="text-2xl font-bold font-serif">گفتگوها و روایت‌ها</h3>
-          </div>
-          <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {groupTwo.map((a, i) => (
-              <ArticleBox
-                key={a.slug}
-                article={toBaru(a)}
-                variant="photo-top"
-                tone={i % 2 === 0 ? "tan" : "cream"}
-                authorFirst
-              />
+        {/* 4. یادداشت‌های بامیان / شاهکار */}
+        {wideRows.length > 0 && (
+          <section className="space-y-6">
+            {wideRows.map((a) => (
+              <div key={a.slug} className="bg-[#f4efe6] border border-[#d6d3d1] p-6">
+                <WideRow article={toBaru(a, [100, 180])} />
+              </div>
             ))}
-          </StaggerGrid>
-        </section>
-      )}
+          </section>
+        )}
+
+        {/* 5. گفتگوها */}
+        {groupTwo.length > 0 && (
+          <section>
+            <h2 className="text-xl font-bold mb-6 text-center border-b border-[#d6d3d1] pb-3">
+              — گفتگوها —
+            </h2>
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {groupTwo.map((a, i) => (
+                <ArticleBox
+                  key={a.slug}
+                  article={toBaru(a)}
+                  variant="photo-top"
+                  tone={i % 2 === 0 ? "tan" : "cream"}
+                  authorFirst
+                />
+              ))}
+            </StaggerGrid>
+          </section>
+        )}
+      </div>
     </div>
   );
 }
