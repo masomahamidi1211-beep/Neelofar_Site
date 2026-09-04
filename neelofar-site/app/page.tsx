@@ -24,48 +24,59 @@ function toBaru(
 export default function HomePage() {
   const articles = getAllArticles();
 
-  // Helper function to find article by matching part of the title
-  const findByTitle = (keyword: string) =>
-    articles.find((a) => a.title && a.title.includes(keyword));
+  // Flexible title finder that ignores special quotes and extra spaces
+  const findArticle = (...keywords: string[]) => {
+    return articles.find((a) => {
+      if (!a || !a.title) return false;
+      const cleanTitle = a.title.replace(/['"«»]/g, "");
+      return keywords.some((kw) => cleanTitle.includes(kw));
+    });
+  };
 
   // 1. فخری
-  const preMosaicWideRow = findByTitle("فخری");
+  const preMosaicWideRow = findArticle("فخری");
 
-  // 2. الکسیویچ‌خوانی در مزار, 3. آصف سلطان‌زاده, 4. شاهکار
+  // 2. الکسیویچ‌خوانی در مزار | 3. آصف سلطان‌زاده | 4. شاهکار
   const mosaic = [
-    findByTitle("الکسیویچ"),
-    findByTitle("سلطان‌زاده"),
-    findByTitle("شاهکار"),
+    findArticle("الکسیویچ"),
+    findArticle("سلطان‌زاده", "سلطان‌ازده"),
+    findArticle("شاهکار"),
   ].filter((a): a is Article => Boolean(a));
 
   // 5. یادداشت‌هایی از بامیان
   const wideRows = [
-    findByTitle("بامیان"),
+    findArticle("بامیان"),
   ].filter((a): a is Article => Boolean(a));
 
-  // 6. قصه مریم, 7. گفتگو با همل‌غایش, 8. گفتگو با سارا راخفوس
+  // 6. قصه مریم | 7. گفتگو با همل‌غایش | 8. گفتگو با سارا راخفوس
   const portrait = [
-    findByTitle("مریم"),
-    findByTitle("همل"),
-    findByTitle("سارا"),
+    findArticle("مریم"),
+    findArticle("همل"),
+    findArticle("سارا"),
   ].filter((a): a is Article => Boolean(a));
+
+  // Fallback: If title search fails, display the first 8 articles directly
+  const displayMosaic = mosaic.length > 0 ? mosaic : articles.slice(1, 4);
+  const displayWideRows = wideRows.length > 0 ? wideRows : articles.slice(4, 5);
+  const displayPortrait = portrait.length > 0 ? portrait : articles.slice(5, 8);
+  const displayHero = preMosaicWideRow || articles[0];
 
   return (
     <div className="bg-[var(--bg)]">
-      {/* 1. حسین فخری */}
-      {preMosaicWideRow && (
+      {/* 1. فخری */}
+      {displayHero && (
         <section className="px-4 pt-10 sm:px-6 lg:px-8 lg:pt-14">
           <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
-            <WideRow article={toBaru(preMosaicWideRow, [140, 260])} />
+            <WideRow article={toBaru(displayHero, [140, 260])} />
           </StaggerGrid>
         </section>
       )}
 
-      {/* 2. الکسیویچ‌خوانی در مزار | 3. آصف سلطان‌زاده | 4. شاهکار */}
-      {mosaic.length > 0 && (
+      {/* 2. الکسیویچ‌خوانی | 3. آصف سلطان‌زاده | 4. شاهکار */}
+      {displayMosaic.length > 0 && (
         <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {mosaic.map((a) => (
+            {displayMosaic.map((a) => (
               <ArticleBox
                 key={a.slug}
                 article={toBaru(a, [90, 160])}
@@ -77,10 +88,10 @@ export default function HomePage() {
       )}
 
       {/* 5. یادداشت‌هایی از بامیان */}
-      {wideRows.length > 0 && (
+      {displayWideRows.length > 0 && (
         <section className="px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
           <StaggerGrid className="divide-y divide-[#d4d4d4] bg-[#f0f0f0]">
-            {wideRows.map((a) => (
+            {displayWideRows.map((a) => (
               <WideRow key={a.slug} article={toBaru(a, [90, 160])} />
             ))}
           </StaggerGrid>
@@ -88,10 +99,10 @@ export default function HomePage() {
       )}
 
       {/* 6. قصه مریم | 7. گفتگو با همل‌غایش | 8. گفتگو با سارا راخفوس */}
-      {portrait.length > 0 && (
+      {displayPortrait.length > 0 && (
         <section className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
           <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {portrait.map((a, i) => (
+            {displayPortrait.map((a, i) => (
               <ArticleBox
                 key={a.slug}
                 article={toBaru(a)}
