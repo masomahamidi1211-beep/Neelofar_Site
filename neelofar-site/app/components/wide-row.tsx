@@ -3,8 +3,9 @@ import Link from "next/link";
 import type { BaruArticle } from "./article-box";
 
 export function WideRow({ article }: { article: BaruArticle }) {
-  // Use zan-0.png as the main image for the hero
-  const imageSrc = article.image && article.image !== "none" ? article.image : "/images/zan-0.png";
+  // If this is the hero article (سرسخن), use zan-0.png
+  const isHero = article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
+  const imageSrc = isHero ? "/images/zan-0.png" : article.image;
 
   return (
     <div className="flex flex-col md:flex-row items-center gap-8 w-full">
@@ -30,7 +31,7 @@ export function WideRow({ article }: { article: BaruArticle }) {
       {/* 2. STICKER IMAGE CONTAINER (LEFT SIDE IN RTL) */}
       <div className="w-full md:w-5/12 flex justify-center items-center p-2 shrink-0 order-2 md:order-2">
         <img
-          src="/images/zan-0.png"
+          src={imageSrc || "/images/zan-0.png"}
           alt={article.imageAlt || article.title}
           className="w-full max-w-[280px] md:max-w-[320px] h-auto object-contain
                      filter drop-shadow-[0_0_4px_rgba(255,255,255,1)] 
