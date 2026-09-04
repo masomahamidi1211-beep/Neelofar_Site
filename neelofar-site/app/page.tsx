@@ -56,12 +56,24 @@ export default function HomePage() {
     <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-        {/* 1. TOP HERO: سرسخن (WITH NEW ZAN-0 STICKER) */}
+        {/* 1. TOP HERO: سرسخن (ZAN-0 ON THE LEFT SIDE) */}
         {heroArticle && (
           <section className="border-b border-[#e5ded4] pb-10">
             <div className="bg-[#f3ede2] p-6 md:p-8 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col md:flex-row items-center gap-8">
               
-              {/* STICKER CONTAINER FOR ZAN-0 */}
+              {/* TEXT CONTENT (RIGHT SIDE IN RTL) */}
+              <div className="w-full md:w-7/12 flex-1">
+                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[#d8ccbc]">
+                  <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
+                    سرمقاله نیلوفر
+                  </span>
+                  <span className="text-xs text-[#786e65] font-sans">یادداشت نخست</span>
+                </div>
+                {/* Override imagePosition to 'none' so old article image is deleted/hidden */}
+                <WideRow article={toBaru(heroArticle, [220, 380], "none")} />
+              </div>
+
+              {/* NEW ZAN-0 STICKER IMAGE CONTAINER (LEFT SIDE IN RTL) */}
               <div className="w-full md:w-5/12 flex justify-center items-center p-2 shrink-0">
                 <img
                   src="/images/zan-0.png"
@@ -72,17 +84,6 @@ export default function HomePage() {
                              drop-shadow-[0_10px_20px_rgba(42,36,33,0.15)]
                              transform -rotate-1 hover:rotate-0 transition-all duration-300"
                 />
-              </div>
-
-              {/* TEXT CONTENT */}
-              <div className="w-full md:w-7/12 flex-1">
-                <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[#d8ccbc]">
-                  <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
-                    سرمقاله نیلوفر
-                  </span>
-                  <span className="text-xs text-[#786e65] font-sans">یادداشت نخست</span>
-                </div>
-                <WideRow article={toBaru(heroArticle, [220, 380])} />
               </div>
 
             </div>
