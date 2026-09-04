@@ -6,7 +6,7 @@ import StaggerGrid from "./components/stagger-grid";
 
 function toBaru(
   article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">,
-  excerptBounds: [number, number] = [100, 200],
+  excerptBounds: [number, number] = [120, 240],
   imagePositionOverride?: string
 ): BaruArticle {
   return {
@@ -32,20 +32,25 @@ export default function HomePage() {
     });
   };
 
+  // 1. Core Editorial (سرسخن)
   const heroArticle = findArticle("سرسخن", "کوچه‌ی ما", "کوچه ما");
-  const fakhriArticle = findArticle("فخری");
+  // 2. Lead Feature (حسین فخری)
+  const leadFeature = findArticle("فخری");
 
-  const sideArticles = [
+  // 3. Cultural & Literary Analysis Group
+  const analysisArticles = [
     findArticle("الکسیویچ‌خوانی"),
     findArticle("ضرورت"),
+    findArticle("سلطان‌زاده", "سلطان‌ازده"),
   ].filter((a): a is Article => Boolean(a));
 
-  const mainGridArticles = [
-    findArticle("سلطان‌زاده", "سلطان‌ازده"),
+  // 4. In-Depth Essays & Reports
+  const deepDiveArticles = [
     findArticle("شاه‌کار", "شاهکار", "تابوت‌های رویین"),
     findArticle("بامیان"),
   ].filter((a): a is Article => Boolean(a));
 
+  // 5. High-Profile Interviews
   const interviewArticles = [
     findArticle("مریم"),
     findArticle("همل"),
@@ -53,75 +58,87 @@ export default function HomePage() {
   ].filter((a): a is Article => Boolean(a));
 
   return (
-    <div className="bg-[#fcfaf7] min-h-screen text-[#1a1a1a]">
-      <div className="max-w-[1340px] mx-auto px-4 py-6 space-y-10">
-        
-        {/* TOP EDITORIAL GRID: سرسخن + Fakhri + Quick Sidebar */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch border-b border-[#e2ddd5] pb-10">
-          
-          {/* Main Hero Block: سرسخن (7 Columns) */}
-          {heroArticle && (
-            <div className="lg:col-span-7 bg-[#f4eee4] p-6 lg:p-8 rounded-lg border border-[#e0dad0] shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="bg-[#1a1a1a] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-xs tracking-wider">
-                    سرسخن
-                  </span>
-                  <span className="text-xs text-[#756f66] font-medium">سرمقاله شماره تازه</span>
-                </div>
-                <WideRow article={toBaru(heroArticle, [200, 360])} />
-              </div>
-            </div>
-          )}
+    <div className="bg-[#fcfaf7] min-h-screen text-[#1a1a1a] font-serif">
+      <div className="max-w-[1380px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-          {/* Secondary Hero: چرا حسین فخری... (5 Columns) */}
-          {fakhriArticle && (
-            <div className="lg:col-span-5 bg-white p-6 rounded-lg border border-[#e0dad0] shadow-sm flex flex-col justify-between">
-              <div>
-                <span className="text-xs font-bold text-[#8c2222] tracking-wider uppercase mb-2 inline-block">
-                  پرونده ویژه
-                </span>
-                <ArticleBox article={toBaru(fakhriArticle, [120, 220])} variant="photo-top" />
+        {/* SECTION 1: EDITORIAL HEADER & DUAL HERO */}
+        <section className="border-b-2 border-[#1a1a1a] pb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            {/* Primary Hero: سرسخن */}
+            {heroArticle && (
+              <div className="lg:col-span-7 bg-[#f2ebd9] p-8 md:p-10 rounded-sm border-r-4 border-[#1a1a1a] flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-6 pb-2 border-b border-[#d8d0c0]">
+                    <span className="bg-[#1a1a1a] text-[#fcfaf7] text-xs font-sans font-bold px-3 py-1 tracking-widest uppercase">
+                      سرسخن / یادداشت نخست
+                    </span>
+                    <span className="text-xs text-[#666055] font-sans">شماره جدید</span>
+                  </div>
+                  <WideRow article={toBaru(heroArticle, [220, 380])} />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+
+            {/* Secondary Hero: چرا حسین فخری... */}
+            {leadFeature && (
+              <div className="lg:col-span-5 bg-white p-8 rounded-sm border border-[#e2ddd5] flex flex-col justify-between">
+                <div>
+                  <div className="mb-4">
+                    <span className="text-xs font-sans font-bold text-[#8c2222] tracking-widest uppercase border-b-2 border-[#8c2222] pb-0.5">
+                      پرونده ادبی
+                    </span>
+                  </div>
+                  <ArticleBox article={toBaru(leadFeature, [140, 240])} variant="photo-top" />
+                </div>
+              </div>
+            )}
+
+          </div>
         </section>
 
-        {/* MID SECTION: 2-Column Side & 3-Column Main Grid */}
-        {sideArticles.length > 0 && (
-          <section className="border-b border-[#e2ddd5] pb-10">
-            <div className="flex items-center justify-between mb-6 pb-2 border-b-2 border-[#1a1a1a]">
-              <h2 className="text-lg font-extrabold tracking-wide">ادبیات مستند و نقد</h2>
-              <span className="text-xs text-[#756f66]">مرور یادداشت‌ها</span>
+        {/* SECTION 2: THREE-COLUMN LITERATURE & ESSAYS */}
+        {analysisArticles.length > 0 && (
+          <section className="border-b border-[#e2ddd5] pb-12">
+            <div className="flex items-center justify-between mb-8 pb-2 border-b border-[#1a1a1a]">
+              <h2 className="text-xl font-bold tracking-tight">نقد، تحلیل و ادبیات مستند</h2>
+              <span className="text-xs font-sans text-[#756f66]">مرور و بررسی</span>
             </div>
-            
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-              {sideArticles.map((a) => (
-                <div key={a.slug} className="lg:col-span-2 bg-[#f6f2eb] p-5 rounded-md border border-[#e5dfd5]">
-                  <ArticleBox article={toBaru(a, [110, 190])} variant="photo-top" />
-                </div>
-              ))}
-              
-              {mainGridArticles.map((a) => (
-                <div key={a.slug} className="lg:col-span-1 bg-white p-4 rounded-md border border-[#e5dfd5]">
-                  <ArticleBox article={toBaru(a, [80, 140])} variant="photo-top" tone="cream" />
+
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x md:divide-x-reverse divide-[#e2ddd5]">
+              {analysisArticles.map((a, idx) => (
+                <div key={a.slug} className={idx !== 0 ? "pt-6 md:pt-0 md:pr-8" : ""}>
+                  <ArticleBox article={toBaru(a, [100, 170])} variant="photo-top" tone="cream" />
                 </div>
               ))}
             </StaggerGrid>
           </section>
         )}
 
-        {/* BOTTOM SECTION: 3-Column Interview Row */}
+        {/* SECTION 3: FEATURED DEEP DIVES (WIDE SPLIT) */}
+        {deepDiveArticles.length > 0 && (
+          <section className="border-b border-[#e2ddd5] pb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {deepDiveArticles.map((a) => (
+                <div key={a.slug} className="bg-[#f6f2eb] p-6 rounded-sm border border-[#e5dfd5]">
+                  <WideRow article={toBaru(a, [120, 200])} />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* SECTION 4: INTERVIEWS & DIALOGUES */}
         {interviewArticles.length > 0 && (
           <section className="pb-12">
-            <div className="flex items-center justify-between mb-6 pb-2 border-b-2 border-[#1a1a1a]">
-              <h2 className="text-lg font-extrabold tracking-wide">گفتگوها و روایت‌های دیداری</h2>
-              <span className="text-xs text-[#756f66]">مصاحبه اختصاصی</span>
+            <div className="flex items-center justify-between mb-8 pb-2 border-b border-[#1a1a1a]">
+              <h2 className="text-xl font-bold tracking-tight">گفتگوهای اختصاصی</h2>
+              <span className="text-xs font-sans text-[#756f66]">گفتگو و روایت</span>
             </div>
 
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {interviewArticles.map((a, i) => (
-                <div key={a.slug} className="bg-white p-5 rounded-md border border-[#e5dfd5] shadow-xs">
+                <div key={a.slug} className="bg-white p-6 rounded-sm border border-[#e2ddd5]">
                   <ArticleBox
                     article={toBaru(a, [90, 160])}
                     variant="photo-top"
