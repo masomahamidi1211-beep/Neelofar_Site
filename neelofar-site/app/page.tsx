@@ -32,17 +32,17 @@ export default function HomePage() {
     });
   };
 
-  // 1. Standalone Top Section (سرسخن)
+  // 1. Standalone Top Section (سرسخن ALONE)
   const heroArticle = findArticle("سرسخن", "کوچه‌ی ما", "کوچه ما");
 
-  // 2. Upper 3 Grid Titles
+  // 2. Upper 3 Grid Titles (Including حسین فخری)
   const upperGridArticles = [
     findArticle("فخری"),
     findArticle("الکسیویچ‌خوانی"),
     findArticle("ضرورت"),
   ].filter((a): a is Article => Boolean(a));
 
-  // 3. Middle Horizontal Divider Feature (قصه‌ی مریم و هم باغش)
+  // 3. Middle Horizontal Feature (قصه‌ی مریم و هم باغش)
   const middleHorizontalArticle = findArticle("مریم");
 
   // 4. Lower 3 Grid Titles
@@ -56,7 +56,7 @@ export default function HomePage() {
     <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-        {/* 1. TOP SECTION: سرسخن (ALONE AT THE VERY TOP) */}
+        {/* 1. TOP SECTION: سرسخن (ALONE AT THE TOP) */}
         {heroArticle && (
           <section className="border-b border-[#e5ded4] pb-10">
             <div className="bg-[#f3ede2] p-8 rounded-xl border border-[#e2d8c9] shadow-sm">
