@@ -32,36 +32,32 @@ export default function HomePage() {
     });
   };
 
-  // 1. Primary Editorial Header (سرسخن)
+  // 1. Primary Editorial Block (سرسخن)
   const heroArticle = findArticle("سرسخن", "کوچه‌ی ما", "کوچه ما");
 
-  // 2. Lead Feature (حسین فخری)
+  // 2. Lead Cultural Feature (حسین فخری)
   const fakhriArticle = findArticle("فخری");
 
-  // 3. Cultural & Documentary Essays
-  const essayArticles = [
+  // 3. Top Row Articles (3 Cards)
+  const topRowArticles = [
     findArticle("الکسیویچ‌خوانی"),
     findArticle("ضرورت"),
     findArticle("سلطان‌زاده", "سلطان‌ازده"),
-    findArticle("شاه‌کار", "شاهکار", "تابوت‌های رویین"),
-    findArticle("بامیان"),
   ].filter((a): a is Article => Boolean(a));
 
-  // 4. Conversations & Voices (Foreign Authors & Local Stories)
-  const dialogueArticles = [
-    findArticle("مریم"),
-    findArticle("همل"),
-    findArticle("سارا"),
+  // 4. Bottom Row Articles (3 Cards including Maryam)
+  const bottomRowArticles = [
+    findArticle("مریم"), // قصه‌ی مریم و هم باغش
+    findArticle("شاه‌کار", "شاهکار", "تابوت‌های رویین"),
+    findArticle("بامیان"),
   ].filter((a): a is Article => Boolean(a));
 
   return (
     <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-        {/* SECTION 1: HERO EDITORIAL (سرسخن + FEATURED PROFILE) */}
+        {/* SECTION 1: EDITORIAL HEADER */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch border-b border-[#e5ded4] pb-12">
-          
-          {/* Primary Editorial Block: سرسخن */}
           {heroArticle && (
             <div className="lg:col-span-7 bg-[#f3ede2] p-8 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col justify-between">
               <div>
@@ -76,7 +72,6 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Lead Cultural Feature: حسین فخری */}
           {fakhriArticle && (
             <div className="lg:col-span-5 bg-white p-7 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col justify-between">
               <div>
@@ -89,25 +84,23 @@ export default function HomePage() {
               </div>
             </div>
           )}
-
         </section>
 
-        {/* SECTION 2: ESSAYS & TEACHER WRITINGS */}
-        {essayArticles.length > 0 && (
-          <section className="border-b border-[#e5ded4] pb-12">
+        {/* SECTION 2: TOP 3 CARDS */}
+        {topRowArticles.length > 0 && (
+          <section>
             <div className="flex items-center justify-between mb-8 pb-2 border-b-2 border-[#2a2421]">
-              <h2 className="text-xl font-bold tracking-tight">یادداشت‌ها و نوشتارها</h2>
-              <span className="text-xs font-sans text-[#786e65]">نقد، تحلیل و روایت</span>
+              <h2 className="text-xl font-bold tracking-tight">یادداشت‌ها و نقد ادبی</h2>
             </div>
 
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {essayArticles.map((a, i) => (
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+              {topRowArticles.map((a, i) => (
                 <div
                   key={a.slug}
-                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs hover:shadow-md transition-all duration-300"
+                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col justify-between h-full hover:shadow-md transition-all duration-300"
                 >
                   <ArticleBox
-                    article={toBaru(a, [90, 160])}
+                    article={toBaru(a, [100, 180])}
                     variant="photo-top"
                     tone={i % 2 === 0 ? "tan" : "cream"}
                   />
@@ -117,25 +110,30 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* SECTION 3: INTERNATIONAL DIALOGUES & PERSPECTIVES */}
-        {dialogueArticles.length > 0 && (
+        {/* HORIZONTAL DIVIDER (جداکننده افقی) */}
+        <div className="my-10 border-t-2 border-dashed border-[#d8ccbc] relative text-center">
+          <span className="bg-[#faf7f2] px-4 text-xs font-sans text-[#786e65] relative -top-3">
+            ✦ ✦ ✦
+          </span>
+        </div>
+
+        {/* SECTION 3: BOTTOM 3 CARDS (INCLUDING MARYAM) */}
+        {bottomRowArticles.length > 0 && (
           <section className="pb-12">
             <div className="flex items-center justify-between mb-8 pb-2 border-b-2 border-[#2a2421]">
-              <h2 className="text-xl font-bold tracking-tight">گفتگوها و روایت‌های جهانی</h2>
-              <span className="text-xs font-sans text-[#786e65]">مصاحبه‌های اختصاصی</span>
+              <h2 className="text-xl font-bold tracking-tight">داستان‌ها و گفتگوها</h2>
             </div>
 
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {dialogueArticles.map((a, i) => (
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+              {bottomRowArticles.map((a, i) => (
                 <div
                   key={a.slug}
-                  className="bg-[#f3ede2] p-6 rounded-xl border border-[#e2d8c9] shadow-xs hover:shadow-md transition-all duration-300"
+                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col justify-between h-full hover:shadow-md transition-all duration-300"
                 >
                   <ArticleBox
-                    article={toBaru(a, [90, 160])}
+                    article={toBaru(a, [100, 180])}
                     variant="photo-top"
-                    tone="tan"
-                    authorFirst
+                    tone={i % 2 === 0 ? "cream" : "tan"}
                   />
                 </div>
               ))}
