@@ -56,26 +56,26 @@ export default function HomePage() {
     <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
-        {/* 1. TOP HERO: سرسخن (ALONE AT TOP WITH STICKER) */}
+        {/* 1. TOP HERO: سرسخن (WITH NEW ZAN-0 STICKER) */}
         {heroArticle && (
           <section className="border-b border-[#e5ded4] pb-10">
             <div className="bg-[#f3ede2] p-6 md:p-8 rounded-xl border border-[#e2d8c9] shadow-sm flex flex-col md:flex-row items-center gap-8">
               
-              {/* STICKER CONTAINER */}
-              <div className="w-full md:w-5/12 flex justify-center items-center p-2">
+              {/* STICKER CONTAINER FOR ZAN-0 */}
+              <div className="w-full md:w-5/12 flex justify-center items-center p-2 shrink-0">
                 <img
                   src="/images/zan-0.png"
-                  alt="مادران و دختران"
-                  className="w-full max-w-[300px] h-auto object-contain
-                             filter drop-shadow-[0_0_3px_rgba(255,255,255,1)] 
-                             drop-shadow-[0_0_10px_rgba(255,255,255,0.9)] 
-                             drop-shadow-[0_12px_24px_rgba(42,36,33,0.18)]
-                             transform -rotate-2 hover:rotate-0 transition-transform duration-300"
+                  alt="تصویر سرسخن - مادران و دختران"
+                  className="w-full max-w-[280px] md:max-w-[320px] h-auto object-contain
+                             filter drop-shadow-[0_0_4px_rgba(255,255,255,1)] 
+                             drop-shadow-[0_0_12px_rgba(255,255,255,0.95)] 
+                             drop-shadow-[0_10px_20px_rgba(42,36,33,0.15)]
+                             transform -rotate-1 hover:rotate-0 transition-all duration-300"
                 />
               </div>
 
               {/* TEXT CONTENT */}
-              <div className="w-full md:w-7/12">
+              <div className="w-full md:w-7/12 flex-1">
                 <div className="flex items-center gap-3 mb-4 pb-3 border-b border-[#d8ccbc]">
                   <span className="bg-[#8c2222] text-[#faf7f2] text-xs font-sans font-bold px-3 py-1 rounded-sm tracking-widest">
                     سرمقاله نیلوفر
