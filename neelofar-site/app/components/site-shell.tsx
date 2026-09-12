@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation"; // Added useRouter
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import Footer from "./footer";
 import PageFade from "./page-fade";
@@ -19,18 +19,6 @@ const navItems = [
   { href: "/recommendations", label: "توصیه‌های ما" },
   { href: "/forms", label: "درخواست‌نامه‌ها" },
   { href: "/about", label: "درباره ما" },
-];
-
-const searchItems = [
-  { title: "یادداشت‌ها", href: "/notes" },
-  { title: "ویژه‌نامه‌ها", href: "/special" },
-  { title: "مجله نیلوفر", href: "/magazine" },
-  { title: "پادکست", href: "/podcast" },
-  { title: "گفتگوها", href: "/conversations" },
-  { title: "چندرسانه", href: "/multimedia" },
-  { title: "توصیه‌های ما", href: "/recommendations" },
-  { title: "درخواست‌نامه‌ها", href: "/forms" },
-  { title: "درباره ما", href: "/about" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -67,7 +55,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pathname = usePathname();
-  const router = useRouter(); // Router instance for redirection
+  const router = useRouter();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -81,18 +69,9 @@ export default function SiteShell({ children }: { children: ReactNode }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const filteredSearch = useMemo(
-    () =>
-      searchItems.filter((item) =>
-        item.title.includes(query) || item.href.includes(query.replace("/", ""))
-      ),
-    [query]
-  );
-
   const search = useEnterExit(searchOpen, 250);
   const drawer = useEnterExit(menuOpen, 300);
 
-  // Form submit handler for Enter key search execution
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
@@ -162,60 +141,44 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
       <Footer />
 
+      {/* SEARCH OVERLAY */}
       {search.mounted && (
         <div
-          className={`fixed inset-0 z-40 bg-[var(--bg)]/90 backdrop-blur-md transition-opacity duration-[250ms] ${
+          className={`fixed inset-0 z-50 overflow-y-auto bg-[var(--bg)]/95 backdrop-blur-md transition-opacity duration-[250ms] ${
             search.visible ? "opacity-100" : "opacity-0"
           }`}
         >
           <div
-            className={`mx-auto flex h-full max-w-3xl flex-col justify-center px-6 transition-[opacity,transform] duration-[250ms] ${
+            className={`mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-start pt-24 px-6 transition-[opacity,transform] duration-[250ms] ${
               search.visible ? "scale-100 opacity-100" : "scale-[0.98] opacity-0"
             }`}
           >
             <button
               type="button"
               aria-label="بستن جست‌وجو"
-              className="baru-focus absolute left-6 top-6 text-3xl"
+              className="baru-focus absolute left-6 top-6 text-3xl hover:opacity-70"
               onClick={() => setSearchOpen(false)}
             >
               ✕
             </button>
 
-            {/* FORM WRAPPER ADDED FOR ENTER KEY SUBMISSION */}
-            <form onSubmit={handleSearchSubmit}>
+            <form onSubmit={handleSearchSubmit} className="w-full">
               <input
                 autoFocus
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                className="baru-focus w-full border-b border-[var(--ink)] bg-transparent pb-4 text-center text-4xl outline-none placeholder:text-[var(--muted)] focus:border-[var(--title)] sm:text-5xl"
-                placeholder="جست‌وجو..."
+                className="baru-focus w-full border-b-2 border-[var(--ink)] bg-transparent pb-4 text-center text-3xl outline-none placeholder:text-[var(--muted)] focus:border-[#8c2222] sm:text-4xl"
+                placeholder="جست‌وجو کنید..."
               />
             </form>
             <p className="mt-6 text-center text-base text-[var(--muted)]">
-              کلمات را شما جستجو کنید، متن‌ها را ما پیدا می‌کنیم. برای جستجو کلید Enter را فشار دهید.
+              عنوان یا متن مورد نظر را تایپ کرده و کلید Enter را فشار دهید.
             </p>
-
-            <div className="mt-10 space-y-1">
-              {filteredSearch.length > 0 ? (
-                filteredSearch.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setSearchOpen(false)}
-                    className="baru-focus block border-b border-[var(--line)] py-4 text-center text-xl font-semibold transition duration-200 hover:text-[var(--title)]"
-                  >
-                    {item.title}
-                  </Link>
-                ))
-              ) : (
-                <div className="py-8 text-center text-base text-[var(--muted)]">چیزی پیدا نشد.</div>
-              )}
-            </div>
           </div>
         </div>
       )}
 
+      {/* MOBILE DRAWER */}
       {drawer.mounted && (
         <>
           <div
