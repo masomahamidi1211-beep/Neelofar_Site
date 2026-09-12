@@ -141,7 +141,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
       <Footer />
 
-      {/* SEARCH OVERLAY */}
+      {/* SEARCH MODAL OVERLAY */}
       {search.mounted && (
         <div
           className={`fixed inset-0 z-50 overflow-y-auto bg-[var(--bg)]/95 backdrop-blur-md transition-opacity duration-[250ms] ${
@@ -149,30 +149,35 @@ export default function SiteShell({ children }: { children: ReactNode }) {
           }`}
         >
           <div
-            className={`mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-start pt-24 px-6 transition-[opacity,transform] duration-[250ms] ${
+            className={`mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-start pt-16 px-6 transition-[opacity,transform] duration-[250ms] ${
               search.visible ? "scale-100 opacity-100" : "scale-[0.98] opacity-0"
             }`}
           >
+            {/* Close Button */}
             <button
               type="button"
               aria-label="بستن جست‌وجو"
-              className="baru-focus absolute left-6 top-6 text-3xl hover:opacity-70"
+              className="baru-focus absolute left-6 top-6 text-3xl text-black hover:opacity-70"
               onClick={() => setSearchOpen(false)}
             >
               ✕
             </button>
 
-            <form onSubmit={handleSearchSubmit} className="w-full">
-              <input
-                autoFocus
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                className="baru-focus w-full border-b-2 border-[var(--ink)] bg-transparent pb-4 text-center text-3xl outline-none placeholder:text-[var(--muted)] focus:border-[#8c2222] sm:text-4xl"
-                placeholder="جست‌وجو کنید..."
-              />
+            {/* Input Form Box */}
+            <form onSubmit={handleSearchSubmit} className="w-full mt-8">
+              <div className="relative w-full">
+                <input
+                  autoFocus
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  className="w-full rounded-lg border-2 border-[#1e293b] bg-white px-5 py-4 text-center text-2xl font-medium text-black shadow-md outline-none transition focus:border-[#8c2222] focus:ring-2 focus:ring-[#8c2222]/20 sm:text-3xl"
+                  placeholder="جست‌وجو کنید..."
+                />
+              </div>
             </form>
-            <p className="mt-6 text-center text-base text-[var(--muted)]">
-              عنوان یا متن مورد نظر را تایپ کرده و کلید Enter را فشار دهید.
+
+            <p className="mt-4 text-center text-sm text-[var(--muted)]">
+              عنوان یا متن مورد نظر را وارد کرده و کلید Enter را فشار دهید.
             </p>
           </div>
         </div>
