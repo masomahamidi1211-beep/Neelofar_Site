@@ -1,7 +1,18 @@
-
 import { getAllArticles } from "../lib/content-server";
 import { ArticleBox } from "../components/article-box";
 import { toPersianDigits } from "../lib/date";
+
+// Helper function to normalize Persian and Arabic letters
+function normalizeText(str: string): string {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .replace(/[يى]/g, "ی")
+    .replace(/[ك]/g, "ک")
+    .replace(/‌/g, " ") // Replace zero-width non-joiner with space
+    .replace(/[^\w\sآاأإءئؤبپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی]/g, "") // Remove punctuation
+    .trim();
+}
 
 export default async function SearchPage({
   searchParams,
@@ -9,24 +20,26 @@ export default async function SearchPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const params = await searchParams;
-  const query = params.q || "";
+  const rawQuery = params.q || "";
+  const normalizedQuery = normalizeText(rawQuery);
   const articles = getAllArticles();
 
-  // Filter articles by title, author, or body matching the search query
+  // Split query into individual keywords (e.g., ["قصه", "مریم"])
+  const queryWords = normalizedQuery.split(/\s+/).filter(Boolean);
+
   const filteredArticles = articles.filter((a) => {
-    if (!query.trim()) return false;
-    const lowerQ = query.toLowerCase();
-    return (
-      a.title.toLowerCase().includes(lowerQ) ||
-      a.body.toLowerCase().includes(lowerQ) ||
-      a.author.toLowerCase().includes(lowerQ)
-    );
+    if (queryWords.length === 0) return false;
+
+    const fullContent = normalizeText(`${a.title} ${a.body} ${a.author}`);
+
+    // Match if ANY of the search keywords exist in the content
+    return queryWords.some((word) => fullContent.includes(word));
   });
 
   return (
-    <div className="max-w-[1100px] mx-auto px-4 py-12 dir-rtl font-serif">
+    <div className="max-w-[1100px] mx-auto px-4 py-12 dir-rtl font-serif min-h-[50vh]">
       <h1 className="text-2xl font-bold mb-6 pb-2 border-b border-[#e2d8c9]">
-        نتایج جستجو برای: <span className="text-[#8c2222]">"{query}"</span>
+        نتایج جستجو برای: <span className="text-[#8c2222]">"{rawQuery}"</span>
       </h1>
 
       {filteredArticles.length === 0 ? (
