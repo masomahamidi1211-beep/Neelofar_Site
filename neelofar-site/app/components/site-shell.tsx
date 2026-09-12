@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation"; // Added useRouter
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import Footer from "./footer";
@@ -38,13 +38,6 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-/**
- * Drives an enter/exit transition for a conditionally-mounted overlay
- * (search modal, mobile drawer): stays mounted through the closing
- * animation instead of vanishing instantly, and waits a frame before
- * flipping to "visible" on open so the initial (hidden) state actually
- * paints first and the transition has something to animate from.
- */
 function useEnterExit(open: boolean, durationMs: number) {
   const [mounted, setMounted] = useState(open);
   const [visible, setVisible] = useState(false);
@@ -74,6 +67,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pathname = usePathname();
+  const router = useRouter(); // Router instance for redirection
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -97,6 +91,15 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
   const search = useEnterExit(searchOpen, 250);
   const drawer = useEnterExit(menuOpen, 300);
+
+  // Form submit handler for Enter key search execution
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setSearchOpen(false);
+    router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
@@ -149,19 +152,6 @@ export default function SiteShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      {/* Two-layer frame: the outer layer is near-full-bleed (just an 8px
-          fixed inset from the true viewport edge) and is the "canvas" --
-          it carries both the hairline border (#e5e5e5, measured off the
-          baru.ir reference) and the #f9f9f9 canvas background, so the
-          margin between the border and the content column reads as paper,
-          not empty white. The inner layer caps the actual content width
-          and is left transparent so that canvas color shows through.
-          Both layers are lg+ only -- below that, content renders exactly
-          as it did before this change (full width, no frame, white bg).
-          77vw (not 75) is a deliberate calibration, not a typo: with the
-          8px frame inset, 77vw is what actually produces the measured
-          ~150px frame-to-content gap at a ~1350px viewport -- 75vw
-          undershoots the content width and overshoots the gap. */}
       <main className="flex-1">
         <div className="lg:mx-[8px] lg:border-x lg:border-[#e5e5e5] lg:bg-[#f9f9f9]">
           <div className="lg:mx-auto lg:w-[77vw] lg:max-w-[1100px]">
@@ -192,15 +182,18 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               ✕
             </button>
 
-            <input
-              autoFocus
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              className="baru-focus w-full border-b border-[var(--ink)] bg-transparent pb-4 text-center text-4xl outline-none placeholder:text-[var(--muted)] focus:border-[var(--title)] sm:text-5xl"
-              placeholder="جست‌وجو..."
-            />
+            {/* FORM WRAPPER ADDED FOR ENTER KEY SUBMISSION */}
+            <form onSubmit={handleSearchSubmit}>
+              <input
+                autoFocus
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                className="baru-focus w-full border-b border-[var(--ink)] bg-transparent pb-4 text-center text-4xl outline-none placeholder:text-[var(--muted)] focus:border-[var(--title)] sm:text-5xl"
+                placeholder="جست‌وجو..."
+              />
+            </form>
             <p className="mt-6 text-center text-base text-[var(--muted)]">
-              کلمات را شما جستجو کنید، متن‌ها را ما پیدا می‌کنیم.
+              کلمات را شما جستجو کنید، متن‌ها را ما پیدا می‌کنیم. برای جستجو کلید Enter را فشار دهید.
             </p>
 
             <div className="mt-10 space-y-1">
