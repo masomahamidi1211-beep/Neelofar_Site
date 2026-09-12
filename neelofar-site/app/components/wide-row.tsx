@@ -1,16 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import type { BaruArticle } from "./article-box";
 
 export function WideRow({ article }: { article: BaruArticle }) {
-  // Fallback array to try lowercase .png, then uppercase .PNG
-  const [imgSrc, setImgSrc] = useState<string>("/images/zan-0.png");
+  // Determine if this article is سرسخن
+  const isSarsokhan =
+    article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
+
+  // Determine starting image URL
+  const initialSrc = isSarsokhan
+    ? "/images/zan-0.png"
+    : article.image || "/images/zan-0.png";
+
+  const [imgSrc, setImgSrc] = useState<string>(initialSrc);
+
+  // Sync state if article prop changes
+  useEffect(() => {
+    setImgSrc(
+      isSarsokhan ? "/images/zan-0.png" : article.image || "/images/zan-0.png"
+    );
+  }, [article, isSarsokhan]);
 
   const handleImageError = () => {
-    if (imgSrc === "/images/zan-0.png") {
-      setImgSrc("/images/zan-0.PNG");
+    // Fallback logic for case sensitivity on Vercel/Linux
+    if (imgSrc.endsWith(".png")) {
+      setImgSrc(imgSrc.replace(/\.png$/, ".PNG"));
+    } else if (imgSrc.endsWith(".PNG")) {
+      setImgSrc(imgSrc.replace(/\.PNG$/, ".png"));
     }
   };
 
@@ -20,7 +38,10 @@ export function WideRow({ article }: { article: BaruArticle }) {
       <div className="w-full md:w-7/12 flex flex-col justify-between order-1 md:order-1">
         <div>
           <h2 className="text-2xl md:text-3xl font-bold leading-snug mb-4">
-            <Link href={`/articles/${article.slug}`} className="hover:text-[#8c2222] transition-colors">
+            <Link
+              href={`/articles/${article.slug}`}
+              className="hover:text-[#8c2222] transition-colors"
+            >
               {article.title}
             </Link>
           </h2>
