@@ -1,5 +1,5 @@
 import { Mail, Send } from "lucide-react";
-import { FacebookIcon, InstagramIcon } from "./brand-icons";
+import { FacebookIcon, InstagramIcon } from "./brand-icons"; // Ensure brand-icons.tsx is in the exact same folder
 
 export default function Footer() {
   return (

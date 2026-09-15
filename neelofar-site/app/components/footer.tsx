@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Send } from "lucide-react";
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./brand-icons";
+import { FacebookIcon, InstagramIcon, LinkedinIcon } from "@/app/components/brand-icons";
 
 const quickLinks = [
   { href: "/notes", label: "یادداشت‌ها" },
