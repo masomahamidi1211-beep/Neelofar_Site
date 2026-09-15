@@ -11,14 +11,31 @@ const quickLinks = [
   { href: "/conversations", label: "گفتگوها" },
   { href: "/multimedia", label: "چندرسانه" },
   { href: "/about", label: "درباره ما" },
+  { href: "/contact", label: "تماس با ما" },
 ];
 
-// Neelofar's only 4 real accounts. Do not add any other platform here.
+// Neelofar's primary social links updated with latest URLs
 const socialLinks = [
-  { label: "فیسبوک", href: "https://www.facebook.com/worldliteratureprogram", Icon: FacebookIcon },
-  { label: "اینستاگرام", href: "https://www.instagram.com/worldliteratureprogram/", Icon: InstagramIcon },
-  { label: "تلگرام", href: "https://t.me/worldliteratureprogram", Icon: Send },
-  { label: "لینکدین", href: "https://www.linkedin.com/company/the-world-literature-program/", Icon: LinkedinIcon },
+  {
+    label: "فیسبوک",
+    href: "https://www.facebook.com/share/1DC6n4DkeW/?mibextid=wwXIfr",
+    Icon: FacebookIcon,
+  },
+  {
+    label: "اینستاگرام",
+    href: "https://www.instagram.com/worldliteratureprogram?stkn=YWVjd3dzYzl1ZHRz",
+    Icon: InstagramIcon,
+  },
+  {
+    label: "تلگرام",
+    href: "https://t.me/worldliteratureprogram",
+    Icon: Send,
+  },
+  {
+    label: "لینکدین",
+    href: "https://www.linkedin.com/company/the-world-literature-program/",
+    Icon: LinkedinIcon,
+  },
 ];
 
 export default function Footer() {

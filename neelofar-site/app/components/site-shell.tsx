@@ -19,6 +19,7 @@ const navItems = [
   { href: "/recommendations", label: "توصیه‌های ما" },
   { href: "/forms", label: "درخواست‌نامه‌ها" },
   { href: "/about", label: "درباره ما" },
+  { href: "/contact", label: "تماس با ما" }, // Added new navigation item
 ];
 
 function isActive(pathname: string, href: string) {
