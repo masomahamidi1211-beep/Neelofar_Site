@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Send } from "lucide-react";
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from "@/app/components/brand-icons";
+import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./brand-icons";
 import SubmissionModal from "./submission-modal";
 
 const quickLinks = [
@@ -62,7 +62,7 @@ export default function Footer() {
 
             <nav
               aria-label="لینک‌های سریع"
-              className="flex flex-wrap gap-x-6 gap-y-3 text-base font-semibold lg:justify-center items-center"
+              className="flex flex-wrap gap-x-6 gap-y-3 text-base font-semibold items-center lg:justify-center"
             >
               {quickLinks.map((link) => (
                 <Link
@@ -74,7 +74,6 @@ export default function Footer() {
                 </Link>
               ))}
 
-              {/* Submission Modal Trigger Link */}
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="footer-link nav-underline baru-focus pb-1 text-white transition duration-150 hover:opacity-70 font-semibold cursor-pointer"
@@ -110,7 +109,6 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Submission Guidelines Modal */}
       <SubmissionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
