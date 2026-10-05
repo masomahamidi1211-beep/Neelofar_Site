@@ -4,8 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Send } from "lucide-react";
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./brand-icons";
-import SubmissionModal from "./submission-modal";
+import { FacebookIcon, InstagramIcon, LinkedinIcon } from "@/components/brand-icons";
+import SubmissionModal from "@/components/submission-modal";
 
 const quickLinks = [
   { href: "/notes", label: "یادداشت‌ها" },
