@@ -42,8 +42,8 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
 
         {/* Requirements List */}
         <ul className="text-right text-base leading-relaxed space-y-3 mb-6 text-gray-800 list-disc list-inside">
-          <li>متنِ خود را در قالبِ فایل ورد ارسال کنید.</li>
-          <li>نام و شمارهٔ تماسِ خود را در آغازِ متن بنویسید.</li>
+          <li>متن خود را در قالب فایل ورد ارسال کنید.</li>
+          <li>نام و شماره تماس خود را در آغاز متن بنویسید.</li>
         </ul>
 
         {/* Closing Note */}
