@@ -1,7 +1,7 @@
 "use client";
 
-import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useState } from "react";
+import { X, Copy, Check } from "lucide-react";
 
 interface SubmissionModalProps {
   isOpen: boolean;
@@ -9,29 +9,24 @@ interface SubmissionModalProps {
 }
 
 export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProps) {
-  
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
+  const [copied, setCopied] = useState(false);
 
   if (!isOpen) return null;
 
+  const email = "worldliteratureprogram@gmail.com";
+  const subject = encodeURIComponent("ارسال اثر برای نیلوفر");
+  const mailtoUrl = `mailto:${email}?subject=${subject}`;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm dir-rtl font-serif"
-      onClick={onClose}
-    >
-      <div 
-        className="relative w-full max-w-lg rounded-lg bg-white p-8 shadow-2xl text-center text-[#111]"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm dir-rtl font-serif">
+      <div className="relative w-full max-w-lg rounded-lg bg-white p-8 shadow-2xl text-center text-[#111]">
+        {/* Close Button */}
         <button
           onClick={onClose}
           aria-label="بستن"
@@ -40,25 +35,53 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
           <X size={22} />
         </button>
 
+        {/* Modal Title */}
         <h2 className="text-2xl font-bold mb-6 text-[#8c2222]">
           شرایط ارسال اثر برای نیلوفر
         </h2>
 
+        {/* Requirements List */}
         <ul className="text-right text-base leading-relaxed space-y-3 mb-6 text-gray-800 list-disc list-inside">
           <li>متنِ خود را در قالبِ فایل ورد ارسال کنید.</li>
           <li>نام و شمارهٔ تماسِ خود را در آغازِ متن بنویسید.</li>
         </ul>
 
+        {/* Closing Note */}
         <p className="mb-6 text-base font-semibold text-gray-700">
           از همکاری‌تان با نیلوفر متشکریم.
         </p>
 
-        <a
-          href="mailto:worldliteratureprogram@gmail.com?subject=ارسال اثر برای نیلوفر"
-          className="inline-block bg-black hover:bg-[#8c2222] text-white px-8 py-3 rounded text-base font-medium transition-colors"
-        >
-          ارسال ایمیل
-        </a>
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          {/* Send Email Button */}
+          <a
+            href={mailtoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center bg-black hover:bg-[#8c2222] text-white px-6 py-3 rounded text-base font-medium transition-colors"
+          >
+            ارسال ایمیل
+          </a>
+
+          {/* Copy Email Button */}
+          <button
+            onClick={handleCopy}
+            type="button"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 px-5 py-3 rounded text-base font-medium transition-colors cursor-pointer"
+          >
+            {copied ? (
+              <>
+                <Check size={18} className="text-green-600" />
+                کپی شد!
+              </>
+            ) : (
+              <>
+                <Copy size={18} />
+                کپی ایمیل
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
