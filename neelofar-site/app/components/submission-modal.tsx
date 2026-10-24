@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Copy, Check } from "lucide-react";
+import { X, Copy, Check, ExternalLink, Mail } from "lucide-react";
 
 interface SubmissionModalProps {
   isOpen: boolean;
@@ -14,8 +14,13 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
   if (!isOpen) return null;
 
   const email = "worldliteratureprogram@gmail.com";
-  const subject = encodeURIComponent("ارسال اثر برای نیلوفر");
-  const mailtoUrl = `mailto:${email}?subject=${subject}`;
+  const subject = "ارسال اثر برای نیلوفر";
+  
+  // Standard mailto link (without target="_blank" to prevent blank window issue)
+  const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+
+  // Direct Gmail web compose URL for browsers without desktop mail apps
+  const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(email);
@@ -53,21 +58,31 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          {/* Send Email Button */}
+          {/* Direct Gmail Web compose */}
           <a
-            href={mailtoUrl}
+            href={gmailWebUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center bg-black hover:bg-[#8c2222] text-white px-6 py-3 rounded text-base font-medium transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-[#8c2222] text-white px-5 py-3 rounded text-base font-medium transition-colors"
           >
-            ارسال ایمیل
+            <Mail size={18} />
+            ارسال از طریق جیمیل
+          </a>
+
+          {/* Default Email App (mailto without target="_blank") */}
+          <a
+            href={mailtoUrl}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 px-4 py-3 rounded text-base font-medium transition-colors"
+          >
+            <ExternalLink size={18} />
+            برنامه ایمیل
           </a>
 
           {/* Copy Email Button */}
           <button
             onClick={handleCopy}
             type="button"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 px-5 py-3 rounded text-base font-medium transition-colors cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 px-4 py-3 rounded text-base font-medium transition-colors cursor-pointer"
           >
             {copied ? (
               <>
