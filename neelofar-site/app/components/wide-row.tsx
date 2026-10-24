@@ -9,17 +9,15 @@ export function WideRow({ article }: { article: BaruArticle }) {
   const isSarsokhan =
     article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
 
-  // Determine starting image URL
-  const initialSrc = isSarsokhan
-    ? "/images/zan-0.png"
-    : article.image || "/images/zan-0.png";
+  // اگر تصویر در مقاله (مثل فایل سارِسخن) تعریف شده بود، از همان استفاده کن، در غیر این صورت از پیش‌فرض استفاده کن
+  const initialSrc = article.image || (isSarsokhan ? "/images/madaran/book-30.png" : "/images/zan-0.png");
 
   const [imgSrc, setImgSrc] = useState<string>(initialSrc);
 
   // Sync state if article prop changes
   useEffect(() => {
     setImgSrc(
-      isSarsokhan ? "/images/zan-0.png" : article.image || "/images/zan-0.png"
+      article.image || (isSarsokhan ? "/images/madaran/book-30.png" : "/images/zan-0.png")
     );
   }, [article, isSarsokhan]);
 
