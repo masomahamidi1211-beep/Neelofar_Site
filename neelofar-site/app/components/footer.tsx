@@ -4,8 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Send } from "lucide-react";
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from "./brand-icons"; 
-import SubmissionModal from "./submission-modal";
+import { FacebookIcon, InstagramIcon, LinkedinIcon } from "@/app/components/brand-icons"; 
+import SubmissionModal from "@/app/components/submission-modal";
 
 const quickLinks = [
   { href: "/notes", label: "یادداشت‌ها" },
@@ -16,29 +16,6 @@ const quickLinks = [
   { href: "/multimedia", label: "چندرسانه" },
   { href: "/about", label: "درباره ما" },
   { href: "/contact", label: "تماس با ما" },
-];
-
-const socialLinks = [
-  {
-    label: "فیسبوک",
-    href: "https://www.facebook.com/share/1DC6n4DkeW/?mibextid=wwXIfr",
-    Icon: FacebookIcon,
-  },
-  {
-    label: "اینستاگرام",
-    href: "https://www.instagram.com/worldliteratureprogram?stkn=YWVjd3dzYzl1ZHRz",
-    Icon: InstagramIcon,
-  },
-  {
-    label: "تلگرام",
-    href: "https://t.me/worldliteratureprogram",
-    Icon: Send,
-  },
-  {
-    label: "لینکدین",
-    href: "https://www.linkedin.com/company/the-world-literature-program/",
-    Icon: LinkedinIcon,
-  },
 ];
 
 export default function Footer() {
@@ -85,18 +62,45 @@ export default function Footer() {
             <div className="flex items-center gap-4">
               <p className="text-base font-semibold text-white">ما را دنبال کنید</p>
               <div className="flex items-center gap-4">
-                {socialLinks.map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
-                  >
-                    <Icon size={20} strokeWidth={1.5} />
-                  </a>
-                ))}
+                <a
+                  href="https://www.facebook.com/share/1DC6n4DkeW/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="فیسبوک"
+                  className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
+                >
+                  <FacebookIcon />
+                </a>
+
+                <a
+                  href="https://www.instagram.com/worldliteratureprogram?stkn=YWVjd3dzYzl1ZHRz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="اینستاگرام"
+                  className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
+                >
+                  <InstagramIcon />
+                </a>
+
+                <a
+                  href="https://t.me/worldliteratureprogram"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="تلگرام"
+                  className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
+                >
+                  <Send size={20} strokeWidth={1.5} />
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/company/the-world-literature-program/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="لینکدین"
+                  className="footer-link baru-focus text-white transition duration-150 hover:opacity-70"
+                >
+                  <LinkedinIcon />
+                </a>
               </div>
             </div>
           </div>
