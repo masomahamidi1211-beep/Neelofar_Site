@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Copy, Check, ExternalLink, Mail } from "lucide-react";
+import { X, Copy, Check, Mail } from "lucide-react";
 
 interface SubmissionModalProps {
   isOpen: boolean;
@@ -16,10 +16,7 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
   const email = "worldliteratureprogram@gmail.com";
   const subject = "ارسال اثر برای نیلوفر";
   
-  // Standard mailto link (without target="_blank" to prevent blank window issue)
-  const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-
-  // Direct Gmail web compose URL for browsers without desktop mail apps
+  // لینک مستقیم به جیمیل بدون مشکل صفحه خالی
   const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}`;
 
   const handleCopy = () => {
@@ -31,7 +28,7 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm dir-rtl font-serif">
       <div className="relative w-full max-w-lg rounded-lg bg-white p-8 shadow-2xl text-center text-[#111]">
-        {/* Close Button */}
+        {/* دکمه بستن */}
         <button
           onClick={onClose}
           aria-label="بستن"
@@ -40,49 +37,40 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
           <X size={22} />
         </button>
 
-        {/* Modal Title */}
+        {/* عنوان مدال */}
         <h2 className="text-2xl font-bold mb-6 text-[#8c2222]">
           شرایط ارسال اثر برای نیلوفر
         </h2>
 
-        {/* Requirements List */}
+        {/* لیست شرایط */}
         <ul className="text-right text-base leading-relaxed space-y-3 mb-6 text-gray-800 list-disc list-inside">
           <li>متن خود را در قالب فایل ورد ارسال کنید.</li>
           <li>نام و شماره تماس خود را در آغاز متن بنویسید.</li>
         </ul>
 
-        {/* Closing Note */}
+        {/* متن تشکر */}
         <p className="mb-6 text-base font-semibold text-gray-700">
           از همکاری‌تان با نیلوفر متشکریم.
         </p>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          {/* Direct Gmail Web compose */}
+        {/* دکمه‌های عملیاتی */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* دکمه ارسال ایمیل */}
           <a
             href={gmailWebUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-[#8c2222] text-white px-5 py-3 rounded text-base font-medium transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-[#8c2222] text-white px-6 py-3 rounded text-base font-medium transition-colors"
           >
             <Mail size={18} />
-            ارسال از طریق جیمیل
+            ارسال ایمیل
           </a>
 
-          {/* Default Email App (mailto without target="_blank") */}
-          <a
-            href={mailtoUrl}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 px-4 py-3 rounded text-base font-medium transition-colors"
-          >
-            <ExternalLink size={18} />
-            برنامه ایمیل
-          </a>
-
-          {/* Copy Email Button */}
+          {/* دکمه کپی ایمیل */}
           <button
             onClick={handleCopy}
             type="button"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 px-4 py-3 rounded text-base font-medium transition-colors cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-800 px-5 py-3 rounded text-base font-medium transition-colors cursor-pointer"
           >
             {copied ? (
               <>
