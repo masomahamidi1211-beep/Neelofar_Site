@@ -13,9 +13,7 @@ const quickLinks = [
   { href: "/magazine", label: "مجله نیلوفر" },
   { href: "/podcast", label: "پادکست" },
   { href: "/conversations", label: "گفتگوها" },
-  { href: "/multimedia", label: "چندرسانه" },
   { href: "/about", label: "درباره ما" },
-  { href: "/contact", label: "تماس با ما" },
 ];
 
 export default function Footer() {
@@ -43,7 +41,7 @@ export default function Footer() {
             {/* 2. Navigation Links & Submission Modal Button */}
             <nav
               aria-label="لینک‌های سریع"
-              className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm sm:text-base font-medium whitespace-nowrap"
+              className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm sm:text-base font-medium whitespace-nowrap"
             >
               {quickLinks.map((link) => (
                 <Link
@@ -63,7 +61,7 @@ export default function Footer() {
               </button>
             </nav>
 
-            {/* 3. Social Media Icons Only (Without 'ما را دنبال کنید' text) */}
+            {/* 3. Social Media Icons Only */}
             <div className="flex items-center gap-4 shrink-0">
               <a
                 href="https://www.facebook.com/share/1DC6n4DkeW/?mibextid=wwXIfr"
