@@ -16,7 +16,6 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
   const email = "worldliteratureprogram@gmail.com";
   const subject = "ارسال اثر برای نیلوفر";
   
-  // لینک مستقیم به جیمیل بدون مشکل صفحه خالی
   const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}`;
 
   const handleCopy = () => {
@@ -55,7 +54,6 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
 
         {/* دکمه‌های عملیاتی */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          {/* دکمه ارسال ایمیل */}
           <a
             href={gmailWebUrl}
             target="_blank"
@@ -66,7 +64,6 @@ export default function SubmissionModal({ isOpen, onClose }: SubmissionModalProp
             ارسال ایمیل
           </a>
 
-          {/* دکمه کپی ایمیل */}
           <button
             onClick={handleCopy}
             type="button"
