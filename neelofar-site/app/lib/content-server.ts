@@ -150,9 +150,16 @@ function articleFromFile(slug: string, fullPath: string): Article {
   const { data, content } = matter(fileContents);
   const body = marked.parse(content) as string;
   const wordCount = countWords(body);
+
+  const titleStr = typeof data.title === "string" ? data.title : "";
+  const isSarsokhan = slug.includes("sarsokhan") || titleStr.includes("سرسخن");
+  const resolvedImage = typeof data.image === "string" 
+    ? data.image 
+    : (isSarsokhan ? "/images/madaran/book-30.png" : null);
+
   return {
     slug,
-    title: data.title ?? "",
+    title: titleStr,
     author: data.author ?? "",
     section: data.section ?? "",
     order: typeof data.order === "number" ? data.order : 0,
@@ -168,7 +175,7 @@ function articleFromFile(slug: string, fullPath: string): Article {
     body,
     wordCount,
     readingTimeMinutes: Math.max(1, Math.round(wordCount / 200)),
-    image: typeof data.image === "string" ? data.image : null,
+    image: resolvedImage,
     imagePosition: typeof data.imagePosition === "string" ? data.imagePosition : null,
     imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : null,
     subtitle: Array.isArray(data.subtitle) ? data.subtitle : null,
@@ -207,13 +214,6 @@ export type BookRecommendation = {
   editorialNote: string;
 };
 
-/**
- * The real, extracted راهنمای انتخاب رمان catalog -- distinct from the
- * fabricated getBooks()/books.json, which this doesn't touch. Country/genre
- * are exactly what's in the source PDF (genre is really "shape of work" --
- * رمان/داستان/مجموعه داستان -- not a Western genre system; see the UI's
- * "شکل اثر" label instead of "ژانر").
- */
 export function getBookRecommendations(): BookRecommendation[] {
   const file = fs.readFileSync(path.join(process.cwd(), "data", "book-recommendations.json"), "utf8");
   return JSON.parse(file);
@@ -223,16 +223,10 @@ export function getArticlesByTag(tag: string): Article[] {
   return getAllArticles().filter((article) => article.tags.includes(tag));
 }
 
-/** Other articles by the same author, for the article-page sidebar's
- * "از متن‌های نویسنده" list. Empty when the author has no other pieces --
- * callers should hide that section entirely rather than show an empty box. */
 export function getOtherArticlesByAuthor(author: string, excludeSlug: string): Article[] {
   return getAllArticles().filter((article) => article.author === author && article.slug !== excludeSlug);
 }
 
-/** The ویژه‌نامه (if any) a given article slug belongs to, searched across
- * every section of every issue -- an article's own frontmatter `section`
- * key isn't unique across issues, so this is the reliable way to find it. */
 export function getSpecialIssueContainingArticle(slug: string): SpecialIssue | null {
   return (
     getSpecialIssues().find((issue) =>
@@ -241,11 +235,6 @@ export function getSpecialIssueContainingArticle(slug: string): SpecialIssue | n
   );
 }
 
-/** Other articles from the same ویژه‌نامه as `slug`, across all of that
- * issue's sections, capped to `limit`. Used for the sidebar's "از متن‌های
- * ویژه‌نامه" list; callers should fall back to getAllArticles()-based
- * "بیشتر بخوانید" when this returns an empty array (article isn't part of
- * any ویژه‌نامه). */
 export function getOtherArticlesInSameIssue(slug: string, limit = 5): Article[] {
   const issue = getSpecialIssueContainingArticle(slug);
   if (!issue) return [];
