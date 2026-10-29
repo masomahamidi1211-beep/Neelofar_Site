@@ -19,11 +19,16 @@ export type BaruArticle = {
 const DEFAULT_POSITION = "50% 20%";
 
 function BoxImage({ article, className }: { article: BaruArticle; className: string }) {
-  if (!article.image) return null;
+  // Check if this article is سرسخن to provide a robust fallback image path
+  const isSarsokhan = article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
+  const resolvedImage = article.image || (isSarsokhan ? "/images/madaran/book-30.png" : null);
+
+  if (!resolvedImage) return null;
+  
   return (
     <img
-      src={article.image}
-      alt={article.imageAlt ?? ""}
+      src={resolvedImage}
+      alt={article.imageAlt ?? article.title}
       className={`transition duration-200 ease-out group-hover:scale-[1.03] ${className}`}
       style={{ objectPosition: article.imagePosition ?? DEFAULT_POSITION }}
     />
