@@ -8,7 +8,6 @@ import {
   inlineFootnotes,
 } from "../../lib/content-server";
 import { formatJalaliDate, toPersianDigits } from "../../lib/date";
-//import GiscusComments from "../../components/giscus-comments";
 import { ArticleSidebar } from "../../components/article-sidebar";
 import { ShareIcons } from "../../components/share-icons";
 import ArticleBody from "../../components/article-body";
@@ -102,7 +101,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <ShareIcons url={`${SITE_URL}/notes/${slug}`} title={article.title} />
           </div>
 
-         // <GiscusComments />
+         
         </article>
 
         <ArticleSidebar
