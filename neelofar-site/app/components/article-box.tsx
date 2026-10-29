@@ -19,12 +19,12 @@ export type BaruArticle = {
 const DEFAULT_POSITION = "50% 20%";
 
 function BoxImage({ article, className }: { article: BaruArticle; className: string }) {
-  // Check if this article is سرسخن to provide a robust fallback image path
+  // Force a fallback for sarsakhan to guarantee book-30.png renders in lists/grids
   const isSarsokhan = article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
   const resolvedImage = article.image || (isSarsokhan ? "/images/madaran/book-30.png" : null);
 
   if (!resolvedImage) return null;
-  
+
   return (
     <img
       src={resolvedImage}
