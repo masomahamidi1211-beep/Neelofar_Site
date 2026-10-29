@@ -98,10 +98,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             footnotes={article.footnotes}
           />
 
-          <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-[var(--hairline)] pt-6">
-            <p className="text-base text-[#6b6b6b]">
-              نویسنده: <span className="font-semibold text-[#111111]">{article.author}</span>
-            </p>
+          <div className="mt-14 flex items-center justify-end border-t border-[var(--hairline)] pt-6">
             <ShareIcons url={`${SITE_URL}/notes/${slug}`} title={article.title} />
           </div>
 
