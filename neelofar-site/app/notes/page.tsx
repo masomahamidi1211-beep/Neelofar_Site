@@ -3,16 +3,22 @@ import { ArticleGrid } from "../components/article-grid";
 
 export default function NotesPage() {
   const articles = getAllArticles();
-  const entries = articles.map((article) => ({
-    slug: article.slug,
-    title: article.title,
-    author: article.author,
-    excerpt: longExcerptOf(article, article.image ? 110 : 220),
-    image: article.image,
-    imagePosition: article.imagePosition,
-    imageAlt: article.imageAlt,
-    subtitle: article.subtitle,
-  }));
+  const entries = articles.map((article) => {
+    // Force image resolution for sarsokhan if missing
+    const isSarsokhan = article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
+    const resolvedImage = article.image || (isSarsokhan ? "/images/madaran/book-30.png" : null);
+
+    return {
+      slug: article.slug,
+      title: article.title,
+      author: article.author,
+      excerpt: longExcerptOf(article, resolvedImage ? 110 : 220),
+      image: resolvedImage,
+      imagePosition: article.imagePosition,
+      imageAlt: article.imageAlt,
+      subtitle: article.subtitle,
+    };
+  });
 
   return (
     <div className="px-4 py-4 sm:px-6 lg:px-8">
