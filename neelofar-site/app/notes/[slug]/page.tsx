@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import {
   getArticleBySlug,
   getAllArticles,
@@ -20,8 +21,6 @@ export async function generateStaticParams() {
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug: rawSlug } = await params;
-  // Turbopack's dev router hands this segment still percent-encoded for
-  // non-ASCII (Persian) slugs instead of decoding it -- decode defensively.
   const slug = rawSlug.includes("%") ? decodeURIComponent(rawSlug) : rawSlug;
   const article = getArticleBySlug(slug);
 
@@ -29,23 +28,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
-  // Only show a cover image at the top if it isn't already embedded inline
-  // in the body -- illustrated articles (شاه‌کار, قصه‌ی مریم, ...) already
-  // place their first image at its natural position in the text, so
-  // showing the cover again up top would duplicate it.
   const showCoverAtTop = Boolean(article.image) && !article.body.includes(article.image as string);
 
   const authorArticles = getOtherArticlesByAuthor(article.author, slug);
   const issue = getSpecialIssueContainingArticle(slug);
   const issueRelated = getOtherArticlesInSameIssue(slug, 5);
-  // Falls back to a general "سایر یادداشت‌ها" pool (other pieces on the
-  // site, not by this same author -- that list is already covered above)
-  // when the article isn't part of any ویژه‌نامه. This is what keeps the
-  // sidebar from ever being genuinely empty for a standalone piece like
-  // «چرا حسین فخری...» or «کوچه‌ی ما...». Sized at 5 (not 4) so the sidebar
-  // carries a bit more content for long articles -- it still won't match a
-  // very long article's height 1:1, which is why the sidebar is sticky
-  // (see ArticleSidebar) rather than trying to pad it out further.
   const relatedArticles =
     issueRelated.length > 0
       ? issueRelated
@@ -53,15 +40,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           .filter((a) => a.slug !== slug && a.author !== article.author)
           .slice(0, 5);
   const relatedHeading = issue ? "از متن‌های ویژه‌نامه" : "سایر یادداشت‌ها";
-  // Mirrors ArticleSidebar's own null-check: when it has nothing to render,
-  // the two-column grid still reserved a blank 3fr track for it, pinning
-  // the article to the 7fr side instead of letting it center in the full
-  // width. Compute the same condition here so the wrapper can drop the
-  // grid entirely instead of rendering an empty second column.
   const hasSidebarContent = authorArticles.length > 0 || relatedArticles.length > 0;
-  // Matches the source .docx's own footnote placement (near the reference,
-  // divider line, smaller type) instead of bundling every note into one
-  // end-of-article list -- see inlineFootnotes for the full rationale.
   const bodyWithFootnotes = inlineFootnotes(article.body, article.footnotes);
 
   return (
@@ -97,16 +76,18 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             footnotes={article.footnotes}
           />
 
-          {/* Hashtags / Keywords section at the bottom of every article */}
+          {/* Clickable Aasoo-style Hashtags at the bottom */}
           {article.tags && article.tags.length > 0 && (
-            <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-[var(--hairline)] pt-6">
+            <div className="mt-12 flex flex-wrap items-center gap-3 border-t border-[var(--hairline)] pt-6 text-sm">
+              <span className="text-[#6b6b6b] font-medium">کلیدواژه‌ها:</span>
               {article.tags.map((tag, index) => (
-                <span
+                <Link
                   key={index}
-                  className="rounded-md bg-[#f4f4f5] px-3 py-1 text-sm text-[#4b5563]"
+                  href={`/tag/${encodeURIComponent(tag)}`}
+                  className="text-[#4b5563] transition-colors hover:text-[#dc2626]"
                 >
                   #{tag}
-                </span>
+                </Link>
               ))}
             </div>
           )}
@@ -114,8 +95,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="mt-14 flex items-center justify-end border-t border-[var(--hairline)] pt-6">
             <ShareIcons url={`${SITE_URL}/notes/${slug}`} title={article.title} />
           </div>
-
-         
         </article>
 
         <ArticleSidebar
