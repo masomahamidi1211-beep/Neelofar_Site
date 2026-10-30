@@ -97,6 +97,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             footnotes={article.footnotes}
           />
 
+          {/* Hashtags / Keywords section at the bottom of every article */}
+          {article.tags && article.tags.length > 0 && (
+            <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-[var(--hairline)] pt-6">
+              {article.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="rounded-md bg-[#f4f4f5] px-3 py-1 text-sm text-[#4b5563]"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+
           <div className="mt-14 flex items-center justify-end border-t border-[var(--hairline)] pt-6">
             <ShareIcons url={`${SITE_URL}/notes/${slug}`} title={article.title} />
           </div>
