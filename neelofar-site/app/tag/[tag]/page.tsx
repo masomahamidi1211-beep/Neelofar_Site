@@ -1,6 +1,6 @@
-import { getAllArticles } from "../../../lib/content-server";
+import { getAllArticles } from "../../lib/content-server";
 import Link from "next/link";
-import { formatJalaliDate } from "../../../lib/date";
+import { formatJalaliDate } from "../../lib/date";
 
 export async function generateStaticParams() {
   const articles = getAllArticles();
