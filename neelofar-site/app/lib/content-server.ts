@@ -1,3 +1,118 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { marked } from "marked";
+import { toPersianDigits } from "./date";
+
+const contentDir = path.join(process.cwd(), "content");
+
+export type Footnote = { id: string; text: string; title?: string; url?: string };
+
+export type Article = {
+  slug: string;
+  title: string;
+  author: string;
+  section: string;
+  order: number;
+  jalaliDate: string;
+  footnotes: Footnote[];
+  body: string;
+  wordCount: number;
+  readingTimeMinutes: number;
+  image: string | null;
+  imagePosition: string | null;
+  imageAlt: string | null;
+  tags: string[];
+  subtitle: string[] | null;
+};
+
+export type SpecialIssueSection = {
+  key: string;
+  title: string;
+  description: string;
+  articleSlugs: string[];
+  image?: string | null;
+  imagePosition?: string | null;
+  imageAlt?: string | null;
+  layout?: "grid" | "wide-row";
+};
+
+export type SpecialIssue = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  credit: string;
+  sections: SpecialIssueSection[];
+};
+
+export type SpecialIssueSectionResolved = Omit<SpecialIssueSection, "articleSlugs"> & {
+  articles: Article[];
+};
+
+export type SpecialIssueResolved = Omit<SpecialIssue, "sections"> & {
+  sections: SpecialIssueSectionResolved[];
+};
+
+function normalizeDate(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (value && typeof value === "object") return String(value);
+  return "";
+}
+
+function countWords(html: string): number {
+  const plain = html
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!plain) return 0;
+  return plain.split(" ").length;
+}
+
+export function longExcerptOf(article: Pick<Article, "body">, minWords = 140, maxWords = 220): string {
+  const cleanBody = article.body
+    .replace(/<figure[\s\S]*?<\/figure>/g, "")
+    .replace(/<div class="telegram-placeholder">[\s\S]*?<\/div>/g, "");
+  const paragraphs = [...cleanBody.matchAll(/<p>([\s\S]*?)<\/p>/g)]
+    .map((m) => m[1].replace(/<[^>]+>/g, "").replace(/\\-/g, "-").trim())
+    .filter(Boolean);
+
+  let text = "";
+  let words: string[] = [];
+  for (const p of paragraphs) {
+    text = text ? `${text} ${p}` : p;
+    words = text.split(/\s+/).filter(Boolean);
+    if (words.length >= minWords) break;
+  }
+
+  if (words.length <= maxWords) return text;
+
+  const capped = words.slice(0, maxWords).join(" ");
+  const sentenceEnd = Math.max(
+    capped.lastIndexOf("."),
+    capped.lastIndexOf("؟"),
+    capped.lastIndexOf("!"),
+    capped.lastIndexOf("۔")
+  );
+  if (sentenceEnd > capped.length * 0.4) {
+    return capped.slice(0, sentenceEnd + 1);
+  }
+  return capped.trim() + "…";
+}
+
+export function inlineFootnotes(bodyHtml: string, footnotes: Footnote[]): string {
+  if (footnotes.length === 0) return bodyHtml;
+
+  const footnoteById = new Map(footnotes.map((fn) => [fn.id, fn]));
+
+  return bodyHtml.replace(
+    /<sup class="fn-ref"><a id="fnref-(\d+)" href="#fn-(\d+)">([\s\S]*?)<\/a><\/sup>/g,
+    (marker, id: string) =>
+      footnoteById.has(id)
+        ? `<span class="inline-footnote-placeholder" data-footnote-id="${id}" data-footnote-number="${toPersianDigits(id)}"></span>`
+        : marker
+  );
+}
+
 function articleFromFile(slug: string, fullPath: string): Article {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
@@ -38,5 +153,118 @@ function articleFromFile(slug: string, fullPath: string): Article {
     imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : null,
     subtitle: Array.isArray(data.subtitle) ? data.subtitle : null,
     tags: defaultTags,
+  };
+}
+
+export function getAllArticles(): Article[] {
+  const directory = path.join(contentDir, "articles");
+  const files = fs.readdirSync(directory).filter((file) => file.endsWith(".md"));
+
+  return files
+    .map((file) => articleFromFile(file.replace(/\.md$/, ""), path.join(directory, file)))
+    .sort((a, b) => a.order - b.order);
+}
+
+export function getArticleBySlug(slug: string): Article | null {
+  const fullPath = path.join(contentDir, "articles", `${slug}.md`);
+  if (!fs.existsSync(fullPath)) return null;
+  return articleFromFile(slug, fullPath);
+}
+
+export function getBooks() {
+  const file = fs.readFileSync(path.join(contentDir, "books.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export type BookRecommendation = {
+  title: string;
+  author: string;
+  translator: string;
+  country: string;
+  genre: string;
+  note: string;
+  section: string;
+  editorialNote: string;
+};
+
+export function getBookRecommendations(): BookRecommendation[] {
+  const file = fs.readFileSync(path.join(process.cwd(), "data", "book-recommendations.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export function getArticlesByTag(tag: string): Article[] {
+  return getAllArticles().filter((article) => article.tags.includes(tag));
+}
+
+export function getOtherArticlesByAuthor(author: string, excludeSlug: string): Article[] {
+  return getAllArticles().filter((article) => article.author === author && article.slug !== excludeSlug);
+}
+
+export function getSpecialIssueContainingArticle(slug: string): SpecialIssue | null {
+  return (
+    getSpecialIssues().find((issue) =>
+      issue.sections.some((section) => section.articleSlugs.includes(slug))
+    ) ?? null
+  );
+}
+
+export function getOtherArticlesInSameIssue(slug: string, limit = 5): Article[] {
+  const issue = getSpecialIssueContainingArticle(slug);
+  if (!issue) return [];
+
+  const otherSlugs = issue.sections
+    .flatMap((section) => section.articleSlugs)
+    .filter((s) => s !== slug);
+
+  const articlesBySlug = new Map(getAllArticles().map((article) => [article.slug, article]));
+  return otherSlugs
+    .map((s) => articlesBySlug.get(s))
+    .filter((article): article is Article => Boolean(article))
+    .slice(0, limit);
+}
+
+export type PodcastEpisode = { title: string; description: string; url: string; date: string };
+export type MultimediaItem = { title: string; description: string; url: string; date: string };
+
+export function getPodcastEpisodes(): PodcastEpisode[] {
+  const file = fs.readFileSync(path.join(contentDir, "podcast.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export function getMultimediaItems(): MultimediaItem[] {
+  const file = fs.readFileSync(path.join(contentDir, "multimedia.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export function getForms() {
+  const file = fs.readFileSync(path.join(contentDir, "forms.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export function getSpecialIssues(): SpecialIssue[] {
+  const file = fs.readFileSync(path.join(contentDir, "special-issues.json"), "utf8");
+  return JSON.parse(file);
+}
+
+export function getSpecialIssue(slug: string): SpecialIssueResolved | null {
+  const issue = getSpecialIssues().find((item) => item.slug === slug);
+  if (!issue) return null;
+
+  const articlesBySlug = new Map(getAllArticles().map((article) => [article.slug, article]));
+
+  return {
+    ...issue,
+    sections: issue.sections.map((section) => ({
+      key: section.key,
+      title: section.title,
+      description: section.description,
+      image: section.image ?? null,
+      imagePosition: section.imagePosition ?? null,
+      imageAlt: section.imageAlt ?? null,
+      layout: section.layout,
+      articles: section.articleSlugs
+        .map((slug) => articlesBySlug.get(slug))
+        .filter((article): article is Article => Boolean(article)),
+    })),
   };
 }
