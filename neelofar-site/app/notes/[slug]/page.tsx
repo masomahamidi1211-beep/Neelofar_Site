@@ -9,7 +9,6 @@ import {
   inlineFootnotes,
 } from "../../lib/content-server";
 import { formatJalaliDate, toPersianDigits } from "../../lib/date";
-import { ArticleSidebar } from "../../components/article-sidebar";
 import { ShareIcons } from "../../components/share-icons";
 import ArticleBody from "../../components/article-body";
 
@@ -39,14 +38,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       : getAllArticles()
           .filter((a) => a.slug !== slug && a.author !== article.author)
           .slice(0, 5);
+          
   const relatedHeading = issue ? "از متن‌های ویژه‌نامه" : "سایر یادداشت‌ها";
-  const hasSidebarContent = authorArticles.length > 0 || relatedArticles.length > 0;
   const bodyWithFootnotes = inlineFootnotes(article.body, article.footnotes);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <div className={hasSidebarContent ? "grid grid-cols-1 gap-12 lg:grid-cols-[7fr_3fr] lg:gap-16" : ""}>
-        <article className={`min-w-0 max-w-[70ch] ${hasSidebarContent ? "" : "mx-auto"}`}>
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[7fr_3fr] lg:gap-16">
+        <article className="min-w-0 max-w-[70ch]">
           <h1 className="article-title text-4xl leading-[1.6] sm:text-5xl">{article.title}</h1>
           {article.subtitle && (
             <div className="article-author mt-3 space-y-1 text-lg text-[#6b6b6b]">
@@ -66,7 +65,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {showCoverAtTop && (
             <img
               src={article.image as string}
-              alt={`${article.imageAlt ?? article.title} — مادران و دختران`}
+              alt={`${article.imageAlt ?? article.title}`}
               className="mx-auto mt-8 block max-h-[60vh] w-auto max-w-full"
             />
           )}
@@ -97,12 +96,26 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
         </article>
 
-        <ArticleSidebar
-          authorName={article.author}
-          authorArticles={authorArticles}
-          relatedHeading={relatedHeading}
-          relatedArticles={relatedArticles}
-        />
+        {/* Sidebar styled exactly like Aasoo: Article title on top, Author name right below, with dashed borders */}
+        <aside className="space-y-6 lg:border-r lg:border-dashed lg:border-[#d1d5db] lg:pr-8">
+          <h3 className="text-lg font-bold text-[#111111] border-b border-[#111111] pb-2">
+            {relatedHeading}
+          </h3>
+          <div className="space-y-6 divide-y divide-dashed divide-[#d1d5db]">
+            {relatedArticles.map((item) => (
+              <div key={item.slug} className="pt-6 first:pt-0">
+                <Link href={`/notes/${item.slug}`} className="group block">
+                  <h4 className="text-base font-bold leading-snug text-[#111111] group-hover:text-[#dc2626] transition-colors">
+                    {item.title}
+                  </h4>
+                </Link>
+                <p className="mt-2 text-sm text-[#6b6b6b]">
+                  {item.author}
+                </p>
+              </div>
+            ))}
+          </div>
+        </aside>
       </div>
     </div>
   );
