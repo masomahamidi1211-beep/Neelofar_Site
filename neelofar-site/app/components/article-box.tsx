@@ -112,8 +112,7 @@ export function ArticleBox({
           <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} />
           {/* mt-auto pins the footer to the card's bottom edge, so footers
               line up across a row no matter how long the text above is. */}
-          <div className="mt-auto flex items-center justify-between pt-5">
-            <span className="text-sm text-[var(--muted)]">{article.date}</span>
+          <div className="mt-auto flex justify-end pt-5">
             <ReadMoreCircle />
           </div>
         </div>
