@@ -54,11 +54,31 @@ const TONE_BG: Record<"tan" | "cream", string> = {
   cream: "bg-[var(--cream)]",
 };
 
+/**
+ * Excerpt that fills whatever height the card has left. The text is laid
+ * out absolutely, so it never decides the card's height: the row's tallest
+ * card sets the height, and every other card's excerpt stretches to match.
+ * Overflow is cut off under a soft fade, so the text in every card of a
+ * row ends on the same line. minHeight is the space the excerpt always
+ * gets, so pick it from how much text the caller wants visible.
+ */
+function FillExcerpt({ text, minHeight }: { text: string; minHeight: string }) {
+  return (
+    <div
+      className="relative mt-4 flex-1 overflow-hidden [mask-image:linear-gradient(to_bottom,black_calc(100%-3rem),transparent)]"
+      style={{ minHeight }}
+    >
+      <p className="article-body justified-fa absolute inset-x-0 top-0 text-[17px] leading-8 text-[var(--ink)]">{text}</p>
+    </div>
+  );
+}
+
 export function ArticleBox({
   article,
   variant,
   tone,
   authorFirst = false,
+  excerptMinHeight = "10rem",
   className = "",
 }: {
   article: BaruArticle;
@@ -69,6 +89,8 @@ export function ArticleBox({
   /** photo-top only: author credit above the headline instead of below --
    * used by the illustrated-portrait row. */
   authorFirst?: boolean;
+  /** photo-top/text/cream: the excerpt's guaranteed height (any CSS length). */
+  excerptMinHeight?: string;
   className?: string;
 }) {
   const href = `/notes/${article.slug}`;
@@ -87,7 +109,7 @@ export function ArticleBox({
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
           <h3 className="article-title text-2xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] sm:text-3xl">{article.title}</h3>
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
-          <p className="article-body justified-fa mt-4 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
+          <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} />
           {/* mt-auto pins the footer to the card's bottom edge, so footers
               line up across a row no matter how long the text above is. */}
           <div className="mt-auto flex items-center justify-between pt-5">
@@ -161,7 +183,7 @@ export function ArticleBox({
     >
       <h3 className="article-title text-2xl leading-snug text-black transition duration-150 group-hover:text-[var(--title)] sm:text-3xl">{article.title}</h3>
       <AuthorLine author={article.author} className="mt-2" />
-      <p className="article-body justified-fa mt-4 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
+      <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} />
       {/* In normal flow with mt-auto (not absolute), so long text can never
           run underneath the circle, and it still sits on the bottom edge. */}
       <div className="mt-auto flex justify-start pt-5">

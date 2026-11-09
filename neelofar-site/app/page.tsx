@@ -87,6 +87,7 @@ export default function HomePage() {
                   <ArticleBox
                     article={toBaru(a, [100, 170])}
                     variant="photo-top"
+                    excerptMinHeight="22rem"
                     className="flex-1"
                     tone={i % 2 === 0 ? "tan" : "cream"}
                   />
@@ -126,6 +127,7 @@ export default function HomePage() {
                   <ArticleBox
                     article={toBaru(a, [100, 170])}
                     variant="photo-top"
+                    excerptMinHeight="22rem"
                     className="flex-1"
                     tone={i % 2 === 0 ? "cream" : "tan"}
                   />
