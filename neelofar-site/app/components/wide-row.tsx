@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { BaruArticle } from "./article-box";
 
 export function WideRow({ article }: { article: BaruArticle }) {
+  const href = `/notes/${article.slug}`;
   // Determine if this article is سرسخن
   const isSarsokhan =
     article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
@@ -29,7 +30,7 @@ export function WideRow({ article }: { article: BaruArticle }) {
         <div>
           <h2 className="text-2xl md:text-3xl font-bold leading-snug mb-4">
             <Link
-              href={`/articles/${article.slug}`}
+              href={href}
               className="hover:text-[#8c2222] transition-colors"
             >
               {article.title}
@@ -47,7 +48,14 @@ export function WideRow({ article }: { article: BaruArticle }) {
       </div>
 
       {/* 2. STICKER IMAGE CONTAINER (Left Side in RTL) */}
-      <div className="w-full md:w-5/12 flex justify-center items-center p-2 shrink-0 order-2 md:order-2">
+      {/* The image links to the same article; aria-hidden + tabIndex -1 so
+          keyboard and screen-reader users get a single link (the title). */}
+      <Link
+        href={href}
+        aria-hidden="true"
+        tabIndex={-1}
+        className="w-full md:w-5/12 flex justify-center items-center p-2 shrink-0 order-2 md:order-2"
+      >
         <img
           src={imgSrc}
           alt={article.imageAlt || article.title}
@@ -59,7 +67,7 @@ export function WideRow({ article }: { article: BaruArticle }) {
                      drop-shadow-[0_10px_20px_rgba(42,36,33,0.15)]
                      transform -rotate-1 hover:rotate-0 transition-all duration-300"
         />
-      </div>
+      </Link>
     </div>
   );
 }
