@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { getAllArticles } from "../../lib/content-server";
 import Link from "next/link";
 import { formatJalaliDate } from "../../lib/date";
@@ -13,7 +14,12 @@ export async function generateStaticParams() {
 
 export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {
   const { tag: rawTag } = await params;
-  const tag = decodeURIComponent(rawTag);
+  let tag: string;
+  try {
+    tag = decodeURIComponent(rawTag);
+  } catch {
+    notFound();
+  }
   const articles = getAllArticles().filter((article) => article.tags?.includes(tag));
 
   return (

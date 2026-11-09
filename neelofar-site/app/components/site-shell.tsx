@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import Footer from "./footer";
 import PageFade from "./page-fade";
@@ -50,12 +50,52 @@ function useEnterExit(open: boolean, durationMs: number) {
   return { mounted, visible };
 }
 
+/**
+ * Accessibility for an open overlay (search modal, mobile drawer): locks page
+ * scroll behind it, keeps Tab/Shift+Tab cycling inside it, and hands focus
+ * back to whatever opened it once it closes.
+ */
+function useModalFocus(open: boolean, containerRef: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    if (!open) return;
+    const opener = document.activeElement as HTMLElement | null;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || !containerRef.current) return;
+      const focusable = containerRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+      opener?.focus?.();
+    };
+  }, [open, containerRef]);
+}
+
 export default function SiteShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pathname = usePathname();
   const router = useRouter();
+  const searchRef = useRef<HTMLDivElement | null>(null);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -71,6 +111,8 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
   const search = useEnterExit(searchOpen, 250);
   const drawer = useEnterExit(menuOpen, 300);
+  useModalFocus(searchOpen, searchRef);
+  useModalFocus(menuOpen, drawerRef);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,9 +186,19 @@ export default function SiteShell({ children }: { children: ReactNode }) {
       {/* SEARCH MODAL OVERLAY */}
       {search.mounted && (
         <div
+          ref={searchRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="جست‌وجو"
           className={`fixed inset-0 z-50 overflow-y-auto bg-[var(--bg)]/95 backdrop-blur-md transition-opacity duration-[250ms] ${
             search.visible ? "opacity-100" : "opacity-0"
           }`}
+          // Clicking the empty backdrop (not the input or its hint) closes it.
+          onClick={(event) => {
+            if (event.target === event.currentTarget || event.target === event.currentTarget.firstElementChild) {
+              setSearchOpen(false);
+            }
+          }}
         >
           <div
             className={`mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-start pt-16 px-6 transition-[opacity,transform] duration-[250ms] ${
@@ -168,6 +220,9 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               <div className="relative w-full">
                 <input
                   autoFocus
+                  type="search"
+                  enterKeyHint="search"
+                  aria-label="جست‌وجو در مقاله‌ها"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   className="w-full rounded-lg border-2 border-[#1e293b] bg-white px-5 py-4 text-center text-2xl font-medium text-black shadow-md outline-none transition focus:border-[#8c2222] focus:ring-2 focus:ring-[#8c2222]/20 sm:text-3xl"
@@ -193,6 +248,10 @@ export default function SiteShell({ children }: { children: ReactNode }) {
             onClick={() => setMenuOpen(false)}
           />
           <div
+            ref={drawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="فهرست اصلی"
             className={`fixed inset-y-0 left-0 z-40 w-full max-w-sm bg-[var(--bg)] shadow-2xl transition-transform duration-300 ease-out ${
               drawer.visible ? "translate-x-0" : "-translate-x-full"
             }`}

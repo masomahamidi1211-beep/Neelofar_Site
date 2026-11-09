@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import type { BaruArticle } from "./article-box";
 
@@ -12,22 +12,14 @@ export function WideRow({ article }: { article: BaruArticle }) {
   // اگر تصویر در مقاله (مثل فایل سارِسخن) تعریف شده بود، از همان استفاده کن، در غیر این صورت از پیش‌فرض استفاده کن
   const initialSrc = article.image || (isSarsokhan ? "/images/madaran/book-30.png" : "/images/zan-0.png");
 
-  const [imgSrc, setImgSrc] = useState<string>(initialSrc);
-
-  // Sync state if article prop changes
-  useEffect(() => {
-    setImgSrc(
-      article.image || (isSarsokhan ? "/images/madaran/book-30.png" : "/images/zan-0.png")
-    );
-  }, [article, isSarsokhan]);
+  // If the image fails to load, fall back to the default once. Remembering
+  // WHICH src failed (instead of syncing state in an effect) means a new
+  // article prop automatically starts fresh with its own image.
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const imgSrc = failedSrc === initialSrc ? "/images/zan-0.png" : initialSrc;
 
   const handleImageError = () => {
-    // Fallback logic for case sensitivity on Vercel/Linux
-    if (imgSrc.endsWith(".png")) {
-      setImgSrc(imgSrc.replace(/\.png$/, ".PNG"));
-    } else if (imgSrc.endsWith(".PNG")) {
-      setImgSrc(imgSrc.replace(/\.PNG$/, ".png"));
-    }
+    if (imgSrc !== "/images/zan-0.png") setFailedSrc(initialSrc);
   };
 
   return (

@@ -36,7 +36,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://neelofar-placehold
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "نیلوفر",
+  title: { default: "نیلوفر", template: "%s | نیلوفر" },
   description: "وب‌سایت نیلوفر برای گسترش کتاب‌خوانی و رمان‌خوانی در میان نوجوانان و جوانان افغانستان",
   icons: {
     icon: [

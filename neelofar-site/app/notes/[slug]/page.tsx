@@ -1,9 +1,9 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
   getArticleBySlug,
   getAllArticles,
-  getOtherArticlesByAuthor,
   getOtherArticlesInSameIssue,
   getSpecialIssueContainingArticle,
   inlineFootnotes,
@@ -18,9 +18,52 @@ export async function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.slug }));
 }
 
+// A malformed address like /notes/%E0 makes decodeURIComponent throw --
+// treat it as "not found" instead of a server error.
+function safeDecode(value: string): string | null {
+  try {
+    return value.includes("%") ? decodeURIComponent(value) : value;
+  } catch {
+    return null;
+  }
+}
+
+function plainExcerpt(html: string, maxLength = 160): string {
+  const text = html.replace(/<[^>]*>/g, " ").replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim();
+  return text.length > maxLength ? `${text.slice(0, maxLength).trim()}…` : text;
+}
+
+// Per-article title, description and preview image for search engines and
+// link previews (Telegram, Facebook, ...), instead of the site-wide defaults.
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const slug = safeDecode((await params).slug);
+  const article = slug ? getArticleBySlug(slug) : null;
+  if (!article) return {};
+  const description = plainExcerpt(article.body);
+  return {
+    title: article.title,
+    description,
+    alternates: { canonical: `/notes/${slug}` },
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description,
+      url: `/notes/${slug}`,
+      ...(article.image ? { images: [{ url: article.image }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description,
+      ...(article.image ? { images: [article.image] } : {}),
+    },
+  };
+}
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug: rawSlug } = await params;
-  const slug = rawSlug.includes("%") ? decodeURIComponent(rawSlug) : rawSlug;
+  const slug = safeDecode(rawSlug);
+  if (!slug) notFound();
   const article = getArticleBySlug(slug);
 
   if (!article) {
@@ -29,7 +72,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   const showCoverAtTop = Boolean(article.image) && !article.body.includes(article.image as string);
 
-  const authorArticles = getOtherArticlesByAuthor(article.author, slug);
   const issue = getSpecialIssueContainingArticle(slug);
   const issueRelated = getOtherArticlesInSameIssue(slug, 5);
   const relatedArticles =

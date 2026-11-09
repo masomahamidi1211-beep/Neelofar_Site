@@ -5,6 +5,28 @@ const nextConfig: NextConfig = {
     root: __dirname,
   },
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  poweredByHeader: false,
+  // Baseline security headers for every page. The CSP is deliberately
+  // narrow -- it blocks other sites from framing this one, plugins, and
+  // <base>/form hijacking -- and leaves script/style/frame sources open so
+  // Next's inline scripts and the embedded forms/videos keep working.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
+          },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       // سارا راخفوس interview: slug changed when the piece was retitled to
