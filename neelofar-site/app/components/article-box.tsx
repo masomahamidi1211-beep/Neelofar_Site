@@ -75,15 +75,25 @@ export function ArticleBox({
 
   if (variant === "photo-top") {
     return (
-      <Link href={href} className={`article-box baru-focus group flex h-full flex-col ${className}`}>
-        <div className={`overflow-hidden ${tone ? `${TONE_BG[tone]} p-3` : ""}`}>
-          <BoxImage article={article} className={`w-full object-cover ${tone ? "aspect-[4/5]" : "aspect-[16/9]"}`} />
+      <Link href={href} className={`article-box baru-focus group flex h-full min-h-0 flex-col ${className}`}>
+        {/* Fixed-ratio image area, kept even when an article has no image, so
+            every card in a row starts its text at the same height. */}
+        <div className={`shrink-0 overflow-hidden ${tone ? `${TONE_BG[tone]} p-3` : ""}`}>
+          <div className={`w-full overflow-hidden ${tone ? "aspect-[4/5]" : "aspect-[16/9] bg-[var(--cream)]"}`}>
+            <BoxImage article={article} className="h-full w-full object-cover" />
+          </div>
         </div>
         <div className="flex flex-1 flex-col p-5 sm:p-6">
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
           <h3 className="article-title text-2xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] sm:text-3xl">{article.title}</h3>
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
-          <p className="article-body justified-fa mt-4 flex-1 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
+          <p className="article-body justified-fa mt-4 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
+          {/* mt-auto pins the footer to the card's bottom edge, so footers
+              line up across a row no matter how long the text above is. */}
+          <div className="mt-auto flex items-center justify-between pt-5">
+            <span className="text-sm text-[var(--muted)]">{article.date}</span>
+            <ReadMoreCircle />
+          </div>
         </div>
       </Link>
     );
@@ -127,7 +137,7 @@ export function ArticleBox({
 
   if (variant === "horizontal-small") {
     return (
-      <Link href={href} className={`article-box baru-focus group flex items-stretch gap-4 p-4 ${className}`}>
+      <Link href={href} className={`article-box baru-focus group flex h-full items-stretch gap-4 p-4 ${className}`}>
         <div className="min-w-0 flex-1">
           <h3 className="article-title text-xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]">
             {article.title}
@@ -151,8 +161,12 @@ export function ArticleBox({
     >
       <h3 className="article-title text-2xl leading-snug text-black transition duration-150 group-hover:text-[var(--title)] sm:text-3xl">{article.title}</h3>
       <AuthorLine author={article.author} className="mt-2" />
-      <p className="article-body justified-fa mt-4 flex-1 pb-14 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
-      <ReadMoreCircle className="absolute bottom-5 start-5" />
+      <p className="article-body justified-fa mt-4 text-[17px] text-[var(--ink)]">{article.excerpt}</p>
+      {/* In normal flow with mt-auto (not absolute), so long text can never
+          run underneath the circle, and it still sits on the bottom edge. */}
+      <div className="mt-auto flex justify-start pt-5">
+        <ReadMoreCircle />
+      </div>
     </Link>
   );
 }

@@ -82,11 +82,12 @@ export default function HomePage() {
               {upperGridArticles.map((a, i) => (
                 <div
                   key={a.slug}
-                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col justify-between h-full hover:shadow-md transition-all duration-300"
+                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col h-full hover:shadow-md transition-all duration-300"
                 >
                   <ArticleBox
                     article={toBaru(a, [100, 170])}
                     variant="photo-top"
+                    className="flex-1"
                     tone={i % 2 === 0 ? "tan" : "cream"}
                   />
                 </div>
@@ -120,11 +121,12 @@ export default function HomePage() {
               {lowerGridArticles.map((a, i) => (
                 <div
                   key={a.slug}
-                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col justify-between h-full hover:shadow-md transition-all duration-300"
+                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col h-full hover:shadow-md transition-all duration-300"
                 >
                   <ArticleBox
                     article={toBaru(a, [100, 170])}
                     variant="photo-top"
+                    className="flex-1"
                     tone={i % 2 === 0 ? "cream" : "tan"}
                   />
                 </div>
