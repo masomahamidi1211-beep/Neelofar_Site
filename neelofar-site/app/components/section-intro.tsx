@@ -32,9 +32,7 @@ export function SectionIntro({
   return (
     <div className={`mb-3 flex flex-col border border-[var(--hairline)] bg-white sm:flex-row ${href ? "group" : ""}`}>
       <div
-        className={`aspect-square w-full shrink-0 overflow-hidden sm:w-64 ${
-          href ? "sm:aspect-[3/4]" : "sm:aspect-auto"
-        }`}
+        className={"aspect-[4/3] w-full shrink-0 overflow-hidden sm:w-64 sm:self-start"}
       >
         <img
           src={image}

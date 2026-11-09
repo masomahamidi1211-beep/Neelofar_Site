@@ -24,7 +24,7 @@ const DEFAULT_IMAGE_POSITION = "50% 20%";
 /**
  * The standard article card for every grid section (homepage, یادداشت‌ها,
  * ویژه‌نامه, گفتگوها). One fixed image format for all cards, always: a
- * 1:1 square block, cropped with object-fit: cover so every card in
+ * 4:3 landscape block, cropped with object-fit: cover so every card in
  * a row shares the exact same image height -- never a random size. Text-only
  * entries render with no image at all (no placeholder box).
  */
@@ -46,7 +46,7 @@ export function FeatureCard({
       className={`group flex h-full flex-col bg-white transition duration-200 hover:bg-[var(--panel)] ${className}`}
     >
       {article.image && (
-        <div className="aspect-square w-full shrink-0 overflow-hidden">
+        <div className="aspect-[4/3] w-full shrink-0 overflow-hidden">
           <img
             src={article.image}
             alt={article.imageAlt ?? ""}

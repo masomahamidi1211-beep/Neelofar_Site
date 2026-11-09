@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { CardArticle } from "./feature-card";
 
 /**
- * The small-row / carousel card format: a fixed 120x120 thumbnail beside
+ * The small-row / carousel card format: a fixed 160x120 (4:3) thumbnail beside
  * the text (never resized, never stretched), thin border, generous inner
  * padding. Text-only entries (no image) render with no thumbnail at all --
  * never a placeholder box.
@@ -14,7 +14,7 @@ export function CompactCard({ article, className = "" }: { article: CardArticle;
       className={`group flex items-start gap-4 border border-[var(--hairline)] bg-white p-4 transition duration-200 hover:bg-[var(--panel)] ${className}`}
     >
       {article.image && (
-        <div className="h-[120px] w-[120px] shrink-0 overflow-hidden">
+        <div className="h-[120px] w-[160px] shrink-0 overflow-hidden">
           <img
             src={article.image}
             alt={article.imageAlt ?? ""}

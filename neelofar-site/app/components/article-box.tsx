@@ -45,7 +45,7 @@ function BoxImage({ article, className }: { article: BaruArticle; className: str
  * - dark: a dark photographic background with a gradient overlay, all
  *   text in white, centered.
  * - list: fixed-height (185px) row, borderless #f0f0f0 block with only a
- *   bottom hairline, a 150px square thumbnail at the far side, black
+ *   bottom hairline, a 200x150 landscape thumbnail at the far side, black
  *   title -- the hero's side-column stack.
  * - horizontal-small: a smaller thumbnail-beside-text row for Section C.
  */
@@ -101,7 +101,7 @@ export function ArticleBox({
         {/* Fixed-ratio image area, kept even when an article has no image, so
             every card in a row starts its text at the same height. */}
         <div className={`shrink-0 overflow-hidden ${tone ? `${TONE_BG[tone]} p-3` : ""}`}>
-          <div className={`w-full overflow-hidden ${tone ? "aspect-[4/5]" : "aspect-[16/9] bg-[var(--cream)]"}`}>
+          <div className={`w-full overflow-hidden ${tone ? "aspect-[4/3]" : "aspect-[16/9] bg-[var(--cream)]"}`}>
             <BoxImage article={article} className="h-full w-full object-cover" />
           </div>
         </div>
@@ -149,7 +149,7 @@ export function ArticleBox({
           </h3>
           <p className="article-body mt-2 line-clamp-2 text-base leading-6 text-[var(--muted)]">{article.excerpt}</p>
         </div>
-        <div className="h-[150px] w-[150px] shrink-0 overflow-hidden">
+        <div className="h-[150px] w-[200px] shrink-0 overflow-hidden">
           <BoxImage article={article} className="h-full w-full object-cover" />
         </div>
       </Link>
@@ -165,7 +165,7 @@ export function ArticleBox({
           </h3>
           <p className="article-body mt-2 line-clamp-2 text-base leading-6 text-[var(--muted)]">{article.excerpt}</p>
         </div>
-        <div className="h-[90px] w-[90px] shrink-0 overflow-hidden">
+        <div className="h-[90px] w-[120px] shrink-0 overflow-hidden">
           <BoxImage article={article} className="h-full w-full object-cover" />
         </div>
       </Link>

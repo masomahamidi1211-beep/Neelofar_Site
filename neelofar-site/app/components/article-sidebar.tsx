@@ -3,7 +3,7 @@ import type { Article } from "../lib/content-server";
 
 /**
  * One compact hairline-separated list used by both sidebar sections --
- * small square thumbnail, linked title, «بیشتر» link. Kept to one shared
+ * small landscape (4:3) thumbnail, linked title, «بیشتر» link. Kept to one shared
  * renderer so the two sections can never visually drift apart.
  */
 function SidebarList({ heading, articles }: { heading: string; articles: Article[] }) {
@@ -16,7 +16,7 @@ function SidebarList({ heading, articles }: { heading: string; articles: Article
         {articles.map((article) => (
           <li key={article.slug} className="flex items-center gap-3 py-3">
             {article.image && (
-              <Link href={`/notes/${article.slug}`} className="block h-16 w-16 shrink-0 overflow-hidden">
+              <Link href={`/notes/${article.slug}`} className="block h-16 w-[85px] shrink-0 overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={article.image}

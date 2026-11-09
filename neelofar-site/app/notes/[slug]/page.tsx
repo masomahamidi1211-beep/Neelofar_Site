@@ -111,7 +111,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 href={`/notes/${item.slug}`}
                 className="group flex items-start gap-4 pt-6 first:pt-0"
               >
-                <div className="h-20 w-20 shrink-0 overflow-hidden bg-[#f3ede2]">
+                <div className="h-[72px] w-24 shrink-0 overflow-hidden bg-[#f3ede2]">
                   {item.image && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
