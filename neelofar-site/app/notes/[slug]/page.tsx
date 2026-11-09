@@ -96,23 +96,39 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
         </article>
 
-        {/* Sidebar styled exactly like Aasoo: Article title on top, Author name right below, with dashed borders */}
-        <aside className="space-y-6 lg:border-r lg:border-dashed lg:border-[#d1d5db] lg:pr-8">
+        {/* Aasoo-style sidebar: thumbnail, title, author, dashed dividers.
+            On desktop it sticks below the header while the article scrolls;
+            self-start is needed, or the grid stretches it and sticky does
+            nothing. The max height + scroll keeps it usable on short screens. */}
+        <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:border-r lg:border-dashed lg:border-[#d1d5db] lg:pr-8">
           <h3 className="text-lg font-bold text-[#111111] border-b border-[#111111] pb-2">
             {relatedHeading}
           </h3>
           <div className="space-y-6 divide-y divide-dashed divide-[#d1d5db]">
             {relatedArticles.map((item) => (
-              <div key={item.slug} className="pt-6 first:pt-0">
-                <Link href={`/notes/${item.slug}`} className="group block">
-                  <h4 className="text-base font-bold leading-snug text-[#111111] group-hover:text-[#dc2626] transition-colors">
+              <Link
+                key={item.slug}
+                href={`/notes/${item.slug}`}
+                className="group flex items-start gap-4 pt-6 first:pt-0"
+              >
+                <div className="h-20 w-20 shrink-0 overflow-hidden bg-[#f3ede2]">
+                  {item.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="h-full w-full object-cover transition duration-200 ease-out group-hover:scale-[1.05]"
+                      style={{ objectPosition: item.imagePosition ?? "50% 20%" }}
+                    />
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h4 className="line-clamp-3 text-base font-bold leading-snug text-[#111111] transition-colors group-hover:text-[#dc2626]">
                     {item.title}
                   </h4>
-                </Link>
-                <p className="mt-2 text-sm text-[#6b6b6b]">
-                  {item.author}
-                </p>
-              </div>
+                  <p className="mt-2 text-sm text-[#6b6b6b]">{item.author}</p>
+                </div>
+              </Link>
             ))}
           </div>
         </aside>
