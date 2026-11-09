@@ -41,7 +41,7 @@ export default function ArticleBody({ bodyHtml, footnotes }: { bodyHtml: string;
   return (
     <div
       ref={bodyRef}
-      className="article-body prose prose-neutral mt-10 max-w-none text-justify text-xl leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold"
+      className="article-body prose prose-neutral mt-10 max-w-none text-justify text-xl leading-9 [&_p]:mb-6 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_p>a]:text-[var(--accent)] [&_p>a]:underline [&_p>a]:decoration-1 [&_p>a]:underline-offset-4 hover:[&_p>a]:opacity-80"
       dangerouslySetInnerHTML={{ __html: bodyHtml }}
     />
   );
