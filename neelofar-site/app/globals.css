@@ -212,9 +212,15 @@ blockquote {
   margin: 2rem 0;
 }
 
+/* Every in-article image sits in a 4:3 landscape frame, cropped to fill it
+   (never stretched). Crop toward the upper part, where faces usually are; a
+   figure can override with an inline style="object-position: ...". */
 .article-figure img {
   width: 100%;
   display: block;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 30%;
 }
 
 .article-figure figcaption {
@@ -233,6 +239,9 @@ blockquote {
 .article-figure-small img {
   width: 100%;
   display: block;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 30%;
 }
 
 .article-figure-small figcaption {

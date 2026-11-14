@@ -104,12 +104,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <span>{toPersianDigits(String(article.readingTimeMinutes))} دقیقه زمان مطالعه</span>
           </div>
 
+          {/* Cover: same 4:3 landscape crop (and crop position) as the
+              article's cards, so it never shows as a tall portrait. */}
           {showCoverAtTop && (
-            <img
-              src={article.image as string}
-              alt={`${article.imageAlt ?? article.title}`}
-              className="mx-auto mt-8 block max-h-[60vh] w-auto max-w-full"
-            />
+            <div className="mt-8 aspect-[4/3] w-full overflow-hidden bg-[#f3ede2]">
+              <img
+                src={article.image as string}
+                alt={`${article.imageAlt ?? article.title}`}
+                className="h-full w-full object-cover"
+                style={{ objectPosition: article.imagePosition ?? "50% 20%" }}
+              />
+            </div>
           )}
 
           <ArticleBody

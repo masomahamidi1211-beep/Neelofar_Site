@@ -124,7 +124,7 @@ export function ArticleBox({
     return (
       <Link
         href={href}
-        className={`baru-focus group relative flex h-full min-h-[320px] flex-col items-center justify-center overflow-hidden p-8 text-center ${className}`}
+        className={`baru-focus group relative flex aspect-[4/3] w-full flex-col items-center justify-center overflow-hidden p-8 text-center ${className}`}
       >
         <BoxImage article={article} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-black/55" />

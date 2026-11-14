@@ -67,7 +67,7 @@ function Column({
   return (
     <Link href={href} className="group relative z-0 flex flex-col p-6 sm:p-7">
       {article.image && (
-        <div className="aspect-[3/2] w-full overflow-hidden sm:aspect-auto sm:h-[220px]">
+        <div className="aspect-[4/3] w-full overflow-hidden">
           <img
             src={article.image}
             alt={article.imageAlt ?? ""}

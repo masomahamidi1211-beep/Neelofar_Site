@@ -20,7 +20,7 @@ export function IssuePoster({
   return (
     <Link
       href={href}
-      className="article-box baru-focus group relative block aspect-[3/4] w-full overflow-hidden sm:aspect-[4/5]"
+      className="article-box baru-focus group relative block aspect-[4/3] w-full overflow-hidden"
     >
       <img
         src={image}
