@@ -123,7 +123,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
             <Image src="/logo.png" alt="" width={48} height={48} priority className="h-9 w-9 sm:h-12 sm:w-12" />
             <span className="flex flex-col leading-none">
               <span className="text-[28px] font-bold text-black sm:text-[34px]">نیلوفر</span>
-              <span className="mt-1 hidden text-[10px] font-medium tracking-wide text-[#55554f] sm:block">برنامه ادبیات جهان</span>
+              <span className="mt-1 hidden text-[10px] tracking-wide font-semibold text-[#55554f] sm:block">برنامه ادبیات جهان</span>
             </span>
           </Link>
 
@@ -151,7 +151,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               className="baru-focus baru-link-hover text-[var(--ink)] transition duration-150"
               onClick={() => setSearchOpen(true)}
             >
-              <Search size={20} strokeWidth={1.75} />
+              <Search size={20} strokeWidth={2.25} />
             </button>
 
             <button
@@ -160,7 +160,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               className="baru-focus text-2xl lg:hidden"
               onClick={() => setMenuOpen(true)}
             >
-              <Menu size={24} strokeWidth={1.75} />
+              <Menu size={24} strokeWidth={2.25} />
             </button>
           </div>
         </div>
@@ -256,8 +256,8 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`baru-focus border-b border-b-[var(--line)] py-4 ps-4 text-2xl text-black transition duration-150 hover:opacity-60 ${
-                        active ? "border-s-2 border-s-black font-semibold" : "border-s-2 border-s-transparent"
+                      className={`baru-focus border-b border-b-[var(--line)] py-4 ps-4 text-2xl font-semibold text-black transition duration-150 hover:opacity-60 ${
+                        active ? "border-s-2 border-s-black" : "border-s-2 border-s-transparent"
                       }`}
                     >
                       {item.label}
