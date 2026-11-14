@@ -117,13 +117,13 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--page-bg)] text-[var(--ink)]">
-      <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--header-bg)]">
         <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:h-[104px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-7 lg:px-0 lg:py-0">
           <Link href="/" className="baru-focus flex shrink-0 items-center gap-2 sm:gap-3" aria-label="نیلوفر، صفحه اصلی">
             <Image src="/logo.png" alt="" width={48} height={48} priority className="h-9 w-9 sm:h-12 sm:w-12" />
             <span className="flex flex-col leading-none">
               <span className="text-[28px] font-bold text-black sm:text-[34px]">نیلوفر</span>
-              <span className="mt-1 hidden text-[10px] font-medium tracking-wide text-[var(--muted)] sm:block">برنامه ادبیات جهان</span>
+              <span className="mt-1 hidden text-[10px] font-medium tracking-wide text-[#55554f] sm:block">برنامه ادبیات جهان</span>
             </span>
           </Link>
 

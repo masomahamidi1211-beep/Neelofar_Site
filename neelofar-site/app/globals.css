@@ -25,6 +25,8 @@
   /* Outer page background (lavender) -- the area around the content boxes.
      Boxes, cards, panels and the header keep their own colors. */
   --page-bg: #e6e6fa;
+  /* Site header: the same warm cream as the سرسخن box on the homepage. */
+  --header-bg: #f3ede2;
 }
 
 @theme inline {
