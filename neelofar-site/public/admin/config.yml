@@ -149,6 +149,13 @@ collections:
             fields:
               - { label: عنوان بخش, name: heading, widget: string }
               - { label: متن, name: article, widget: relation, collection: articles, value_field: "{{slug}}", search_fields: [title, author], display_fields: [title] }
+          - label: فهرست کناری صفحه‌ی مقاله‌ها
+            name: sidebar
+            widget: object
+            hint: این فهرست به همین ترتیب کنار همه‌ی صفحه‌های مقاله نمایش داده می‌شود (متنی که خواننده در حال خواندن آن است، در فهرست تکرار نمی‌شود).
+            fields:
+              - { label: عنوان فهرست, name: heading, widget: string }
+              - { label: متن‌ها, name: articles, widget: relation, collection: articles, value_field: "{{slug}}", search_fields: [title, author], display_fields: [title], multiple: true, min: 1, max: 8 }
 
       - name: forms
         label: پیوندهای فرم ثبت‌نام

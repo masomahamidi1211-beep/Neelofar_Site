@@ -279,6 +279,8 @@ export type HomepageConfig = {
   featured: { heading: string; article: string };
   translations: { heading: string; articles: string[] };
   story: { heading: string; article: string };
+  /** Pinned list in every article page's sidebar (in this order). */
+  sidebar?: { heading: string; articles: string[] };
 };
 
 export function getHomepage(): HomepageConfig {

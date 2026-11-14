@@ -6,6 +6,7 @@ import {
   getAllArticles,
   getOtherArticlesInSameIssue,
   getSpecialIssueContainingArticle,
+  getHomepage,
   inlineFootnotes,
 } from "../../lib/content-server";
 import { formatJalaliDate, toPersianDigits } from "../../lib/date";
@@ -72,16 +73,32 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   const showCoverAtTop = Boolean(article.image) && !article.body.includes(article.image as string);
 
+  // Sidebar: the pinned list from content/homepage.json ("sidebar", editable
+  // at /admin), in that order, leaving out the article being read. If no
+  // pinned list is set, fall back to other texts from the same special
+  // issue, or other notes.
+  const allArticles = getAllArticles();
+  const pinned = getHomepage().sidebar;
+  const pinnedArticles = (pinned?.articles ?? [])
+    .filter((s) => s !== slug)
+    .map((s) => allArticles.find((a) => a.slug === s))
+    .filter((a): a is NonNullable<typeof a> => Boolean(a));
+
   const issue = getSpecialIssueContainingArticle(slug);
   const issueRelated = getOtherArticlesInSameIssue(slug, 5);
   const relatedArticles =
-    issueRelated.length > 0
-      ? issueRelated
-      : getAllArticles()
-          .filter((a) => a.slug !== slug && a.author !== article.author)
-          .slice(0, 5);
-          
-  const relatedHeading = issue ? "از متن‌های ویژه‌نامه" : "سایر یادداشت‌ها";
+    pinnedArticles.length > 0
+      ? pinnedArticles
+      : issueRelated.length > 0
+        ? issueRelated
+        : allArticles.filter((a) => a.slug !== slug && a.author !== article.author).slice(0, 5);
+
+  const relatedHeading =
+    pinnedArticles.length > 0 && pinned?.heading
+      ? pinned.heading
+      : issue
+        ? "از متن‌های ویژه‌نامه"
+        : "سایر یادداشت‌ها";
   const bodyWithFootnotes = inlineFootnotes(article.body, article.footnotes);
 
   return (
@@ -167,7 +184,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="line-clamp-3 text-base font-bold leading-snug text-[#111111] transition-colors group-hover:text-[#dc2626]">
+                  <h4 className="text-base font-bold leading-snug text-[#111111] transition-colors group-hover:text-[#dc2626]">
                     {item.title}
                   </h4>
                   <p className="mt-2 text-sm text-[#6b6b6b]">{item.author}</p>
