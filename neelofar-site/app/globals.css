@@ -21,6 +21,10 @@
   --muted: #6f6f6a;
   --cream: #f2edde;
   --tan: #d8cfa8;
+
+  /* Outer page background (lavender) -- the area around the content boxes.
+     Boxes, cards, panels and the header keep their own colors. */
+  --page-bg: #e6e6fa;
 }
 
 @theme inline {
@@ -47,7 +51,7 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: var(--page-bg);
   color: var(--foreground);
   font-family: var(--font-ir-lotus), var(--font-vazirmatn), "Tahoma", sans-serif;
   line-height: 1.85;

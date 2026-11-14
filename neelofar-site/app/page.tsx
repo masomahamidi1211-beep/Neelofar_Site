@@ -38,7 +38,7 @@ export default function HomePage() {
   const featuredStory = bySlug(home.story?.article);
 
   return (
-    <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
+    <div className="bg-[var(--page-bg)] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
 
         {/* 1. TOP HERO (سرسخن) */}

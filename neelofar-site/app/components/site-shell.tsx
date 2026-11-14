@@ -116,7 +116,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
 
 
   return (
-    <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
+    <div className="flex min-h-screen flex-col bg-[var(--page-bg)] text-[var(--ink)]">
       <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]/95 backdrop-blur-sm">
         <div className="mx-auto flex w-full items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:h-[104px] lg:w-[77vw] lg:max-w-[1100px] lg:gap-7 lg:px-0 lg:py-0">
           <Link href="/" className="baru-focus flex shrink-0 items-center gap-2 sm:gap-3" aria-label="نیلوفر، صفحه اصلی">
@@ -167,7 +167,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
       </header>
 
       <main className="flex-1">
-        <div className="lg:mx-[8px] lg:border-x lg:border-[#e5e5e5] lg:bg-[#f9f9f9]">
+        <div className="lg:mx-[8px] lg:border-x lg:border-[#e5e5e5] lg:bg-[var(--page-bg)]">
           <div className="lg:mx-auto lg:w-[77vw] lg:max-w-[1100px]">
             <PageFade key={pathname}>{children}</PageFade>
           </div>
