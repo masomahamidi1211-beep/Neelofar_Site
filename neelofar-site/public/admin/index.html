@@ -8,8 +8,74 @@
     <link rel="icon" href="/icon-192.png" />
     <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
     <style>
-      /* Persian text fields read right-to-left; the editor chrome stays as Decap draws it. */
+      /* Persian text fields read right-to-left. */
       input, textarea, [contenteditable="true"] { direction: rtl; unicode-bidi: plaintext; }
+      /* ---- RTL layout fixes for the Decap dashboard ----------------------
+         Decap lays out its collection page for left-to-right only: the
+         collection sidebar is position:fixed (so in RTL it sits on the
+         right) while the content column reserves its 280px gutter on the
+         LEFT, and the header / list are capped at a fixed 682px. Mirror the
+         gutter and let the content fill the remaining width.
+         Decap (emotion) class names carry the component name, e.g.
+         "css-1abc-CollectionMain e1so..." or "css-1abc-ListCard-card-card",
+         which is what these selectors match. */
+      [dir="rtl"] [class*="-CollectionMain "],
+      [dir="rtl"] [class*="-CollectionMain-"] { padding-left: 0; }
+      @media (min-width: 800px) {
+        /* Sidebar and content sit side by side in one flex row (the first
+           child, the sidebar, lands on the right in RTL) instead of the
+           sidebar floating over the page with position:fixed. It stays in
+           view while scrolling (sticky) and scrolls on its own when the
+           window is too short, so no menu item is ever cut off. */
+        [dir="rtl"] [class*="-CollectionContainer "],
+        [dir="rtl"] [class*="-CollectionContainer-"] { flex-direction: row; align-items: flex-start; gap: 30px; }
+        [dir="rtl"] [class*="-SidebarContainer "],
+        [dir="rtl"] [class*="-SidebarContainer-"] {
+          position: sticky; top: 84px; flex: 0 0 250px; width: 250px;
+          max-height: calc(100vh - 112px); overflow-y: auto; box-sizing: border-box;
+        }
+        [dir="rtl"] [class*="-CollectionMain "],
+        [dir="rtl"] [class*="-CollectionMain-"] { padding-right: 0; flex: 1 1 auto; min-width: 0; }
+      }
+      [dir="rtl"] [class*="-CollectionTopContainer "],
+      [dir="rtl"] [class*="-CollectionTopContainer-"],
+      [dir="rtl"] [class*="-SearchResultContainer "],
+      [dir="rtl"] [class*="-SearchResultContainer-"],
+      [dir="rtl"] [class*="-CollectionControlsContainer "],
+      [dir="rtl"] [class*="-CollectionControlsContainer-"],
+      [dir="rtl"] [class*="-SectionSeparator "],
+      [dir="rtl"] [class*="-SectionSeparator-"] {
+        width: auto; max-width: none; box-sizing: border-box;
+      }
+      /* List view: each card takes a full row (minus the 12px gutter). */
+      [dir="rtl"] [class*="-ListCard "],
+      [dir="rtl"] [class*="-ListCard-"] { flex: 0 0 calc(100% - 12px); width: calc(100% - 12px); max-width: none; box-sizing: border-box; }
+      /* Card gutters: Decap spaces cards with margin-left; mirror it. */
+      [dir="rtl"] [class*="-CardsGrid "],
+      [dir="rtl"] [class*="-CardsGrid-"] { margin-left: 0; margin-right: -12px; padding: 0; }
+      [dir="rtl"] [class*="-ListCard "],
+      [dir="rtl"] [class*="-ListCard-"],
+      [dir="rtl"] [class*="-GridCard "],
+      [dir="rtl"] [class*="-GridCard-"],
+      [dir="rtl"] [class*="-SectionSeparator "],
+      [dir="rtl"] [class*="-SectionSeparator-"] { margin-left: 0; margin-right: 12px; }
+      /* Grid view: Decap uses fixed 335px cards, which leaves an empty band
+         on one side; fill the row with equal columns instead. */
+      [dir="rtl"] [class*="-CardsGrid"]:has(> [class*="-GridCard"]) {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px 12px; margin-right: 0;
+      }
+      [dir="rtl"] [class*="-CardsGrid"] > [class*="-GridCard"] { margin: 0; min-width: 0; }
+      /* Sidebar: Decap resets only padding-left on its list and marks the
+         active collection with a left border; mirror both. */
+      [dir="rtl"] [class*="-SidebarNavList "],
+      [dir="rtl"] [class*="-SidebarNavList-"] { padding: 0; }
+      [dir="rtl"] [class*="-SidebarNavLink "],
+      [dir="rtl"] [class*="-SidebarNavLink-"] { border-left: 0; border-right: 2px solid #fff; }
+      [dir="rtl"] [class*="-SidebarNavLink"] > svg,
+      [dir="rtl"] [class*="-SidebarNavLink"] > span:first-child { margin-right: 0; margin-left: 4px; }
+      [dir="rtl"] [class*="-SidebarNavLink"].sidebar-active,
+      [dir="rtl"] [class*="-SidebarNavLink"]:hover,
+      [dir="rtl"] [class*="-SidebarNavLink"]:active { border-right-color: #4863c6; }
     </style>
   </head>
   <body>
