@@ -127,14 +127,14 @@ export default function SiteShell({ children }: { children: ReactNode }) {
             </span>
           </Link>
 
-          <nav aria-label="ناوبری اصلی" className="hidden min-w-0 flex-1 items-center justify-center gap-4 overflow-x-auto whitespace-nowrap lg:flex xl:gap-5">
+          <nav aria-label="ناوبری اصلی" className="hidden min-w-0 flex-1 items-center justify-center gap-3 overflow-x-auto whitespace-nowrap lg:flex xl:gap-5">
             {navItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`baru-focus nav-underline pb-1 text-[15px] font-bold text-black xl:text-[16px] ${
+                  className={`baru-focus nav-underline pb-1 text-[16px] font-bold text-black xl:text-[18px] ${
                     active ? "is-active" : ""
                   }`}
                 >
@@ -248,7 +248,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                   <X size={28} strokeWidth={1.5} />
                 </button>
               </div>
-              <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">
+              <nav className="mt-10 flex flex-1 flex-col gap-2 overflow-y-auto [&>:first-child]:mt-auto [&>:last-child]:mb-auto">
                 {navItems.map((item) => {
                   const active = isActive(pathname, item.href);
                   return (
@@ -256,7 +256,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`baru-focus border-b border-b-[var(--line)] py-4 ps-4 text-2xl font-semibold text-black transition duration-150 hover:opacity-60 ${
+                      className={`baru-focus border-b border-b-[var(--line)] py-4 ps-4 text-[26px] font-bold text-black transition duration-150 hover:opacity-60 ${
                         active ? "border-s-2 border-s-black" : "border-s-2 border-s-transparent"
                       }`}
                     >
