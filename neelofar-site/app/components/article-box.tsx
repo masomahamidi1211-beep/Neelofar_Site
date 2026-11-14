@@ -62,13 +62,21 @@ const TONE_BG: Record<"tan" | "cream", string> = {
  * row ends on the same line. minHeight is the space the excerpt always
  * gets, so pick it from how much text the caller wants visible.
  */
-function FillExcerpt({ text, minHeight }: { text: string; minHeight: string }) {
+function FillExcerpt({
+  text,
+  minHeight,
+  textClass = "text-[17px] leading-8",
+}: {
+  text: string;
+  minHeight: string;
+  textClass?: string;
+}) {
   return (
     <div
       className="relative mt-4 flex-1 overflow-hidden [mask-image:linear-gradient(to_bottom,black_calc(100%-3rem),transparent)]"
       style={{ minHeight }}
     >
-      <p className="article-body justified-fa absolute inset-x-0 top-0 text-[17px] leading-8 text-[var(--ink)]">{text}</p>
+      <p className={`article-body justified-fa absolute inset-x-0 top-0 ${textClass} text-[var(--ink)]`}>{text}</p>
     </div>
   );
 }
@@ -92,18 +100,23 @@ export function ArticleBox({
   authorFirst?: boolean;
   /** photo-top/text/cream: the excerpt's guaranteed height (any CSS length). */
   excerptMinHeight?: string;
-  /** photo-top only: "featured" is the large lead card of an asymmetrical
-   * grid (bigger headline, wider 3:2 photo); "compact" is a smaller
-   * companion card beside it (smaller headline, shorter 16:9 photo). */
+  /** photo-top only: "featured" is the wide lead card of an asymmetrical
+   * row (bigger headline, 3:2 photo); "compact" is a narrower companion card
+   * beside it -- on wide screens (xl), where it sits in a narrow column, it
+   * gets a smaller headline, smaller excerpt text and tighter padding so the
+   * text isn't squeezed to a few words per line. */
   size?: "default" | "featured" | "compact";
   className?: string;
 }) {
   const href = `/notes/${article.slug}`;
 
   if (variant === "photo-top") {
-    const toneAspect = size === "featured" ? "aspect-[3/2]" : size === "compact" ? "aspect-[16/9]" : "aspect-[4/3]";
+    const compact = size === "compact";
+    const toneAspect = size === "featured" ? "aspect-[3/2]" : "aspect-[4/3]";
     const titleSize =
-      size === "featured" ? "text-3xl sm:text-4xl" : size === "compact" ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl";
+      size === "featured" ? "text-3xl sm:text-4xl" : compact ? "text-xl sm:text-2xl xl:text-xl" : "text-2xl sm:text-3xl";
+    const bodyPadding = compact ? "p-5 sm:p-6 xl:p-4" : "p-5 sm:p-6";
+    const excerptText = compact ? "text-[17px] leading-8 xl:text-[15px] xl:leading-7" : undefined;
     return (
       <Link href={href} className={`article-box baru-focus group flex h-full min-h-0 flex-col ${className}`}>
         {/* Fixed-ratio image area, kept even when an article has no image, so
@@ -113,11 +126,11 @@ export function ArticleBox({
             <BoxImage article={article} className="h-full w-full object-cover" />
           </div>
         </div>
-        <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <div className={`flex flex-1 flex-col ${bodyPadding}`}>
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
           <h3 className={`article-title ${titleSize} leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]`}>{article.title}</h3>
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
-          <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} />
+          <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} textClass={excerptText} />
           {/* mt-auto pins the footer to the card's bottom edge, so footers
               line up across a row no matter how long the text above is. */}
           <div className="mt-auto flex justify-end pt-5">

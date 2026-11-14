@@ -28,9 +28,10 @@ function toBaru(
  * - phone: one column, lead card on top.
  * - tablet / small laptop (md): lead card full width, companions side by
  *   side beneath it.
- * - desktop (xl): five columns -- the lead card takes three columns and both
- *   rows, the two companions stack in the other two columns. leadSide
- *   "start" puts the lead on the right (RTL start), "end" on the left.
+ * - desktop (xl): all three cards in ONE row, columns 1.5fr 1fr 1fr -- the
+ *   lead card is the wide column, the two companions are equal narrower
+ *   columns. leadSide "start" puts the lead on the right (RTL start, i.e.
+ *   1.5fr 1fr 1fr); "end" mirrors it to the left (1fr 1fr 1.5fr).
  */
 function AsymmetricGrid({
   articles,
@@ -43,24 +44,25 @@ function AsymmetricGrid({
 }) {
   const otherTone = firstTone === "tan" ? "cream" : "tan";
   // Literal class strings (Tailwind only generates classes it can see).
+  const columns = leadSide === "start" ? "xl:grid-cols-[1.5fr_1fr_1fr]" : "xl:grid-cols-[1fr_1fr_1.5fr]";
   const leadPlacement =
     leadSide === "start"
-      ? "md:col-span-2 xl:col-span-3 xl:row-span-2 xl:col-start-1 xl:row-start-1"
-      : "md:col-span-2 xl:col-span-3 xl:row-span-2 xl:col-start-3 xl:row-start-1";
+      ? "md:col-span-2 xl:col-span-1 xl:col-start-1 xl:row-start-1"
+      : "md:col-span-2 xl:col-span-1 xl:col-start-3 xl:row-start-1";
   const companionPlacement =
     leadSide === "start"
-      ? ["xl:col-span-2 xl:col-start-4 xl:row-start-1", "xl:col-span-2 xl:col-start-4 xl:row-start-2"]
-      : ["xl:col-span-2 xl:col-start-1 xl:row-start-1", "xl:col-span-2 xl:col-start-1 xl:row-start-2"];
+      ? ["xl:col-start-2 xl:row-start-1", "xl:col-start-3 xl:row-start-1"]
+      : ["xl:col-start-1 xl:row-start-1", "xl:col-start-2 xl:row-start-1"];
 
   return (
-    <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 items-stretch">
+    <StaggerGrid className={`grid grid-cols-1 md:grid-cols-2 ${columns} gap-6 items-stretch`}>
       {articles.map((a, i) => {
         const lead = i === 0;
         return (
           <div
             key={a.slug}
             className={`bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col h-full hover:shadow-md transition-all duration-300 ${
-              lead ? leadPlacement : companionPlacement[i - 1] ?? "xl:col-span-2"
+              lead ? leadPlacement : `xl:p-4 ${companionPlacement[i - 1] ?? ""}`
             }`}
           >
             <ArticleBox
