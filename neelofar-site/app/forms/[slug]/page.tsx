@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getForms } from "../../lib/content-server";
+import { ProgramDescription } from "../program-description";
 
 const labels: Record<string, string> = {
   kabul: "کابل",
@@ -8,14 +9,6 @@ const labels: Record<string, string> = {
   bamyan: "بامیان",
   collaboration: "همکاری با ما",
 };
-
-const programInfo = [
-  "شش ماه",
-  "هر صنف یک آموزگار",
-  "هر هفته دو جلسه",
-  "هر ماه یک کتاب",
-  "هزینه‌ی انترنت از سوی برنامه پرداخت می‌شود",
-];
 
 // Per-province round announcement -- only rendered where set.
 const roundAnnouncements: Record<string, string> = {
@@ -49,7 +42,7 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
   const showSharedBanner = slug === "kabul" || slug === "balkh";
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
       <h1 className="text-4xl font-bold">{labels[slug]}</h1>
 
       {announcement && <p className="mt-4 text-xl font-semibold text-[var(--accent)]">{announcement}</p>}
@@ -66,22 +59,16 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
           علاقمندی به همکاری با ما، از طریق ارسال فرم زیرین می‌توانید با ما به تماس شوید.
         </p>
       ) : (
-        <div className="hairline-grid mt-6 grid-cols-2 sm:grid-cols-3">
-          {programInfo.map((item, index) => (
-            <div
-              key={item}
-              className={`hairline-cell bg-white text-base text-[#333333] ${
-                index === programInfo.length - 1 ? "col-span-2" : ""
-              }`}
-            >
-              {item}
-            </div>
-          ))}
-        </div>
+        <ProgramDescription className="mt-6" />
       )}
 
+      {/* Registration -- always the last thing on the page. */}
+      <h2 className="mt-10 border-t border-[var(--hairline)] pt-8 text-2xl font-bold">
+        {slug === "collaboration" ? "فرم همکاری" : "ثبت‌نام"}
+      </h2>
+
       {!url ? (
-        <div className="mt-8 border border-dashed border-[var(--hairline)] py-16 text-center text-[#6b6b6b]">
+        <div className="mt-4 border border-dashed border-[var(--hairline)] py-12 text-center text-[#6b6b6b]">
           <p className="text-xl font-semibold text-[#111111]">به‌زودی</p>
           <p className="mt-2 text-base">
             {slug === "collaboration"
@@ -90,9 +77,10 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
           </p>
         </div>
       ) : NO_IFRAME_SLUGS.has(slug) ? (
-        <div className="mt-8 border border-[var(--hairline)] bg-[var(--panel)] p-8 text-center">
-          <p className="text-base text-[#4a4a4a]">
-            فرم درخواست‌نامه در همین صفحه قابل نمایش نیست؛ از طریق دکمه زیر آن را در یک تب جدید باز کنید.
+        <div className="mt-4">
+          <p className="text-justify text-lg leading-9 text-[#333333]">
+            برای ثبت‌نام در برنامه‌ی ادبیات جهان در {labels[slug]}، فرم درخواست‌نامه را پر کنید. فرم در یک صفحه‌ی
+            جدید باز می‌شود.
           </p>
           <a
             href={url}
@@ -100,11 +88,11 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
             rel="noopener noreferrer"
             className="mt-5 inline-block bg-[var(--accent)] px-6 py-3 text-base font-semibold text-white transition duration-200 hover:opacity-85"
           >
-            باز کردن فرم درخواست‌نامه
+            ثبت‌نام در {labels[slug]} ↗
           </a>
         </div>
       ) : (
-        <div className="mt-8 aspect-[3/4] w-full border border-[var(--hairline)] sm:aspect-[4/3]">
+        <div className="mt-4 aspect-[3/4] w-full border border-[var(--hairline)] sm:aspect-[4/3]">
           <iframe src={url} className="h-full w-full" title={labels[slug]} />
         </div>
       )}
