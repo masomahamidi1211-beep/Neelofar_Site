@@ -147,8 +147,9 @@ export default function HomePage() {
               <h2 className="text-xl font-bold tracking-tight">{home.translations.heading}</h2>
             </div>
 
-            {/* Mirrored: lead card on the left, so the two sections alternate. */}
-            <AsymmetricGrid articles={lowerGridArticles} leadSide="end" firstTone="cream" />
+            {/* Same order as the row above: big card first (right), then the
+                two smaller cards in the order listed in homepage.json. */}
+            <AsymmetricGrid articles={lowerGridArticles} leadSide="start" firstTone="cream" />
           </section>
         )}
 
