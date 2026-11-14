@@ -79,6 +79,7 @@ export function ArticleBox({
   tone,
   authorFirst = false,
   excerptMinHeight = "10rem",
+  size = "default",
   className = "",
 }: {
   article: BaruArticle;
@@ -91,23 +92,30 @@ export function ArticleBox({
   authorFirst?: boolean;
   /** photo-top/text/cream: the excerpt's guaranteed height (any CSS length). */
   excerptMinHeight?: string;
+  /** photo-top only: "featured" is the large lead card of an asymmetrical
+   * grid (bigger headline, wider 3:2 photo); "compact" is a smaller
+   * companion card beside it (smaller headline, shorter 16:9 photo). */
+  size?: "default" | "featured" | "compact";
   className?: string;
 }) {
   const href = `/notes/${article.slug}`;
 
   if (variant === "photo-top") {
+    const toneAspect = size === "featured" ? "aspect-[3/2]" : size === "compact" ? "aspect-[16/9]" : "aspect-[4/3]";
+    const titleSize =
+      size === "featured" ? "text-3xl sm:text-4xl" : size === "compact" ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl";
     return (
       <Link href={href} className={`article-box baru-focus group flex h-full min-h-0 flex-col ${className}`}>
         {/* Fixed-ratio image area, kept even when an article has no image, so
             every card in a row starts its text at the same height. */}
         <div className={`shrink-0 overflow-hidden ${tone ? `${TONE_BG[tone]} p-3` : ""}`}>
-          <div className={`w-full overflow-hidden ${tone ? "aspect-[4/3]" : "aspect-[16/9] bg-[var(--cream)]"}`}>
+          <div className={`w-full overflow-hidden ${tone ? toneAspect : "aspect-[16/9] bg-[var(--cream)]"}`}>
             <BoxImage article={article} className="h-full w-full object-cover" />
           </div>
         </div>
         <div className="flex flex-1 flex-col p-5 sm:p-6">
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
-          <h3 className="article-title text-2xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] sm:text-3xl">{article.title}</h3>
+          <h3 className={`article-title ${titleSize} leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]`}>{article.title}</h3>
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
           <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} />
           {/* mt-auto pins the footer to the card's bottom edge, so footers
