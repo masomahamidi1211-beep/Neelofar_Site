@@ -117,22 +117,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             footnotes={article.footnotes}
           />
 
-          {/* Clickable Aasoo-style Hashtags at the bottom */}
-          {article.tags && article.tags.length > 0 && (
-            <div className="mt-12 flex flex-wrap items-center gap-3 border-t border-[var(--hairline)] pt-6 text-sm">
-              <span className="text-[#6b6b6b] font-medium">کلیدواژه‌ها:</span>
-              {article.tags.map((tag, index) => (
-                <Link
-                  key={index}
-                  href={`/tag/${encodeURIComponent(tag)}`}
-                  className="text-[#4b5563] transition-colors hover:text-[#dc2626]"
-                >
-                  #{tag}
-                </Link>
-              ))}
-            </div>
-          )}
-
           <div className="mt-14 flex items-center justify-end border-t border-[var(--hairline)] pt-6">
             <ShareIcons url={`${SITE_URL}/notes/${slug}`} title={article.title} />
           </div>
