@@ -3,22 +3,6 @@ import { toPersianDigits } from "./lib/date";
 import { ArticleBox, type BaruArticle } from "./components/article-box";
 import { WideRow } from "./components/wide-row";
 import StaggerGrid from "./components/stagger-grid";
-import { PdfStoryCard, PdfStoryActions, type PdfStory } from "./components/pdf-story-card";
-
-// روایت/ داستان ویژه -- a story published as a PDF, not an article page.
-const featuredStory: PdfStory = {
-  title: "از پل سرخ تا سن‌پترزبورگ",
-  author: "گیتی آرین",
-  excerpt:
-    "سمت کتاب می‌دیدم و از چهره عصبی آن کاکا که نامش داستایفسکی ــ عجب نام سختی ــ بود، بیمم می‌گرفت. فکر می‌کردم چطور قرار است آن کتاب پرحجم را با آن عنوان سنگین بخوانم. بعد با خودم می‌گفتم که مسئله حجمش نیست؛ تو سه جلد بزرگ «سمک عیار» را چندبار خوانده‌ای و نباید از ۷۱۱ صفحه جنایت و مکافات بترسی.",
-  pdf: "/docs/az-pol-e-sorkh-ta-san-petersburg.pdf",
-  downloadName: "از پل سرخ تا سن‌پترزبورگ.pdf",
-  pageCount: 6,
-  image: "/images/revayat/book-30.jpg",
-  imagePosition: "50% 45%",
-  fallbackImage: "/images/revayat/book-13.jpg",
-  fallbackImagePosition: "50% 75%",
-};
 
 function toBaru(
   article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">,
@@ -57,6 +41,9 @@ export default function HomePage() {
 
   // 3. یادداشت ویژه
   const middleHorizontalArticle = bySlug("چرا-حسین-فخری-حافظهی-ادبیات-افغانستان-است");
+
+  // 5. روایت/ داستان ویژه
+  const featuredStory = bySlug("az-pol-e-sorkh-ta-san-petersburg");
 
   // 4. ترجمه و گفتگو -- قصه‌ی مریم، گفتگو با سارا راخفوس («کوچه‌ی ما»)،
   // گفتگو با یوتا همل‌غایش
@@ -151,7 +138,8 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* 5. روایت/ داستان ویژه -- opens the story's PDF */}
+        {/* 5. روایت/ داستان ویژه -- opens the story's reading page */}
+        {featuredStory && (
         <section className="pb-12">
           <div className="bg-[#f3ede2] p-6 md:p-8 rounded-xl border border-[#e2d8c9] shadow-sm">
             <div className="mb-4 pb-2 border-b border-[#d8ccbc]">
@@ -159,10 +147,10 @@ export default function HomePage() {
                 روایت/ داستان ویژه
               </h2>
             </div>
-            <PdfStoryCard story={featuredStory} />
-            <PdfStoryActions story={featuredStory} />
+            <WideRow article={toBaru(featuredStory, [160, 300], "50% 45%")} />
           </div>
         </section>
+        )}
 
       </div>
     </div>
