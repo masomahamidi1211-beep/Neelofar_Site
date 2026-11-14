@@ -24,33 +24,31 @@ function toBaru(
 export default function HomePage() {
   const articles = getAllArticles();
 
-  const findArticle = (...keywords: string[]) => {
-    return articles.find((a) => {
-      if (!a || !a.title) return false;
-      const cleanTitle = a.title.replace(/['"«»؟?!]/g, "");
-      return keywords.some((kw) => cleanTitle.includes(kw));
-    });
-  };
+  // Homepage picks are listed by slug (the article's file name), so a
+  // retitled article can't silently drop off or swap sections.
+  const bySlug = (slug: string) => articles.find((a) => a.slug === slug);
+  const pick = (...slugs: string[]) => slugs.map(bySlug).filter((a): a is Article => Boolean(a));
 
   // 1. Standalone Top Hero (سرسخن)
-  const heroArticle = findArticle("سرسخن", "کوچه‌ی ما", "کوچه ما");
+  const heroArticle = bySlug("سرسخن");
 
-  // 2. Upper 3 Grid Titles
-  const upperGridArticles = [
-    findArticle("فخری"),
-    findArticle("الکسیویچ‌خوانی"),
-    findArticle("ضرورت"),
-  ].filter((a): a is Article => Boolean(a));
+  // 2. یادداشت‌ها و نقد ادبی
+  const upperGridArticles = pick(
+    "آیا-آصف-سلطانزاده-الکسیویچ-افغانستان-است",
+    "یادداشتهایی-از-بامیان-و-مزار-شریف-درباره-کتاب-جنگ-چهرهی",
+    "الکسیویچخوانی-در-مزار"
+  );
 
-  // 3. Middle Horizontal Feature (قصه‌ی مریم و هم باغش)
-  const middleHorizontalArticle = findArticle("مریم");
+  // 3. یادداشت ویژه
+  const middleHorizontalArticle = bySlug("چرا-حسین-فخری-حافظهی-ادبیات-افغانستان-است");
 
-  // 4. Lower 3 Grid Titles
-  const lowerGridArticles = [
-    findArticle("سلطان‌زاده", "سلطان‌ازده"),
-    findArticle("شاه‌کار", "شاهکار", "تابوت‌های رویین"),
-    findArticle("بامیان"),
-  ].filter((a): a is Article => Boolean(a));
+  // 4. ترجمه و گفتگو -- قصه‌ی مریم، گفتگو با سارا راخفوس («کوچه‌ی ما»)،
+  // گفتگو با یوتا همل‌غایش
+  const lowerGridArticles = pick(
+    "قصهی-مریم-و-همباغش",
+    "کوچهی-ما-تلاشی-برای-حفظ-زندگی-از-دسترفته",
+    "بیستو-پنجسال-در-خدمت-صداهای-جنوب-جهانی"
+  );
 
   return (
     <div className="bg-[#faf7f2] min-h-screen text-[#2a2421] font-serif dir-rtl">
@@ -97,13 +95,13 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* 3. MIDDLE HORIZONTAL SECTION: قصه‌ی مریم و هم باغش */}
+        {/* 3. MIDDLE HORIZONTAL SECTION: یادداشت ویژه */}
         {middleHorizontalArticle && (
           <section className="my-10">
             <div className="bg-[#f3ede2] p-6 md:p-8 rounded-xl border border-[#e2d8c9] shadow-sm">
               <div className="mb-4 pb-2 border-b border-[#d8ccbc]">
                 <span className="text-xs font-sans font-bold text-[#8c2222] tracking-widest uppercase">
-                  روایت ویژه
+                  یادداشت ویژه
                 </span>
               </div>
               <WideRow article={toBaru(middleHorizontalArticle, [160, 300])} />
@@ -115,7 +113,7 @@ export default function HomePage() {
         {lowerGridArticles.length > 0 && (
           <section className="pb-12">
             <div className="flex items-center justify-between mb-8 pb-2 border-b-2 border-[#2a2421]">
-              <h2 className="text-xl font-bold tracking-tight">داستان‌ها و گفتگوها</h2>
+              <h2 className="text-xl font-bold tracking-tight">ترجمه و گفتگو</h2>
             </div>
 
             <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
