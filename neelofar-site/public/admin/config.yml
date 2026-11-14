@@ -1,0 +1,162 @@
+# Decap CMS configuration for the Neelofar site (served at /admin).
+# The GitHub backend (repo, branch, login endpoint) is set in index.html so
+# the login works on any domain the site is served from.
+#
+# The git repository root is the parent folder, so every path below starts
+# with neelofar-site/.
+
+# Edit against the local files with `npx decap-server` (run from the repo
+# root) while `npm run dev` is running -- no GitHub login needed locally.
+local_backend: true
+
+locale: fa
+site_url: https://neelofar-site.vercel.app
+display_url: https://neelofar-site.vercel.app
+logo_url: /logo.png
+
+# Uploaded images and PDFs: committed to public/uploads, served at /uploads.
+media_folder: neelofar-site/public/uploads
+public_folder: /uploads
+
+# Keep Persian in new file names (a new article gets a Persian address,
+# like the existing ones).
+slug:
+  encoding: unicode
+  clean_accents: false
+  sanitize_replacement: "-"
+
+collections:
+  - name: articles
+    label: مقاله‌ها و روایت‌ها
+    label_singular: مقاله
+    description: >-
+      همه‌ی متن‌های سایت، از جمله سرسخن و روایت‌ها. برای نمایش یک متن در صفحه‌ی اول،
+      آن را در «تنظیمات ← صفحه‌ی اول» انتخاب کنید.
+    folder: neelofar-site/content/articles
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: "{{title}} — {{author}}"
+    sortable_fields: [title, author, order, jalaliDate]
+    fields:
+      - { label: عنوان, name: title, widget: string }
+      - { label: نویسنده, name: author, widget: string }
+      - label: سطرهای زیر عنوان (اختیاری)
+        name: subtitle
+        widget: list
+        required: false
+        hint: مثلاً نام مترجم یا توضیحی کوتاه زیر عنوان.
+        field: { label: سطر, name: line, widget: string }
+      - label: تاریخ (هجری شمسی)
+        name: jalaliDate
+        widget: string
+        hint: به شکل 1405-07-19 و با رقم لاتین.
+        pattern: ['^\d{4}-\d{2}-\d{2}$', "تاریخ را به شکل 1405-07-19 بنویسید."]
+      - label: ترتیب در فهرست یادداشت‌ها
+        name: order
+        widget: number
+        value_type: int
+        default: 100
+        hint: عدد کوچک‌تر یعنی بالاتر در فهرست.
+      - label: بخش
+        name: section
+        widget: string
+        required: false
+        hint: برچسب داخلی؛ می‌تواند خالی بماند.
+      - label: تصویر اصلی
+        name: image
+        widget: image
+        required: false
+        hint: در کارت‌ها و بالای متن به شکل افقی (۴ به ۳) بریده می‌شود.
+      - label: محل برش تصویر
+        name: imagePosition
+        widget: string
+        required: false
+        hint: "دو درصد: افقی و عمودی. مثلاً «50% 20%» بالای تصویر را نگه می‌دارد و «50% 80%» پایین آن را."
+      - label: توضیح تصویر
+        name: imageAlt
+        widget: string
+        required: false
+        hint: برای کم‌بینایان و موتورهای جست‌وجو.
+      - label: نسخه‌ی PDF (اختیاری)
+        name: pdf
+        widget: file
+        required: false
+        hint: اگر بارگذاری شود، پیوند «نسخه‌ی PDF این متن» پایین متن نمایش داده می‌شود.
+      - label: کلیدواژه‌ها
+        name: tags
+        widget: list
+        required: false
+        hint: برای جست‌وجو. با ویرگول از هم جدا کنید.
+      - label: پانویس‌ها
+        name: footnotes
+        widget: list
+        required: false
+        summary: "{{fields.id}}: {{fields.text}}"
+        hint: شماره‌ی هر پانویس باید با نشانه‌ی پانویس در متن یکی باشد.
+        fields:
+          - { label: شماره, name: id, widget: string }
+          - { label: متن پانویس, name: text, widget: text }
+          - { label: عنوان منبع, name: title, widget: string, required: false }
+          - { label: پیوند منبع, name: url, widget: string, required: false }
+      - label: متن
+        name: body
+        widget: markdown
+        modes: [raw, rich_text]
+        hint: >-
+          متن در حالت «markdown» باز می‌شود تا پانویس‌ها، تصویرها و حروف درشتِ متن‌های قبلی دست نخورند.
+          حالت «rich text» برای متن‌های تازه راحت‌تر است، اما در متن‌های دارای پانویس یا تصویر از آن استفاده نکنید.
+
+  - name: settings
+    label: تنظیمات
+    editor: { preview: false }
+    files:
+      - name: homepage
+        label: صفحه‌ی اول
+        file: neelofar-site/content/homepage.json
+        description: عنوان بخش‌های صفحه‌ی اول و متن‌هایی که در هر بخش نمایش داده می‌شوند.
+        fields:
+          - label: بخش بالا (سرمقاله)
+            name: hero
+            widget: object
+            fields:
+              - { label: نشان قرمز, name: badge, widget: string }
+              - { label: برچسب کنار نشان, name: label, widget: string }
+              - { label: متن, name: article, widget: relation, collection: articles, value_field: "{{slug}}", search_fields: [title, author], display_fields: [title] }
+          - label: بخش یادداشت‌ها (سه کارت)
+            name: notes
+            widget: object
+            fields:
+              - { label: عنوان بخش, name: heading, widget: string }
+              - { label: متن‌ها, name: articles, widget: relation, collection: articles, value_field: "{{slug}}", search_fields: [title, author], display_fields: [title], multiple: true, min: 1, max: 6, hint: سه متن بهترین نمایش را دارد. }
+          - label: بخش ویژه (کادر پهن)
+            name: featured
+            widget: object
+            fields:
+              - { label: عنوان بخش, name: heading, widget: string }
+              - { label: متن, name: article, widget: relation, collection: articles, value_field: "{{slug}}", search_fields: [title, author], display_fields: [title] }
+          - label: بخش ترجمه و گفتگو (سه کارت)
+            name: translations
+            widget: object
+            fields:
+              - { label: عنوان بخش, name: heading, widget: string }
+              - { label: متن‌ها, name: articles, widget: relation, collection: articles, value_field: "{{slug}}", search_fields: [title, author], display_fields: [title], multiple: true, min: 1, max: 6, hint: سه متن بهترین نمایش را دارد. }
+          - label: بخش روایت (کادر پهن پایین صفحه)
+            name: story
+            widget: object
+            fields:
+              - { label: عنوان بخش, name: heading, widget: string }
+              - { label: متن, name: article, widget: relation, collection: articles, value_field: "{{slug}}", search_fields: [title, author], display_fields: [title] }
+
+      - name: forms
+        label: پیوندهای فرم ثبت‌نام
+        file: neelofar-site/content/forms.json
+        description: پیوند فرم ثبت‌نام هر شهر. اگر خالی بماند، صفحه‌ی آن شهر «به‌زودی» نشان می‌دهد.
+        fields:
+          - { label: کابل, name: kabul, widget: string, required: false }
+          - { label: هرات, name: herat, widget: string, required: false }
+          - { label: بلخ, name: balkh, widget: string, required: false }
+          - { label: بامیان, name: bamyan, widget: string, required: false }
+          - { label: همکاری با ما, name: collaboration, widget: string, required: false }

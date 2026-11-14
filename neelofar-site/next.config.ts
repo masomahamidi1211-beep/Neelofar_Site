@@ -29,6 +29,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Content editor (Decap CMS) lives at public/admin/index.html.
+      { source: "/admin", destination: "/admin/index.html", permanent: false },
       // سارا راخفوس interview: slug changed when the piece was retitled to
       // its real published title -- keep the old share links/bookmarks alive.
       {

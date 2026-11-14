@@ -122,6 +122,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             footnotes={article.footnotes}
           />
 
+          {article.pdf && (
+            <p className="mt-10 text-base">
+              <a
+                href={article.pdf}
+                target="_blank"
+                rel="noopener"
+                className="font-semibold text-[var(--accent)] underline underline-offset-4 hover:opacity-80"
+              >
+                نسخه‌ی PDF این متن ↗
+              </a>
+            </p>
+          )}
+
           <div className="mt-14 flex items-center justify-end border-t border-[var(--hairline)] pt-6">
             <ShareIcons url={`${SITE_URL}/notes/${slug}`} title={article.title} />
           </div>

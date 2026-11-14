@@ -24,6 +24,8 @@ export type Article = {
   imageAlt: string | null;
   tags: string[];
   subtitle: string[] | null;
+  /** Optional PDF version of the piece (public path), linked under the text. */
+  pdf: string | null;
 };
 
 export type SpecialIssueSection = {
@@ -153,6 +155,7 @@ function articleFromFile(slug: string, fullPath: string): Article {
     imageAlt: typeof data.imageAlt === "string" ? data.imageAlt : null,
     subtitle: Array.isArray(data.subtitle) ? data.subtitle : null,
     tags: defaultTags,
+    pdf: typeof data.pdf === "string" && data.pdf ? data.pdf : null,
   };
 }
 
@@ -267,4 +270,18 @@ export function getSpecialIssue(slug: string): SpecialIssueResolved | null {
         .filter((article): article is Article => Boolean(article)),
     })),
   };
+}
+/** Homepage sections: which articles appear where, and the section headings.
+ * Edited through the CMS at /admin (content/homepage.json). */
+export type HomepageConfig = {
+  hero: { badge: string; label: string; article: string };
+  notes: { heading: string; articles: string[] };
+  featured: { heading: string; article: string };
+  translations: { heading: string; articles: string[] };
+  story: { heading: string; article: string };
+};
+
+export function getHomepage(): HomepageConfig {
+  const file = fs.readFileSync(path.join(contentDir, "homepage.json"), "utf8");
+  return JSON.parse(file) as HomepageConfig;
 }

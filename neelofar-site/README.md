@@ -57,3 +57,55 @@ In dev mode, `params.slug` on `[slug]` dynamic routes arrives still percent-enco
 non-ASCII (Persian) slugs instead of pre-decoded. Both `app/notes/[slug]/page.tsx` and
 `app/special/[slug]/page.tsx` decode it defensively (`decodeURIComponent` when the raw value
 contains `%`). Keep this in mind if you add another Persian-slugged dynamic route.
+
+## Content editor (CMS) at `/admin`
+
+The site has a no-code editor ([Decap CMS](https://decapcms.org)) at
+`https://<site>/admin`. It edits the same files in this repository: every
+save is a commit to `master`, and Vercel redeploys the site automatically
+(about 1–2 minutes). What it can edit:
+
+- **مقاله‌ها و روایت‌ها** — every article in `content/articles/` (title,
+  author, date, cover image and crop, optional PDF, keywords, footnotes, text).
+  New articles can be created; deleting is turned off on purpose.
+- **تنظیمات ← صفحه‌ی اول** — `content/homepage.json`: section headings and
+  which articles appear in each homepage section.
+- **تنظیمات ← پیوندهای فرم ثبت‌نام** — `content/forms.json`.
+- Uploaded images and PDFs go to `public/uploads/` (served at `/uploads/...`).
+
+The configuration is `public/admin/config.yml`; the GitHub connection is set
+in `public/admin/index.html`.
+
+**Article text** opens in markdown mode, which keeps existing footnote marks
+(`<sup class="fn-ref">`), figures and bold text exactly as they are. Avoid
+switching older articles to rich-text mode — it can drop that markup.
+
+**Careful:** `scripts/extract-special-issue.py` regenerates the special-issue
+articles from the Word file and would overwrite edits made in the CMS.
+
+### One-time login setup (GitHub OAuth app)
+
+Login uses GitHub, through this site's own `/api/auth` and `/api/callback`
+routes. To turn it on:
+
+1. On GitHub (as the repository owner), go to **Settings → Developer settings →
+   OAuth Apps → New OAuth App** and enter:
+   - Application name: `Neelofar CMS`
+   - Homepage URL: `https://neelofar-site.vercel.app`
+   - Authorization callback URL: `https://neelofar-site.vercel.app/api/callback`
+2. Create it, then click **Generate a new client secret**.
+3. In Vercel → the `neelofar-site` project → **Settings → Environment
+   Variables**, add (for Production):
+   - `GITHUB_OAUTH_CLIENT_ID` = the app's Client ID
+   - `GITHUB_OAUTH_CLIENT_SECRET` = the client secret
+4. Redeploy once (Deployments → ⋯ → Redeploy) so the new variables apply.
+
+Anyone who should edit needs **write access** to the GitHub repository
+(Settings → Collaborators). If the site moves to another domain, add that
+domain's `/api/callback` to the OAuth app.
+
+### Editing locally without logging in
+
+Run the site (`npm run dev`) and, from the repository root (the folder
+above `neelofar-site`), `npx decap-server`. Then open
+`http://localhost:3000/admin` — edits are written straight to your local files.

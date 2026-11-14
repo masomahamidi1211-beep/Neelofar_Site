@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>مدیریت محتوای نیلوفر</title>
+    <link rel="icon" href="/icon-192.png" />
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <style>
+      /* Persian text fields read right-to-left; the editor chrome stays as Decap draws it. */
+      input, textarea, [contenteditable="true"] { direction: rtl; unicode-bidi: plaintext; }
+    </style>
+  </head>
+  <body>
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@3.17.3/dist/decap-cms.js"></script>
+    <script>
+      // GitHub login goes through this site's own /api/auth + /api/callback
+      // (see app/api), so it works on whatever domain the site is served from.
+      CMS.init({
+        config: {
+          backend: {
+            name: "github",
+            repo: "masomahamidi1211-beep/Neelofar_Site",
+            branch: "master",
+            base_url: window.location.origin,
+            auth_endpoint: "api/auth",
+            commit_messages: {
+              create: "CMS: افزودن «{{slug}}»",
+              update: "CMS: ویرایش «{{slug}}»",
+              delete: "CMS: حذف «{{slug}}»",
+              uploadMedia: "CMS: بارگذاری {{path}}",
+              deleteMedia: "CMS: حذف {{path}}",
+            },
+          },
+        },
+      });
+      // Preview pane: right-to-left, close to the site's reading style.
+      CMS.registerPreviewStyle(
+        "body{direction:rtl;font-family:Tahoma,sans-serif;line-height:2;padding:1rem 1.5rem;text-align:justify}img{max-width:100%}",
+        { raw: true }
+      );
+    </script>
+  </body>
+</html>
