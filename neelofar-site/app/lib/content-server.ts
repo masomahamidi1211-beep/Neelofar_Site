@@ -281,6 +281,9 @@ export type HomepageConfig = {
   story: { heading: string; article: string };
   /** Pinned list in every article page's sidebar (in this order). */
   sidebar?: { heading: string; articles: string[] };
+  /** Articles left out of the یادداشت‌ها listing page (/notes). They stay
+   * published and reachable from their special issue and by link. */
+  notesPage?: { hidden: string[] };
 };
 
 export function getHomepage(): HomepageConfig {

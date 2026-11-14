@@ -29,11 +29,18 @@ export function ArticleGrid({ articles, className = "" }: { articles: CardArticl
     <StaggerGrid className={`hairline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${className}`}>
       {articles.map((article, i) => {
         const span = gridSpanFor(i, articles.length, GRID_COLS);
+        // Same idea for the 2-column (sm/md) grid: with an odd count, the
+        // last card spans both columns instead of leaving a blank half-row.
+        // Reset to its lg span (or 1) at lg so the desktop rule still holds.
+        const smWide = articles.length % 2 === 1 && i === articles.length - 1;
+        const spanClasses = smWide
+          ? `sm:col-span-2 ${span > 1 ? LG_SPAN_CLASS[span] : "lg:col-span-1"}`
+          : LG_SPAN_CLASS[span];
         return (
           <FeatureCard
             key={article.slug}
             article={article}
-            className={`bg-white ${LG_SPAN_CLASS[span]}`}
+            className={`bg-white ${spanClasses}`}
           />
         );
       })}

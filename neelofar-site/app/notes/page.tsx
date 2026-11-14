@@ -1,8 +1,11 @@
-import { getAllArticles, longExcerptOf } from "../lib/content-server";
+import { getAllArticles, getHomepage, longExcerptOf } from "../lib/content-server";
 import { ArticleGrid } from "../components/article-grid";
 
 export default function NotesPage() {
-  const articles = getAllArticles();
+  // Texts listed under "notesPage.hidden" in content/homepage.json (editable
+  // at /admin) are left out of this listing; they remain published.
+  const hidden = new Set(getHomepage().notesPage?.hidden ?? []);
+  const articles = getAllArticles().filter((a) => !hidden.has(a.slug));
   const entries = articles.map((article) => {
     // Force image resolution for sarsokhan if missing
     const isSarsokhan = article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
