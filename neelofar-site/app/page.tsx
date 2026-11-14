@@ -21,6 +21,63 @@ function toBaru(
   };
 }
 
+/**
+ * Asymmetrical card grid (baru.ir style): the FIRST article of a section (as
+ * listed in content/homepage.json) is the large lead card; the rest are
+ * smaller companions.
+ * - phone: one column, lead card on top.
+ * - tablet / small laptop (md): lead card full width, companions side by
+ *   side beneath it.
+ * - desktop (xl): five columns -- the lead card takes three columns and both
+ *   rows, the two companions stack in the other two columns. leadSide
+ *   "start" puts the lead on the right (RTL start), "end" on the left.
+ */
+function AsymmetricGrid({
+  articles,
+  leadSide,
+  firstTone,
+}: {
+  articles: Article[];
+  leadSide: "start" | "end";
+  firstTone: "tan" | "cream";
+}) {
+  const otherTone = firstTone === "tan" ? "cream" : "tan";
+  // Literal class strings (Tailwind only generates classes it can see).
+  const leadPlacement =
+    leadSide === "start"
+      ? "md:col-span-2 xl:col-span-3 xl:row-span-2 xl:col-start-1 xl:row-start-1"
+      : "md:col-span-2 xl:col-span-3 xl:row-span-2 xl:col-start-3 xl:row-start-1";
+  const companionPlacement =
+    leadSide === "start"
+      ? ["xl:col-span-2 xl:col-start-4 xl:row-start-1", "xl:col-span-2 xl:col-start-4 xl:row-start-2"]
+      : ["xl:col-span-2 xl:col-start-1 xl:row-start-1", "xl:col-span-2 xl:col-start-1 xl:row-start-2"];
+
+  return (
+    <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 items-stretch">
+      {articles.map((a, i) => {
+        const lead = i === 0;
+        return (
+          <div
+            key={a.slug}
+            className={`bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col h-full hover:shadow-md transition-all duration-300 ${
+              lead ? leadPlacement : companionPlacement[i - 1] ?? "xl:col-span-2"
+            }`}
+          >
+            <ArticleBox
+              article={toBaru(a, lead ? [220, 340] : [70, 120])}
+              variant="photo-top"
+              size={lead ? "featured" : "compact"}
+              excerptMinHeight={lead ? "12rem" : "8rem"}
+              className="flex-1"
+              tone={i % 2 === 0 ? firstTone : otherTone}
+            />
+          </div>
+        );
+      })}
+    </StaggerGrid>
+  );
+}
+
 export default function HomePage() {
   const articles = getAllArticles();
 
@@ -63,37 +120,7 @@ export default function HomePage() {
               <h2 className="text-xl font-bold tracking-tight">{home.notes.heading}</h2>
             </div>
 
-            {/* Asymmetrical layout (baru.ir style): the FIRST article listed
-                for this section in content/homepage.json is the large lead
-                card; the next ones are smaller companions.
-                - phone: one column, lead card on top.
-                - tablet / small laptop (md): lead card full width, the two
-                  companions side by side beneath it.
-                - desktop (xl): lead card takes 3 of 5 columns and both rows
-                  on the right (RTL start); the two companions stack in the
-                  remaining 2 columns on the left. */}
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 items-stretch">
-              {upperGridArticles.map((a, i) => {
-                const lead = i === 0;
-                return (
-                  <div
-                    key={a.slug}
-                    className={`bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col h-full hover:shadow-md transition-all duration-300 ${
-                      lead ? "md:col-span-2 xl:col-span-3 xl:row-span-2" : "xl:col-span-2"
-                    }`}
-                  >
-                    <ArticleBox
-                      article={toBaru(a, lead ? [220, 340] : [70, 120])}
-                      variant="photo-top"
-                      size={lead ? "featured" : "compact"}
-                      excerptMinHeight={lead ? "12rem" : "8rem"}
-                      className="flex-1"
-                      tone={i % 2 === 0 ? "tan" : "cream"}
-                    />
-                  </div>
-                );
-              })}
-            </StaggerGrid>
+            <AsymmetricGrid articles={upperGridArticles} leadSide="start" firstTone="tan" />
           </section>
         )}
 
@@ -118,22 +145,8 @@ export default function HomePage() {
               <h2 className="text-xl font-bold tracking-tight">{home.translations.heading}</h2>
             </div>
 
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-              {lowerGridArticles.map((a, i) => (
-                <div
-                  key={a.slug}
-                  className="bg-white p-6 rounded-xl border border-[#e2d8c9] shadow-xs flex flex-col h-full hover:shadow-md transition-all duration-300"
-                >
-                  <ArticleBox
-                    article={toBaru(a, [100, 170])}
-                    variant="photo-top"
-                    excerptMinHeight="22rem"
-                    className="flex-1"
-                    tone={i % 2 === 0 ? "cream" : "tan"}
-                  />
-                </div>
-              ))}
-            </StaggerGrid>
+            {/* Mirrored: lead card on the left, so the two sections alternate. */}
+            <AsymmetricGrid articles={lowerGridArticles} leadSide="end" firstTone="cream" />
           </section>
         )}
 
