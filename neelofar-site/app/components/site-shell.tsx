@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import Footer from "./footer";
 import PageFade from "./page-fade";
+import { LiveSearch } from "./live-search";
 
 const navItems = [
   { href: "/", label: "خانه" },
@@ -93,7 +94,6 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pathname = usePathname();
-  const router = useRouter();
   const searchRef = useRef<HTMLDivElement | null>(null);
   const drawerRef = useRef<HTMLDivElement | null>(null);
 
@@ -114,13 +114,6 @@ export default function SiteShell({ children }: { children: ReactNode }) {
   useModalFocus(searchOpen, searchRef);
   useModalFocus(menuOpen, drawerRef);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!query.trim()) return;
-
-    setSearchOpen(false);
-    router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-  };
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--ink)]">
@@ -201,7 +194,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
           }}
         >
           <div
-            className={`mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-start pt-16 px-6 transition-[opacity,transform] duration-[250ms] ${
+            className={`mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-start px-4 pb-10 pt-16 sm:px-6 transition-[opacity,transform] duration-[250ms] ${
               search.visible ? "scale-100 opacity-100" : "scale-[0.98] opacity-0"
             }`}
           >
@@ -215,25 +208,9 @@ export default function SiteShell({ children }: { children: ReactNode }) {
               ✕
             </button>
 
-            {/* Input Form Box */}
-            <form onSubmit={handleSearchSubmit} className="w-full mt-8">
-              <div className="relative w-full">
-                <input
-                  autoFocus
-                  type="search"
-                  enterKeyHint="search"
-                  aria-label="جست‌وجو در مقاله‌ها"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  className="w-full rounded-lg border-2 border-[#1e293b] bg-white px-5 py-4 text-center text-2xl font-medium text-black shadow-md outline-none transition focus:border-[#8c2222] focus:ring-2 focus:ring-[#8c2222]/20 sm:text-3xl"
-                  placeholder="جست‌وجو کنید..."
-                />
-              </div>
-            </form>
-
-            <p className="mt-4 text-center text-sm text-[var(--muted)]">
-              عنوان یا متن مورد نظر را وارد کرده و کلید Enter را فشار دهید.
-            </p>
+            <div className="mt-8 w-full">
+              <LiveSearch query={query} setQuery={setQuery} onClose={() => setSearchOpen(false)} />
+            </div>
           </div>
         </div>
       )}
