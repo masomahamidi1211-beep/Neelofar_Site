@@ -28,10 +28,10 @@ function toBaru(
  * - phone: one column, lead card on top.
  * - tablet / small laptop (md): lead card full width, companions side by
  *   side beneath it.
- * - desktop (xl): all three cards in ONE row, columns 1.5fr 1fr 1fr -- the
+ * - desktop (xl): all three cards in ONE row, columns 2fr 1fr 1fr -- the
  *   lead card is the wide column, the two companions are equal narrower
  *   columns. leadSide "start" puts the lead on the right (RTL start, i.e.
- *   1.5fr 1fr 1fr); "end" mirrors it to the left (1fr 1fr 1.5fr).
+ *   2fr 1fr 1fr); "end" mirrors it to the left (1fr 1fr 2fr).
  */
 function AsymmetricGrid({
   articles,
@@ -44,7 +44,7 @@ function AsymmetricGrid({
 }) {
   const otherTone = firstTone === "tan" ? "cream" : "tan";
   // Literal class strings (Tailwind only generates classes it can see).
-  const columns = leadSide === "start" ? "xl:grid-cols-[1.5fr_1fr_1fr]" : "xl:grid-cols-[1fr_1fr_1.5fr]";
+  const columns = leadSide === "start" ? "xl:grid-cols-[2fr_1fr_1fr]" : "xl:grid-cols-[1fr_1fr_2fr]";
   const leadPlacement =
     leadSide === "start"
       ? "md:col-span-2 xl:col-span-1 xl:col-start-1 xl:row-start-1"

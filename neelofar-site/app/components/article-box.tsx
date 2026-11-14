@@ -116,7 +116,10 @@ export function ArticleBox({
     const titleSize =
       size === "featured" ? "text-3xl sm:text-4xl" : compact ? "text-xl sm:text-2xl xl:text-xl" : "text-2xl sm:text-3xl";
     const bodyPadding = compact ? "p-5 sm:p-6 xl:p-4" : "p-5 sm:p-6";
-    const excerptText = compact ? "text-[17px] leading-8 xl:text-[15px] xl:leading-7" : undefined;
+    // In the narrow desktop column, justified text spreads 3-4 words across
+    // the line with big gaps, so it's right-aligned (text-start in RTL)
+    // there instead. "!" is needed to beat the unlayered .justified-fa rule.
+    const excerptText = compact ? "text-[17px] leading-8 xl:text-[15px] xl:leading-7 xl:text-start!" : undefined;
     return (
       <Link href={href} className={`article-box baru-focus group flex h-full min-h-0 flex-col ${className}`}>
         {/* Fixed-ratio image area, kept even when an article has no image, so
