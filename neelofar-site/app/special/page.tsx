@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSpecialIssues } from "../lib/content-server";
+import PdfReader from "../components/pdf-reader";
 
 export default function SpecialPage() {
   const issues = getSpecialIssues();
@@ -35,6 +36,20 @@ export default function SpecialPage() {
           </Link>
         ))}
       </div>
+
+      {/* The program's first special issue, shown from the original PDF
+          (public/docs/vizhe-nameh-avval.pdf, unchanged) inside the page. */}
+      <section className="mt-10" aria-labelledby="vizhe-nameh-avval">
+        <h2 id="vizhe-nameh-avval" className="text-3xl font-bold">
+          ویژه‌نامه‌ی اول برنامه‌ی ادبیات جهان
+        </h2>
+        <p className="mt-3 text-lg text-[#4a4a4a]">
+          «کتاب‌نامه‌ی دختران»، بخش ویژه‌ی شماره‌ی بیست‌وپنجم کتاب‌نامه، دلو/ بهمن ۱۴۰۳
+        </p>
+        <div className="mt-5">
+          <PdfReader src="/docs/vizhe-nameh-avval.pdf" title="ویژه‌نامه‌ی اول برنامه‌ی ادبیات جهان" />
+        </div>
+      </section>
     </div>
   );
 }
