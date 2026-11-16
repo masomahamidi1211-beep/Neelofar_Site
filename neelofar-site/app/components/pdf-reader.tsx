@@ -44,11 +44,18 @@ export default function PdfReader({
         // Without it the browser rejects these Persian font subsets and
         // PDF.js falls back to a system font letter by letter, so the text
         // comes out with unjoined (isolated) letter forms.
+        // disableStream + disableAutoFetch: fetch only the byte ranges the
+        // pages on screen need (the server answers HTTP range requests),
+        // instead of downloading the whole 4 MB file before the first page
+        // can be drawn. 256 KB chunks keep the number of round trips low.
         loaded = await pdfjs.getDocument({
           url: src,
           isEvalSupported: false,
           disableFontFace: true,
           useSystemFonts: false,
+          disableStream: true,
+          disableAutoFetch: true,
+          rangeChunkSize: 262144,
         }).promise;
         const first = await loaded.getPage(Math.min(Math.max(fromPage, 1), loaded.numPages));
         const vp = first.getViewport({ scale: 1 });
