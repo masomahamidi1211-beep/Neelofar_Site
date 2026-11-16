@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getSpecialIssue, getSpecialIssues, getVizheNamehAvval } from "../lib/content-server";
-import { HomeCardGrid } from "../components/home-card-grid";
+import { PatternCardGrid } from "../components/home-card-grid";
 import { toPersianDigits } from "../lib/date";
 
 export default function SpecialPage() {
@@ -38,7 +38,7 @@ export default function SpecialPage() {
           {issue.sections.map((section) => (
             <div key={section.key} className="mt-8">
               <h3 className="text-2xl font-bold text-[var(--title)]">{section.title}</h3>
-              <HomeCardGrid articles={section.articles} className="mt-4" />
+              <PatternCardGrid articles={section.articles} className="mt-4" />
             </div>
           ))}
           <p className="mt-4 text-sm text-[#6b6b6b]">
@@ -56,7 +56,7 @@ export default function SpecialPage() {
           {first.title}
         </h2>
         <p className="mt-3 text-lg text-[#4a4a4a]">{first.subtitle}</p>
-        <HomeCardGrid
+        <PatternCardGrid
           className="mt-6"
           cards={first.pieces.map((p) => ({
             slug: p.slug,

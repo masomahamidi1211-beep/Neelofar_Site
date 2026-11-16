@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getSpecialIssue, getSpecialIssues, longExcerptOf } from "../../lib/content-server";
-import { HomeCardGrid } from "../../components/home-card-grid";
+import { PatternCardGrid } from "../../components/home-card-grid";
 import { SectionIntro } from "../../components/section-intro";
 import { WideRow } from "../../components/wide-row";
 import StaggerGrid from "../../components/stagger-grid";
@@ -69,7 +69,7 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
               )}
               {section.articles.length > 0 && !isWideRow && (
                 // Homepage-style cards (same as the یادداشت‌ها page).
-                <HomeCardGrid articles={section.articles} className="mt-5" />
+                <PatternCardGrid articles={section.articles} className="mt-5" />
               )}
             </section>
           );

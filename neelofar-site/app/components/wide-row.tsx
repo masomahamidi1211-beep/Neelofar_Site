@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { BaruArticle } from "./article-box";
 
 export function WideRow({ article }: { article: BaruArticle }) {
-  const href = `/notes/${article.slug}`;
+  const href = article.href ?? `/notes/${article.slug}`;
   // Determine if this article is سرسخن
   const isSarsokhan =
     article.slug.includes("sarsokhan") || article.title.includes("سرسخن");
