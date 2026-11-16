@@ -14,22 +14,29 @@ export default function ConversationsPage() {
       </p>
 
       {articles.length > 0 ? (
-        <StaggerGrid className="mt-5 divide-y divide-[#d4d4d4] bg-[#f7f6ed]">
+        // Each conversation in its own card -- same white card, 2px soft
+        // cream border and rounded corners as the wide cards elsewhere,
+        // 2rem apart.
+        <StaggerGrid className="mt-6 flex flex-col gap-8">
           {articles.map((article) => (
-            <WideRow
+            <div
               key={article.slug}
-              article={{
-                slug: article.slug,
-                title: article.title,
-                author: article.author,
-                excerpt: longExcerptOf(article, 140, 260),
-                date: "",
-                image: article.image,
-                imagePosition: article.imagePosition,
-                imageAlt: article.imageAlt,
-                subtitle: article.subtitle,
-              }}
-            />
+              className="rounded-xl border-2 border-[#e2d8c9] bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md md:p-8"
+            >
+              <WideRow
+                article={{
+                  slug: article.slug,
+                  title: article.title,
+                  author: article.author,
+                  excerpt: longExcerptOf(article, 140, 260),
+                  date: "",
+                  image: article.image,
+                  imagePosition: article.imagePosition,
+                  imageAlt: article.imageAlt,
+                  subtitle: article.subtitle,
+                }}
+              />
+            </div>
           ))}
         </StaggerGrid>
       ) : (
