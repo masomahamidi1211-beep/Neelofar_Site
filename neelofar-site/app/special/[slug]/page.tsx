@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getSpecialIssue, getSpecialIssues, longExcerptOf } from "../../lib/content-server";
-import { ArticleGrid } from "../../components/article-grid";
+import { HomeCardGrid } from "../../components/home-card-grid";
 import { SectionIntro } from "../../components/section-intro";
 import { WideRow } from "../../components/wide-row";
 import StaggerGrid from "../../components/stagger-grid";
@@ -68,19 +68,8 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
                 </StaggerGrid>
               )}
               {section.articles.length > 0 && !isWideRow && (
-                <div className="mt-3">
-                  <ArticleGrid
-                    articles={section.articles.map((article) => ({
-                      slug: article.slug,
-                      title: article.title,
-                      author: article.author,
-                      excerpt: longExcerptOf(article, article.image ? 110 : 220),
-                      image: article.image,
-                      imagePosition: article.imagePosition,
-                      imageAlt: article.imageAlt,
-                    }))}
-                  />
-                </div>
+                // Homepage-style cards (same as the یادداشت‌ها page).
+                <HomeCardGrid articles={section.articles} className="mt-5" />
               )}
             </section>
           );

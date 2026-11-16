@@ -30,7 +30,7 @@ export function SectionIntro({
   href?: string;
 }) {
   return (
-    <div className={`mb-3 flex flex-col border border-[var(--hairline)] bg-white sm:flex-row ${href ? "group" : ""}`}>
+    <div className={`mb-3 flex flex-col overflow-hidden rounded-xl border-2 border-[#e2d8c9] bg-white shadow-xs sm:flex-row ${href ? "group" : ""}`}>
       <div
         className={"aspect-[4/3] w-full shrink-0 overflow-hidden sm:w-64 sm:self-start"}
       >

@@ -6,14 +6,6 @@
     "credit": "کاری از برنامه ادبیات جهان",
     "sections": [
       {
-        "key": "sarsokhan",
-        "title": "سرسخن",
-        "description": "",
-        "articleSlugs": [
-          "سرسخن"
-        ]
-      },
-      {
         "key": "hasht",
         "title": "هشت گفتگو: هزار زندگی",
         "image": "/images/madaran/zan-16.jpg",
