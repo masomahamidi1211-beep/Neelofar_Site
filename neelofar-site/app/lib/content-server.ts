@@ -55,9 +55,20 @@ export type SpecialIssueResolved = Omit<SpecialIssue, "sections"> & {
   sections: SpecialIssueSectionResolved[];
 };
 
+/**
+ * The Jalali date as "YYYY-MM-DD". The /admin editor saves it unquoted
+ * (`jalaliDate: 1405-07-19`), which YAML reads as a calendar Date (UTC
+ * midnight); String(date) would then show "Fri Jul 19 1405 ... GMT". Read the
+ * numbers back from the Date instead -- the digits are the Jalali date as
+ * typed, the calendar YAML assumed doesn't matter.
+ */
 function normalizeDate(value: unknown): string {
-  if (typeof value === "string") return value;
-  if (value && typeof value === "object") return String(value);
+  if (typeof value === "string") return value.trim();
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    const p = (n: number, w = 2) => String(n).padStart(w, "0");
+    return `${p(value.getUTCFullYear(), 4)}-${p(value.getUTCMonth() + 1)}-${p(value.getUTCDate())}`;
+  }
+  if (typeof value === "number") return String(value);
   return "";
 }
 
