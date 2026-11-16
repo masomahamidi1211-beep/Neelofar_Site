@@ -28,7 +28,7 @@ export default function NotesPage() {
       <h1 className="text-4xl font-bold">یادداشت‌ها</h1>
       <p className="mt-2 text-lg text-[#4a4a4a]">تمام مقاله‌های نیلوفر، به ترتیب ویژه‌نامه.</p>
 
-      <ArticleGrid articles={entries} className="mt-3" />
+      <ArticleGrid articles={entries} className="mt-6" spaced />
     </div>
   );
 }

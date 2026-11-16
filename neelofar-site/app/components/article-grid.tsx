@@ -24,9 +24,24 @@ const LG_SPAN_CLASS: Record<number, string> = {
  * fixed FeatureCard image format, so CSS grid's default align-items:stretch
  * keeps every row's images -- and cell heights -- exactly aligned.
  */
-export function ArticleGrid({ articles, className = "" }: { articles: CardArticle[]; className?: string }) {
+export function ArticleGrid({
+  articles,
+  className = "",
+  spaced = false,
+}: {
+  articles: CardArticle[];
+  className?: string;
+  /** Separate cards with a 24px gap, rounded corners, a soft border and a
+   * light shadow (the homepage card look) instead of the zero-gap hairline
+   * grid. Used on the یادداشت‌ها page. */
+  spaced?: boolean;
+}) {
+  const gridClass = spaced ? "grid gap-6" : "hairline-grid";
+  const cardClass = spaced
+    ? "overflow-hidden rounded-xl border border-[#e2d8c9] shadow-xs hover:shadow-md"
+    : "";
   return (
-    <StaggerGrid className={`hairline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${className}`}>
+    <StaggerGrid className={`${gridClass} grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${className}`}>
       {articles.map((article, i) => {
         const span = gridSpanFor(i, articles.length, GRID_COLS);
         // Same idea for the 2-column (sm/md) grid: with an odd count, the
@@ -40,7 +55,7 @@ export function ArticleGrid({ articles, className = "" }: { articles: CardArticl
           <FeatureCard
             key={article.slug}
             article={article}
-            className={`bg-white ${spanClasses}`}
+            className={`bg-white ${cardClass} ${spanClasses}`}
           />
         );
       })}
