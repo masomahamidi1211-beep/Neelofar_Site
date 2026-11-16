@@ -88,6 +88,7 @@ export function ArticleBox({
   authorFirst = false,
   excerptMinHeight = "10rem",
   size = "default",
+  alignStart = false,
   className = "",
 }: {
   article: BaruArticle;
@@ -106,6 +107,11 @@ export function ArticleBox({
    * gets a smaller headline, smaller excerpt text and tighter padding so the
    * text isn't squeezed to a few words per line. */
   size?: "default" | "featured" | "compact";
+  /** photo-top only: right-align the excerpt (text-start in RTL) at every
+   * width instead of justifying it. For narrow card grids: Chrome's
+   * justification of this Persian font in short lines spreads letters apart
+   * inside words (e.g. «رم ان خوانده‌ا م»). */
+  alignStart?: boolean;
   className?: string;
 }) {
   const href = `/notes/${article.slug}`;
@@ -119,7 +125,11 @@ export function ArticleBox({
     // In the narrow desktop column, justified text spreads 3-4 words across
     // the line with big gaps, so it's right-aligned (text-start in RTL)
     // there instead. "!" is needed to beat the unlayered .justified-fa rule.
-    const excerptText = compact ? "text-[17px] leading-8 xl:text-[15px] xl:leading-7 xl:text-start!" : undefined;
+    const excerptText = compact
+      ? "text-[17px] leading-8 xl:text-[15px] xl:leading-7 xl:text-start!"
+      : alignStart
+        ? "text-[17px] leading-8 text-start!"
+        : undefined;
     return (
       <Link href={href} className={`article-box baru-focus group flex h-full min-h-0 flex-col ${className}`}>
         {/* Fixed-ratio image area, kept even when an article has no image, so
