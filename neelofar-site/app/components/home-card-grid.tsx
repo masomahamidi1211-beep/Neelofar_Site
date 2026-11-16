@@ -1,34 +1,50 @@
 import { longExcerptOf, type Article } from "../lib/content-server";
 import { toPersianDigits } from "../lib/date";
-import { ArticleBox } from "./article-box";
+import { ArticleBox, type BaruArticle } from "./article-box";
 import StaggerGrid from "./stagger-grid";
+
+/** A site article as a homepage-style card (links to /notes/{slug}). */
+export function articleCard(a: Article): BaruArticle {
+  return {
+    slug: a.slug,
+    title: a.title,
+    author: a.author,
+    excerpt: longExcerptOf(a, 100, 170),
+    date: toPersianDigits(a.jalaliDate.replace(/-/g, "/")),
+    image: a.image,
+    imagePosition: a.imagePosition,
+    imageAlt: a.imageAlt,
+  };
+}
 
 /**
  * Card grid in the homepage card style, used on the یادداشت‌ها page and the
- * ویژه‌نامه pages: each article in a white padded frame with a 2px soft cream
+ * ویژه‌نامه pages: each item in a white padded frame with a 2px soft cream
  * border and rounded corners, holding the photo-top ArticleBox (cream/tan
  * photo mat, navy headline, fading excerpt, round read-more button).
- * 1 / 2 / 3 columns with a 2rem gap.
+ * 1 / 2 / 3 columns with a 2rem gap. Pass `articles` (site articles) or
+ * ready-made `cards` (e.g. pieces of the PDF special issue, with their own
+ * href).
  */
-export function HomeCardGrid({ articles, className = "" }: { articles: Article[]; className?: string }) {
+export function HomeCardGrid({
+  articles,
+  cards,
+  className = "",
+}: {
+  articles?: Article[];
+  cards?: BaruArticle[];
+  className?: string;
+}) {
+  const items = cards ?? (articles ?? []).map(articleCard);
   return (
     <StaggerGrid className={`grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 items-stretch ${className}`}>
-      {articles.map((a, i) => (
+      {items.map((card, i) => (
         <div
-          key={a.slug}
+          key={card.href ?? card.slug}
           className="flex h-full flex-col rounded-xl border-2 border-[#e2d8c9] bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md"
         >
           <ArticleBox
-            article={{
-              slug: a.slug,
-              title: a.title,
-              author: a.author,
-              excerpt: longExcerptOf(a, 100, 170),
-              date: toPersianDigits(a.jalaliDate.replace(/-/g, "/")),
-              image: a.image,
-              imagePosition: a.imagePosition,
-              imageAlt: a.imageAlt,
-            }}
+            article={card}
             variant="photo-top"
             excerptMinHeight="12rem"
             alignStart

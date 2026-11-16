@@ -14,6 +14,8 @@ export type BaruArticle = {
   /** Optional credit lines shown below the title, smaller than it -- most
    * articles don't have these; only rendered where present. */
   subtitle?: string[] | null;
+  /** Where the card links to; defaults to the article page /notes/{slug}. */
+  href?: string;
 };
 
 const DEFAULT_POSITION = "50% 20%";
@@ -114,7 +116,7 @@ export function ArticleBox({
   alignStart?: boolean;
   className?: string;
 }) {
-  const href = `/notes/${article.slug}`;
+  const href = article.href ?? `/notes/${article.slug}`;
 
   if (variant === "photo-top") {
     const compact = size === "compact";
@@ -142,6 +144,9 @@ export function ArticleBox({
         <div className={`flex flex-1 flex-col ${bodyPadding}`}>
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
           <h3 className={`article-title ${titleSize} leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]`}>{article.title}</h3>
+          {article.subtitle?.map((line, i) => (
+            <p key={i} className="mt-2 text-sm leading-6 text-[#4a4a4a]">{line}</p>
+          ))}
           {!authorFirst && <AuthorLine author={article.author} className="mt-2" />}
           <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} textClass={excerptText} />
           {/* mt-auto pins the footer to the card's bottom edge, so footers

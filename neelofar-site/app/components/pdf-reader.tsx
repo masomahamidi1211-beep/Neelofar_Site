@@ -14,11 +14,23 @@ import type { PDFDocumentProxy } from "pdfjs-dist";
  * doesn't render all at once. The worker script is served from
  * /pdfjs/pdf.worker.min.mjs (copied from node_modules/pdfjs-dist/build).
  */
-export default function PdfReader({ src, title }: { src: string; title: string }) {
+export default function PdfReader({
+  src,
+  title,
+  fromPage = 1,
+  toPage,
+}: {
+  src: string;
+  title: string;
+  /** Show only pages fromPage..toPage (1-based, inclusive) -- one piece of
+   * the issue. The page counter then counts within that range. */
+  fromPage?: number;
+  toPage?: number;
+}) {
   const [doc, setDoc] = useState<PDFDocumentProxy | null>(null);
-  const [ratio, setRatio] = useState(595 / 411); // height / width of page 1
+  const [ratio, setRatio] = useState(595 / 411); // height / width of the first shown page
   const [error, setError] = useState(false);
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState(fromPage);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -38,7 +50,7 @@ export default function PdfReader({ src, title }: { src: string; title: string }
           disableFontFace: true,
           useSystemFonts: false,
         }).promise;
-        const first = await loaded.getPage(1);
+        const first = await loaded.getPage(Math.min(Math.max(fromPage, 1), loaded.numPages));
         const vp = first.getViewport({ scale: 1 });
         if (cancelled) return;
         setRatio(vp.height / vp.width);
@@ -51,7 +63,11 @@ export default function PdfReader({ src, title }: { src: string; title: string }
       cancelled = true;
       loaded?.destroy();
     };
-  }, [src]);
+  }, [src, fromPage]);
+
+  const first = doc ? Math.min(Math.max(fromPage, 1), doc.numPages) : fromPage;
+  const last = doc ? Math.min(toPage ?? doc.numPages, doc.numPages) : first;
+  const count = Math.max(last - first + 1, 1);
 
   if (error) {
     return (
@@ -62,11 +78,11 @@ export default function PdfReader({ src, title }: { src: string; title: string }
   }
 
   return (
-    <div className="rounded-xl border border-[#e2d8c9] bg-[#f3ede2] shadow-sm">
+    <div className="rounded-xl border-2 border-[#e2d8c9] bg-[#f3ede2] shadow-sm">
       <div className="flex items-center justify-between gap-3 border-b border-[#d8ccbc] px-4 py-3 text-sm text-[#4a4a4a]">
         <span className="font-bold text-[#2a2421]">{title}</span>
         <span aria-live="polite" className="shrink-0 tabular-nums">
-          {doc ? `صفحه‌ی ${toFa(current)} از ${toFa(doc.numPages)}` : "در حال بارگذاری…"}
+          {doc ? `صفحه‌ی ${toFa(current - first + 1)} از ${toFa(count)}` : "در حال بارگذاری…"}
         </span>
       </div>
       <div
@@ -78,11 +94,11 @@ export default function PdfReader({ src, title }: { src: string; title: string }
       >
         <div className="mx-auto flex max-w-[720px] flex-col gap-4 sm:gap-6">
           {doc
-            ? Array.from({ length: doc.numPages }, (_, i) => (
+            ? Array.from({ length: count }, (_, i) => (
                 <PdfPage
-                  key={i}
+                  key={first + i}
                   doc={doc}
-                  pageNumber={i + 1}
+                  pageNumber={first + i}
                   ratio={ratio}
                   scroller={scrollerRef}
                   onVisible={setCurrent}

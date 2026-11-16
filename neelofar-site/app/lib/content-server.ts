@@ -290,3 +290,26 @@ export function getHomepage(): HomepageConfig {
   const file = fs.readFileSync(path.join(contentDir, "homepage.json"), "utf8");
   return JSON.parse(file) as HomepageConfig;
 }
+
+/** One piece of the first special issue (a page range of its PDF). */
+export type PdfIssuePiece = {
+  n: number;
+  title: string;
+  subtitle: string;
+  author: string;
+  /** First and last page of the piece in the PDF (1-based, inclusive). */
+  from: number;
+  to: number;
+  image: string;
+  imagePosition: string;
+  excerpt: string;
+};
+
+export type PdfIssue = { title: string; subtitle: string; pdf: string; pieces: PdfIssuePiece[] };
+
+/** The first special issue: an unmodified PDF, listed piece by piece in
+ * content/vizhe-nameh-avval.json (titles, bylines and page ranges as printed). */
+export function getVizheNamehAvval(): PdfIssue {
+  const file = fs.readFileSync(path.join(contentDir, "vizhe-nameh-avval.json"), "utf8");
+  return JSON.parse(file) as PdfIssue;
+}

@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { getSpecialIssues } from "../lib/content-server";
-import PdfReader from "../components/pdf-reader";
+import { getSpecialIssues, getVizheNamehAvval } from "../lib/content-server";
+import { HomeCardGrid } from "../components/home-card-grid";
+import { toPersianDigits } from "../lib/date";
 
 export default function SpecialPage() {
   const issues = getSpecialIssues();
+  const first = getVizheNamehAvval();
 
   return (
     <div className="px-4 py-6 sm:px-6 lg:px-8">
@@ -37,18 +39,33 @@ export default function SpecialPage() {
         ))}
       </div>
 
-      {/* The program's first special issue, shown from the original PDF
-          (public/docs/vizhe-nameh-avval.pdf, unchanged) inside the page. */}
+      {/* The program's first special issue: one card per piece (listed in
+          content/vizhe-nameh-avval.json), same cards as مادران و دختران.
+          Each card opens that piece's pages of the original, unchanged PDF
+          (public/docs/vizhe-nameh-avval.pdf) in the in-page reader. */}
       <section className="mt-10" aria-labelledby="vizhe-nameh-avval">
-        <h2 id="vizhe-nameh-avval" className="text-3xl font-bold">
-          ویژه‌نامه‌ی اول برنامه‌ی ادبیات جهان
+        <h2 id="vizhe-nameh-avval" className="section-heading text-3xl font-bold">
+          {first.title}
         </h2>
-        <p className="mt-3 text-lg text-[#4a4a4a]">
-          «کتاب‌نامه‌ی دختران»، بخش ویژه‌ی شماره‌ی بیست‌وپنجم کتاب‌نامه، دلو/ بهمن ۱۴۰۳
+        <p className="mt-3 text-lg text-[#4a4a4a]">{first.subtitle}</p>
+        <HomeCardGrid
+          className="mt-6"
+          cards={first.pieces.map((p) => ({
+            slug: `vizhe-nameh-avval-${p.n}`,
+            href: `/special/vizhe-nameh-avval/${p.n}`,
+            title: p.title,
+            subtitle: p.subtitle ? [p.subtitle] : null,
+            author: p.author,
+            excerpt: p.excerpt,
+            date: "",
+            image: p.image,
+            imagePosition: p.imagePosition,
+            imageAlt: "",
+          }))}
+        />
+        <p className="mt-4 text-sm text-[#6b6b6b]">
+          {toPersianDigits(String(first.pieces.length))} نوشته، از نسخه‌ی PDF ویژه‌نامه
         </p>
-        <div className="mt-5">
-          <PdfReader src="/docs/vizhe-nameh-avval.pdf" title="ویژه‌نامه‌ی اول برنامه‌ی ادبیات جهان" />
-        </div>
       </section>
     </div>
   );
