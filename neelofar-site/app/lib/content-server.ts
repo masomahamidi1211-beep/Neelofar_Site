@@ -291,25 +291,26 @@ export function getHomepage(): HomepageConfig {
   return JSON.parse(file) as HomepageConfig;
 }
 
-/** One piece of the first special issue (a page range of its PDF). */
-export type PdfIssuePiece = {
+/** One piece of the first special issue. Its full text is a regular
+ * article, content/articles/{slug}.md (read at /notes/{slug}). */
+export type FirstIssuePiece = {
   n: number;
+  slug: string;
   title: string;
   subtitle: string;
   author: string;
-  /** First and last page of the piece in the PDF (1-based, inclusive). */
-  from: number;
-  to: number;
   image: string;
   imagePosition: string;
+  /** Card excerpt (the piece's opening lines). */
   excerpt: string;
 };
 
-export type PdfIssue = { title: string; subtitle: string; pdf: string; pieces: PdfIssuePiece[] };
+export type FirstIssue = { title: string; subtitle: string; pieces: FirstIssuePiece[] };
 
-/** The first special issue: an unmodified PDF, listed piece by piece in
- * content/vizhe-nameh-avval.json (titles, bylines and page ranges as printed). */
-export function getVizheNamehAvval(): PdfIssue {
+/** The first special issue («کتاب‌نامه‌ی دختران»): its table of contents, in
+ * content/vizhe-nameh-avval.json (titles and bylines as printed in the
+ * magazine). Text extracted from the issue's PDF into article files. */
+export function getVizheNamehAvval(): FirstIssue {
   const file = fs.readFileSync(path.join(contentDir, "vizhe-nameh-avval.json"), "utf8");
-  return JSON.parse(file) as PdfIssue;
+  return JSON.parse(file) as FirstIssue;
 }

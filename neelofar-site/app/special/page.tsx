@@ -41,8 +41,7 @@ export default function SpecialPage() {
 
       {/* The program's first special issue: one card per piece (listed in
           content/vizhe-nameh-avval.json), same cards as مادران و دختران.
-          Each card opens that piece's pages of the original, unchanged PDF
-          (public/docs/vizhe-nameh-avval.pdf) in the in-page reader. */}
+          Each card opens the piece as a regular article page. */}
       <section className="mt-10" aria-labelledby="vizhe-nameh-avval">
         <h2 id="vizhe-nameh-avval" className="section-heading text-3xl font-bold">
           {first.title}
@@ -51,8 +50,7 @@ export default function SpecialPage() {
         <HomeCardGrid
           className="mt-6"
           cards={first.pieces.map((p) => ({
-            slug: `vizhe-nameh-avval-${p.n}`,
-            href: `/special/vizhe-nameh-avval/${p.n}`,
+            slug: p.slug,
             title: p.title,
             subtitle: p.subtitle ? [p.subtitle] : null,
             author: p.author,
@@ -63,9 +61,7 @@ export default function SpecialPage() {
             imageAlt: "",
           }))}
         />
-        <p className="mt-4 text-sm text-[#6b6b6b]">
-          {toPersianDigits(String(first.pieces.length))} نوشته، از نسخه‌ی PDF ویژه‌نامه
-        </p>
+        <p className="mt-4 text-sm text-[#6b6b6b]">{toPersianDigits(String(first.pieces.length))} نوشته</p>
       </section>
     </div>
   );
