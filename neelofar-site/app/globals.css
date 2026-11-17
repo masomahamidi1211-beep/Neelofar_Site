@@ -22,9 +22,12 @@
   --cream: #f2edde;
   --tan: #d8cfa8;
 
-  /* Outer page background (lavender) -- the area around the content boxes.
-     Boxes, cards, panels and the header keep their own colors. */
-  --page-bg: #e6e6fa;
+  /* Outer page background (soft warm stone, to sit with the cream cards and
+     header) -- the area around the content boxes. Boxes, cards, panels and
+     the header keep their own colors. */
+  --page-bg: #eae6df;
+  /* Thin side borders of the main column on desktop, a shade darker. */
+  --page-edge: #ddd6cb;
   /* Site header: the same warm cream as the سرسخن box on the homepage. */
   --header-bg: #f3ede2;
 }

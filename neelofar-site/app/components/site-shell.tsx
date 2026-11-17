@@ -167,7 +167,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
       </header>
 
       <main className="flex-1">
-        <div className="lg:mx-[8px] lg:border-x lg:border-[#e5e5e5] lg:bg-[var(--page-bg)]">
+        <div className="lg:mx-[8px] lg:border-x lg:border-[var(--page-edge)] lg:bg-[var(--page-bg)]">
           <div className="lg:mx-auto lg:w-[77vw] lg:max-w-[1100px]">
             <PageFade key={pathname}>{children}</PageFade>
           </div>
