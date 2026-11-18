@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getSpecialIssue, getSpecialIssues, longExcerptOf } from "../../lib/content-server";
 import { PatternCardGrid } from "../../components/home-card-grid";
+import { BackToIssues } from "../../components/issue-overview-card";
 import { SectionIntro } from "../../components/section-intro";
 import { WideRow } from "../../components/wide-row";
 import StaggerGrid from "../../components/stagger-grid";
@@ -21,8 +22,9 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
   }
 
   return (
-    <div className="px-4 py-4 sm:px-6 lg:px-8">
-      <p className="text-sm text-[#6b6b6b]">{issue.credit}</p>
+    <div className="px-4 py-6 sm:px-6 lg:px-8">
+      <BackToIssues />
+      <p className="mt-6 text-sm text-[#6b6b6b]">{issue.credit}</p>
       <h1 className="mt-2 text-4xl font-bold leading-[1.5] sm:text-5xl">{issue.title}</h1>
       <p className="mt-3 text-xl text-[#4a4a4a]">{issue.subtitle}</p>
 

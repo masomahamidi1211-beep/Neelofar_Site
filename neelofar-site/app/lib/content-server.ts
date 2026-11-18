@@ -44,6 +44,8 @@ export type SpecialIssue = {
   title: string;
   subtitle: string;
   credit: string;
+  /** Short introduction shown on the ویژه‌نامه‌ها landing page. */
+  summary?: string;
   sections: SpecialIssueSection[];
 };
 
@@ -316,7 +318,7 @@ export type FirstIssuePiece = {
   excerpt: string;
 };
 
-export type FirstIssue = { title: string; subtitle: string; pieces: FirstIssuePiece[] };
+export type FirstIssue = { title: string; subtitle: string; summary: string; pieces: FirstIssuePiece[] };
 
 /** The first special issue («کتاب‌نامه‌ی دختران»): its table of contents, in
  * content/vizhe-nameh-avval.json (titles and bylines as printed in the

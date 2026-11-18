@@ -5,14 +5,11 @@ import path from "node:path";
 function firstIssueRedirects() {
   const file = path.join(__dirname, "content", "vizhe-nameh-avval.json");
   const issue = JSON.parse(fs.readFileSync(file, "utf8")) as { pieces: { n: number; slug: string }[] };
-  return [
-    ...issue.pieces.map((p) => ({
-      source: `/special/vizhe-nameh-avval/${p.n}`,
-      destination: encodeURI(`/notes/${p.slug}`),
-      permanent: true,
-    })),
-    { source: "/special/vizhe-nameh-avval", destination: "/special#vizhe-nameh-avval", permanent: true },
-  ];
+  return issue.pieces.map((p) => ({
+    source: `/special/vizhe-nameh-avval/${p.n}`,
+    destination: encodeURI(`/notes/${p.slug}`),
+    permanent: true,
+  }));
 }
 
 const nextConfig: NextConfig = {
