@@ -31,6 +31,10 @@ function BoxImage({ article, className }: { article: BaruArticle; className: str
     <img
       src={resolvedImage}
       alt={article.imageAlt ?? article.title}
+      // Off-screen photos wait until scrolled near: some are several MB, and
+      // loading them all at once made links on the page slow to respond.
+      loading="lazy"
+      decoding="async"
       className={`transition duration-200 ease-out group-hover:scale-[1.03] ${className}`}
       style={{ objectPosition: article.imagePosition ?? DEFAULT_POSITION }}
     />

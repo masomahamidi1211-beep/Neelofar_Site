@@ -55,6 +55,8 @@ export function WideRow({ article }: { article: BaruArticle }) {
         <img
           src={imgSrc}
           alt=""
+          loading="lazy"
+          decoding="async"
           onError={handleImageError}
           style={{ objectPosition: article.imagePosition ?? "50% 20%" }}
           className="aspect-[4/3] w-full max-w-[360px] md:max-w-[400px] object-cover
