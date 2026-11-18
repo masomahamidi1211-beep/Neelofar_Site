@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getAllArticles } from "../../lib/content-server";
 import Link from "next/link";
 import { formatJalaliDate } from "../../lib/date";
+import { isSarsokhanTitle } from "../../lib/sarsokhan-title";
 
 export async function generateStaticParams() {
   const articles = getAllArticles();
@@ -34,7 +35,7 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
           {articles.map((article) => (
             <article key={article.slug} className="border-b border-[var(--hairline)] pb-6">
               <Link href={`/notes/${article.slug}`} className="group">
-                <h2 className="text-2xl font-semibold text-[#111111] group-hover:text-[#dc2626] transition-colors">
+                <h2 className={`text-2xl font-semibold text-[#111111] transition-colors ${isSarsokhanTitle(article.title) ? "" : "group-hover:text-[#dc2626]"}`}>
                   {article.title}
                 </h2>
               </Link>

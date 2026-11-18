@@ -12,6 +12,7 @@ import {
 import { formatJalaliDate, toPersianDigits } from "../../lib/date";
 import { ShareIcons } from "../../components/share-icons";
 import ArticleBody from "../../components/article-body";
+import { isSarsokhanTitle } from "../../lib/sarsokhan-title";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://neelofar-placeholder.example";
 
@@ -184,7 +185,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className="text-base font-bold leading-snug text-[#111111] transition-colors group-hover:text-[#dc2626]">
+                  <h4 className={`text-base font-bold leading-snug text-[#111111] transition-colors ${isSarsokhanTitle(item.title) ? "" : "group-hover:text-[#dc2626]"}`}>
                     {item.title}
                   </h4>
                   <p className="mt-2 text-sm text-[#6b6b6b]">{item.author}</p>

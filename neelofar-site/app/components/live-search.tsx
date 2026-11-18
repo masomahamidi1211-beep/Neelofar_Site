@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useDeferredValue, useEffect, useId, useMemo, useState } from "react";
 import { searchDocs, type SearchDoc } from "../lib/search";
 import { toPersianDigits } from "../lib/date";
+import { isSarsokhanTitle, SOLID_BLACK_TITLE } from "../lib/sarsokhan-title";
 
 const MAX_RESULTS = 8;
 
@@ -145,7 +146,7 @@ export function LiveSearch({ query, setQuery, onClose }: {
                       )}
                     </div>
                     <div className="min-w-0 flex-1 text-right">
-                      <h3 className="line-clamp-2 text-base font-bold leading-snug text-black group-hover:text-[var(--accent)] sm:text-lg">
+                      <h3 className={`line-clamp-2 text-base font-bold leading-snug text-black group-hover:text-[var(--accent)] sm:text-lg ${isSarsokhanTitle(doc.title) ? SOLID_BLACK_TITLE : ""}`}>
                         {doc.title}
                       </h3>
                       {doc.author && <p className="mt-1 text-sm text-[var(--muted)]">{doc.author}</p>}

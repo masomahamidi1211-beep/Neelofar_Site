@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AuthorLine } from "./author-line";
 import { ReadMoreCircle } from "./read-more-circle";
+import { isSarsokhanTitle, SOLID_BLACK_TITLE } from "../lib/sarsokhan-title";
 
 export type BaruArticle = {
   slug: string;
@@ -121,6 +122,7 @@ export function ArticleBox({
   className?: string;
 }) {
   const href = article.href ?? `/notes/${article.slug}`;
+  const solidTitle = isSarsokhanTitle(article.title) ? SOLID_BLACK_TITLE : "";
 
   if (variant === "photo-top") {
     const compact = size === "compact";
@@ -147,7 +149,7 @@ export function ArticleBox({
         </div>
         <div className={`flex flex-1 flex-col ${bodyPadding}`}>
           {authorFirst && <AuthorLine author={article.author} className="mb-2" />}
-          <h3 className={`article-title ${titleSize} leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]`}>{article.title}</h3>
+          <h3 className={`article-title ${titleSize} leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] ${solidTitle}`}>{article.title}</h3>
           {article.subtitle?.map((line, i) => (
             <p key={i} className="mt-2 text-sm leading-6 text-[#4a4a4a]">{line}</p>
           ))}
@@ -187,7 +189,7 @@ export function ArticleBox({
       >
         <div className="min-w-0 flex-1">
           <AuthorLine author={article.author} />
-          <h3 className="article-title mt-1 text-lg leading-snug text-black transition duration-150 group-hover:text-[var(--title)]">
+          <h3 className={`article-title mt-1 text-lg leading-snug text-black transition duration-150 group-hover:text-[var(--title)] ${solidTitle}`}>
             {article.title}
           </h3>
           <p className="article-body mt-2 line-clamp-2 text-base leading-6 text-[var(--muted)]">{article.excerpt}</p>
@@ -203,7 +205,7 @@ export function ArticleBox({
     return (
       <Link href={href} className={`article-box baru-focus group flex h-full items-stretch gap-4 p-4 ${className}`}>
         <div className="min-w-0 flex-1">
-          <h3 className="article-title text-xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)]">
+          <h3 className={`article-title text-xl leading-snug text-[var(--title)] transition duration-200 group-hover:text-[var(--accent)] ${solidTitle}`}>
             {article.title}
           </h3>
           <p className="article-body mt-2 line-clamp-2 text-base leading-6 text-[var(--muted)]">{article.excerpt}</p>
@@ -223,7 +225,7 @@ export function ArticleBox({
         variant === "cream" ? "bg-[var(--cream)]" : ""
       } ${className}`}
     >
-      <h3 className="article-title text-2xl leading-snug text-black transition duration-150 group-hover:text-[var(--title)] sm:text-3xl">{article.title}</h3>
+      <h3 className={`article-title text-2xl leading-snug text-black transition duration-150 group-hover:text-[var(--title)] sm:text-3xl ${solidTitle}`}>{article.title}</h3>
       <AuthorLine author={article.author} className="mt-2" />
       <FillExcerpt text={article.excerpt} minHeight={excerptMinHeight} />
       {/* In normal flow with mt-auto (not absolute), so long text can never

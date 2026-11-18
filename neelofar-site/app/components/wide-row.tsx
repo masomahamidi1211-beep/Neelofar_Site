@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import type { BaruArticle } from "./article-box";
+import { isSarsokhanTitle, SOLID_BLACK_TITLE } from "../lib/sarsokhan-title";
 
 export function WideRow({ article }: { article: BaruArticle }) {
   const href = article.href ?? `/notes/${article.slug}`;
@@ -33,7 +34,7 @@ export function WideRow({ article }: { article: BaruArticle }) {
       {/* 1. TEXT CONTENT (Right Side in RTL) */}
       <div className="w-full md:w-7/12 flex flex-col justify-between order-1 md:order-1">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold leading-snug mb-4 transition-colors group-hover:text-[#8c2222]">
+          <h2 className={`text-2xl md:text-3xl font-bold leading-snug mb-4 transition-colors group-hover:text-[#8c2222] ${isSarsokhanTitle(article.title) ? SOLID_BLACK_TITLE : ""}`}>
             {article.title}
           </h2>
           <p className="text-[#4a423c] leading-relaxed text-justify line-clamp-6 mb-3">
