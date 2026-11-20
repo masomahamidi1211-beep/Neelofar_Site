@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getSpecialIssue, getSpecialIssues, longExcerptOf } from "../../lib/content-server";
 import { PatternCardGrid } from "../../components/home-card-grid";
-import { BackToIssues } from "../../components/issue-overview-card";
+import { BackToIssues, DownloadPdfButton } from "../../components/issue-overview-card";
 import { SectionIntro } from "../../components/section-intro";
 import { WideRow } from "../../components/wide-row";
 import StaggerGrid from "../../components/stagger-grid";
@@ -27,8 +27,11 @@ export default async function SpecialIssuePage({ params }: { params: Promise<{ s
       <p className="mt-6 text-sm text-[#6b6b6b]">{issue.credit}</p>
       <h1 className="mt-2 text-4xl font-bold leading-[1.5] sm:text-5xl">{issue.title}</h1>
       <p className="mt-3 text-xl text-[#4a4a4a]">{issue.subtitle}</p>
+      {issue.pdf && (
+        <DownloadPdfButton href={issue.pdf} title={issue.title.split(":")[0].trim()} className="mt-5" />
+      )}
 
-      <div className="mt-5">
+      <div className="mt-8">
         {issue.sections.map((section, index) => {
           const isWideRow = section.layout === "wide-row";
           // No top margin when directly following a wide-row section, so its

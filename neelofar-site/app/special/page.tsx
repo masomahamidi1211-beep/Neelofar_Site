@@ -27,8 +27,10 @@ export default function SpecialPage() {
           subtitle={first.subtitle}
           meta={`${fa(first.pieces.length)} نوشته`}
           summary={first.summary}
+          cover={first.cover}
           image={first.pieces[0].image}
           imagePosition={first.pieces[0].imagePosition}
+          pdf={first.pdf}
         />
         {issues.map((issue) => {
           // The title repeats the subtitle after its colon; show each once.
@@ -42,8 +44,10 @@ export default function SpecialPage() {
               subtitle={issue.subtitle}
               meta={`${issue.credit} · ${fa(articleCount)} نوشته در ${fa(issue.sections.length)} بخش`}
               summary={issue.summary ?? ""}
+              cover={issue.cover}
               image={issue.sections[0]?.image ?? "/images/zan-0.png"}
               imagePosition={issue.sections[0]?.imagePosition ?? undefined}
+              pdf={issue.pdf}
             />
           );
         })}

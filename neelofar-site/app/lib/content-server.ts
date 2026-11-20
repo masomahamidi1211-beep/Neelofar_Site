@@ -46,6 +46,10 @@ export type SpecialIssue = {
   credit: string;
   /** Short introduction shown on the ویژه‌نامه‌ها landing page. */
   summary?: string;
+  /** The whole issue as a PDF, for download (public/docs). */
+  pdf?: string;
+  /** First page of the PDF, used as the issue's card image. */
+  cover?: string;
   sections: SpecialIssueSection[];
 };
 
@@ -318,7 +322,16 @@ export type FirstIssuePiece = {
   excerpt: string;
 };
 
-export type FirstIssue = { title: string; subtitle: string; summary: string; pieces: FirstIssuePiece[] };
+export type FirstIssue = {
+  title: string;
+  subtitle: string;
+  summary: string;
+  /** The whole magazine issue as a PDF, for download (public/docs). */
+  pdf?: string;
+  /** First page of the PDF, used as the issue's card image. */
+  cover?: string;
+  pieces: FirstIssuePiece[];
+};
 
 /** The first special issue («کتاب‌نامه‌ی دختران»): its table of contents, in
  * content/vizhe-nameh-avval.json (titles and bylines as printed in the
