@@ -7,7 +7,11 @@ import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import Footer from "./footer";
 import PageFade from "./page-fade";
-import { LiveSearch } from "./live-search";
+import dynamic from "next/dynamic";
+
+// The live search (and its search code) only downloads when someone opens
+// the search box, instead of with every page.
+const LiveSearch = dynamic(() => import("./live-search").then((m) => m.LiveSearch), { ssr: false });
 
 const navItems = [
   { href: "/", label: "خانه" },

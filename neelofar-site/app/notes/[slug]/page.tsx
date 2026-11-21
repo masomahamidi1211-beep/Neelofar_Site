@@ -11,6 +11,7 @@ import {
 } from "../../lib/content-server";
 import { formatJalaliDate, toPersianDigits } from "../../lib/date";
 import { ShareIcons } from "../../components/share-icons";
+import { imgAttrs, enhanceBodyImages } from "../../lib/img";
 import ArticleBody from "../../components/article-body";
 import { isSarsokhanTitle } from "../../lib/sarsokhan-title";
 
@@ -128,6 +129,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="mt-8 aspect-[4/3] w-full overflow-hidden bg-[#f3ede2]">
               <img
                 src={article.image as string}
+                {...imgAttrs(article.image, "(min-width: 1024px) 700px, 100vw")}
+                fetchPriority="high"
                 alt={`${article.imageAlt ?? article.title}`}
                 className="h-full w-full object-cover"
                 style={{ objectPosition: article.imagePosition ?? "50% 20%" }}
@@ -136,7 +139,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           )}
 
           <ArticleBody
-            bodyHtml={bodyWithFootnotes}
+            bodyHtml={enhanceBodyImages(bodyWithFootnotes)}
             footnotes={article.footnotes}
           />
 
@@ -178,6 +181,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={item.image}
+                      {...imgAttrs(item.image, "96px")}
+                      loading="lazy"
+                      decoding="async"
                       alt=""
                       className="h-full w-full object-cover transition duration-200 ease-out group-hover:scale-[1.05]"
                       style={{ objectPosition: item.imagePosition ?? "50% 20%" }}

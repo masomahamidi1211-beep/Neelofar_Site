@@ -93,7 +93,7 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
         </div>
       ) : (
         <div className="mt-4 aspect-[3/4] w-full border border-[var(--hairline)] sm:aspect-[4/3]">
-          <iframe src={url} className="h-full w-full" title={labels[slug]} />
+          <iframe src={url} loading="lazy" className="h-full w-full" title={labels[slug]} />
         </div>
       )}
     </div>

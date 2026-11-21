@@ -13,11 +13,17 @@ import { ReactNode, useEffect, useRef, useState } from "react";
  */
 export default function StaggerGrid({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
+  // "pending" = hidden, waiting to slide in. Only grids that start below the
+  // screen get it, after React loads: a grid already on screen is never
+  // hidden, so the first paint isn't held back waiting for JavaScript.
+  const [pending, setPending] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+    setPending(true);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -41,7 +47,7 @@ export default function StaggerGrid({ children, className = "" }: { children: Re
   }, []);
 
   return (
-    <div ref={ref} className={`stagger-grid ${visible ? "is-visible" : ""} ${className}`}>
+    <div ref={ref} className={`stagger-grid ${pending ? "is-pending" : ""} ${visible ? "is-visible" : ""} ${className}`}>
       {children}
     </div>
   );

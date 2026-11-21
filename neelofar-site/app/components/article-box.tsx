@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AuthorLine } from "./author-line";
 import { ReadMoreCircle } from "./read-more-circle";
+import { imgAttrs } from "../lib/img";
 import { isSarsokhanTitle, SOLID_BLACK_TITLE } from "../lib/sarsokhan-title";
 
 export type BaruArticle = {
@@ -31,6 +32,7 @@ function BoxImage({ article, className }: { article: BaruArticle; className: str
   return (
     <img
       src={resolvedImage}
+      {...imgAttrs(resolvedImage, "(min-width: 1280px) 440px, (min-width: 640px) 50vw, 100vw")}
       alt={article.imageAlt ?? article.title}
       // Off-screen photos wait until scrolled near: some are several MB, and
       // loading them all at once made links on the page slow to respond.

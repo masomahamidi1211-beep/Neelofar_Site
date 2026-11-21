@@ -3,6 +3,8 @@ import { toPersianDigits } from "./lib/date";
 import { ArticleBox, type BaruArticle } from "./components/article-box";
 import { WideRow } from "./components/wide-row";
 import StaggerGrid from "./components/stagger-grid";
+import { preload } from "react-dom";
+import { srcSetOf } from "./lib/img";
 
 function toBaru(
   article: Pick<Article, "slug" | "title" | "author" | "jalaliDate" | "image" | "imagePosition" | "imageAlt" | "body">,
@@ -96,6 +98,17 @@ export default function HomePage() {
   const lowerGridArticles = pick(home.translations?.articles);
   const featuredStory = bySlug(home.story?.article);
 
+  // The hero photo is the largest thing on screen when the page opens:
+  // tell the browser about it in <head>, before it reaches the <img>.
+  if (heroArticle?.image) {
+    preload(heroArticle.image, {
+      as: "image",
+      fetchPriority: "high",
+      imageSrcSet: srcSetOf(heroArticle.image),
+      imageSizes: "(min-width: 768px) 400px, 90vw",
+    });
+  }
+
   return (
     <div className="bg-[var(--page-bg)] min-h-screen text-[#2a2421] font-serif dir-rtl">
       <div className="max-w-[1360px] mx-auto px-4 md:px-8 py-8 space-y-12">
@@ -110,7 +123,7 @@ export default function HomePage() {
                 </span>
                 <span className="text-xs text-[#786e65] font-sans">{home.hero.label}</span>
               </div>
-              <WideRow article={toBaru(heroArticle, [220, 380])} />
+              <WideRow article={toBaru(heroArticle, [220, 380])} priority />
             </div>
           </section>
         )}

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Smaller image copies, made at build time by scripts/make-image-variants.mjs
+/public/_v/

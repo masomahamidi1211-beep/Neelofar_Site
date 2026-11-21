@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   poweredByHeader: false,
+  // Put the (small, Tailwind) CSS straight into each page instead of a
+  // separate render-blocking file: first-time visitors see the page sooner.
+  experimental: { inlineCss: true },
   // Baseline security headers for every page. The CSP is deliberately
   // narrow -- it blocks other sites from framing this one, plugins, and
   // <base>/form hijacking -- and leaves script/style/frame sources open so

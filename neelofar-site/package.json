@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/make-image-variants.mjs",
     "build": "next build",
+    "postbuild": "node scripts/check-budget.mjs",
     "start": "next start",
     "lint": "eslint"
   },

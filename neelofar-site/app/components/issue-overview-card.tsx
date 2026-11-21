@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { imgAttrs } from "../lib/img";
 
 /**
  * One special issue on the ویژه‌نامه‌ها landing page: a cream card whose
@@ -35,6 +36,7 @@ export function IssueOverviewCard({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={cover ?? image}
+            {...imgAttrs(cover ?? image, "(min-width: 768px) 440px, 100vw")}
             alt={cover ? `جلد ${title}` : ""}
             className={
               cover

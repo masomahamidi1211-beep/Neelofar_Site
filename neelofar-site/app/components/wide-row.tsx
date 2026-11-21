@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import type { BaruArticle } from "./article-box";
 import { isSarsokhanTitle, SOLID_BLACK_TITLE } from "../lib/sarsokhan-title";
+import { imgAttrs } from "../lib/img";
 
-export function WideRow({ article }: { article: BaruArticle }) {
+/** priority: the photo is the first thing on the page (homepage hero) --
+ * load it at once with high priority instead of lazily. */
+export function WideRow({ article, priority = false }: { article: BaruArticle; priority?: boolean }) {
   const href = article.href ?? `/notes/${article.slug}`;
   // Determine if this article is سرسخن
   const isSarsokhan =
@@ -55,12 +58,14 @@ export function WideRow({ article }: { article: BaruArticle }) {
       <div className="w-full md:w-5/12 flex justify-center items-center p-2 shrink-0 order-2 md:order-2">
         <img
           src={imgSrc}
+          {...imgAttrs(imgSrc, "(min-width: 768px) 400px, 90vw")}
           alt=""
-          loading="lazy"
-          decoding="async"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
+          decoding={priority ? "sync" : "async"}
           onError={handleImageError}
           style={{ objectPosition: article.imagePosition ?? "50% 20%" }}
-          className="aspect-[4/3] w-full max-w-[360px] md:max-w-[400px] object-cover
+          className="aspect-[4/3] h-auto w-full max-w-[360px] md:max-w-[400px] object-cover
                      filter drop-shadow-[0_0_4px_rgba(255,255,255,1)] 
                      drop-shadow-[0_0_12px_rgba(255,255,255,0.95)] 
                      drop-shadow-[0_10px_20px_rgba(42,36,33,0.15)]

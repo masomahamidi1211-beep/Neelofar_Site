@@ -1,0 +1,561 @@
+{
+ "/images/covers/ketabnameh-25.jpg": {
+  "w": 898,
+  "h": 1300,
+  "v": [
+   480
+  ]
+ },
+ "/images/covers/madaran-wa-dokhtaran.jpg": {
+  "w": 900,
+  "h": 1273,
+  "v": [
+   480
+  ]
+ },
+ "/images/goftogoo/book-2.jpg": {
+  "w": 826,
+  "h": 1080,
+  "v": [
+   480
+  ]
+ },
+ "/images/goftogoo/sara-rakhfus.jpg": {
+  "w": 908,
+  "h": 1326,
+  "v": [
+   480
+  ]
+ },
+ "/images/goftogoo/sara.jpg": {
+  "w": 1081,
+  "h": 1600,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/logo-03.jpg": {
+  "w": 736,
+  "h": 1041,
+  "v": [
+   480
+  ]
+ },
+ "/images/logo-03.png": {
+  "w": 697,
+  "h": 960,
+  "v": [
+   480
+  ]
+ },
+ "/images/logo-05.png": {
+  "w": 566,
+  "h": 735,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/1.jpeg": {
+  "w": 370,
+  "h": 1069,
+  "v": []
+ },
+ "/images/madaran/2.png": {
+  "w": 661,
+  "h": 1423,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/3.jpeg": {
+  "w": 1418,
+  "h": 1264,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/book-1.jpeg": {
+  "w": 1080,
+  "h": 810,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/book-14.jpg": {
+  "w": 436,
+  "h": 562,
+  "v": []
+ },
+ "/images/madaran/book-20.jpg": {
+  "w": 1080,
+  "h": 810,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/book-22.jpg": {
+  "w": 810,
+  "h": 1080,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/book-30.png": {
+  "w": 312,
+  "h": 347,
+  "v": []
+ },
+ "/images/madaran/book-32.jpg": {
+  "w": 894,
+  "h": 1080,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/book-34-1.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/book-34-3.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/book-5.jpg": {
+  "w": 1829,
+  "h": 2560,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/hossein-fakhri.jpg": {
+  "w": 1429,
+  "h": 899,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/jang-chehreye-zanane-nadarad.jpg": {
+  "w": 356,
+  "h": 561,
+  "v": []
+ },
+ "/images/madaran/page-006-img-1.png": {
+  "w": 691,
+  "h": 691,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-007-img-2.jpeg": {
+  "w": 2320,
+  "h": 2401,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/page-066-img-1.png": {
+  "w": 936,
+  "h": 643,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-070-img-2.png": {
+  "w": 912,
+  "h": 647,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-073-img-3.jpeg": {
+  "w": 936,
+  "h": 651,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-076-img-4.jpeg": {
+  "w": 931,
+  "h": 567,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-095-img-1.jpeg": {
+  "w": 936,
+  "h": 564,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-100-img-2.jpeg": {
+  "w": 891,
+  "h": 569,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-103-img-3.jpeg": {
+  "w": 865,
+  "h": 1164,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-104-img-4.jpeg": {
+  "w": 936,
+  "h": 595,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-108-img-5.jpeg": {
+  "w": 936,
+  "h": 557,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-114-img-6.jpeg": {
+  "w": 936,
+  "h": 560,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-116-img-7.jpeg": {
+  "w": 936,
+  "h": 643,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/page-118-img-1.jpeg": {
+  "w": 936,
+  "h": 618,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/sar-sokhan.jpg": {
+  "w": 960,
+  "h": 1280,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan 31.jpg": {
+  "w": 1408,
+  "h": 768,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan 32.jpg": {
+  "w": 380,
+  "h": 604,
+  "v": []
+ },
+ "/images/madaran/zan 33.jpg": {
+  "w": 290,
+  "h": 429,
+  "v": []
+ },
+ "/images/madaran/zan 34.jpg": {
+  "w": 452,
+  "h": 612,
+  "v": []
+ },
+ "/images/madaran/zan 35.jpg": {
+  "w": 438,
+  "h": 612,
+  "v": []
+ },
+ "/images/madaran/zan-10.jpg": {
+  "w": 386,
+  "h": 518,
+  "v": []
+ },
+ "/images/madaran/zan-11.jpg": {
+  "w": 639,
+  "h": 361,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-15.jpeg": {
+  "w": 736,
+  "h": 920,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-16.jpg": {
+  "w": 553,
+  "h": 470,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-18.jpg": {
+  "w": 466,
+  "h": 672,
+  "v": []
+ },
+ "/images/madaran/zan-19.jpg": {
+  "w": 600,
+  "h": 900,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-2.png": {
+  "w": 919,
+  "h": 1051,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-20.jpg": {
+  "w": 736,
+  "h": 1094,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-21.png": {
+  "w": 729,
+  "h": 1437,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-23.jpg": {
+  "w": 700,
+  "h": 713,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-24.png": {
+  "w": 974,
+  "h": 1366,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-25.jpg": {
+  "w": 1080,
+  "h": 791,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-26.jpg": {
+  "w": 1080,
+  "h": 793,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-27.jpg": {
+  "w": 2817,
+  "h": 3756,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-28.jpg": {
+  "w": 5756,
+  "h": 3837,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-29-1.jpg": {
+  "w": 2752,
+  "h": 1536,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-29-3.jpg": {
+  "w": 2816,
+  "h": 1536,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-29-6.png": {
+  "w": 2987,
+  "h": 3413,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-30.jpeg": {
+  "w": 1089,
+  "h": 708,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-4.jpg": {
+  "w": 612,
+  "h": 466,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-5.jpg": {
+  "w": 612,
+  "h": 408,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-6.jpg": {
+  "w": 612,
+  "h": 459,
+  "v": [
+   480
+  ]
+ },
+ "/images/madaran/zan-8.jpg": {
+  "w": 1600,
+  "h": 1067,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/madaran/zan-9.png": {
+  "w": 2226,
+  "h": 1966,
+  "v": [
+   480,
+   960
+  ]
+ },
+ "/images/revayat/book-13.jpg": {
+  "w": 810,
+  "h": 1080,
+  "v": [
+   480
+  ]
+ },
+ "/images/revayat/book-30.jpg": {
+  "w": 810,
+  "h": 1080,
+  "v": [
+   480
+  ]
+ },
+ "/images/vizhe-nameh-avval/1.jpg": {
+  "w": 613,
+  "h": 886,
+  "v": [
+   480
+  ]
+ },
+ "/images/vizhe-nameh-avval/10.jpg": {
+  "w": 399,
+  "h": 596,
+  "v": []
+ },
+ "/images/vizhe-nameh-avval/2.jpg": {
+  "w": 857,
+  "h": 643,
+  "v": [
+   480
+  ]
+ },
+ "/images/vizhe-nameh-avval/3.jpg": {
+  "w": 276,
+  "h": 395,
+  "v": []
+ },
+ "/images/vizhe-nameh-avval/4.jpg": {
+  "w": 770,
+  "h": 453,
+  "v": [
+   480
+  ]
+ },
+ "/images/vizhe-nameh-avval/5.jpg": {
+  "w": 828,
+  "h": 651,
+  "v": [
+   480
+  ]
+ },
+ "/images/vizhe-nameh-avval/6.jpg": {
+  "w": 908,
+  "h": 1326,
+  "v": [
+   480
+  ]
+ },
+ "/images/vizhe-nameh-avval/7.jpg": {
+  "w": 299,
+  "h": 430,
+  "v": []
+ },
+ "/images/vizhe-nameh-avval/8.jpg": {
+  "w": 343,
+  "h": 502,
+  "v": []
+ },
+ "/images/vizhe-nameh-avval/9.jpg": {
+  "w": 836,
+  "h": 2194,
+  "v": [
+   480
+  ]
+ },
+ "/images/zan-0.png": {
+  "w": 312,
+  "h": 347,
+  "v": []
+ },
+ "/uploads/book-16.jpeg": {
+  "w": 810,
+  "h": 1080,
+  "v": [
+   480
+  ]
+ },
+ "/uploads/book-35.jpeg": {
+  "w": 1137,
+  "h": 1280,
+  "v": [
+   480,
+   960
+  ]
+ }
+}

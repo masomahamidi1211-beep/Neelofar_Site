@@ -1,19 +1,13 @@
-"use client";
-
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 
 /**
  * A brief fade between route changes instead of an instant hard cut.
- * Mount this keyed by pathname (see SiteShell) so React remounts it --
- * and retriggers the fade -- on every navigation.
+ * Mount this keyed by pathname (see SiteShell) so React remounts it -- and
+ * the CSS animation (.page-fade in globals.css) runs again -- on every
+ * navigation. Pure CSS: the page is visible as soon as the HTML arrives,
+ * without waiting for JavaScript (it used to stay at opacity 0 until React
+ * had loaded, which delayed the first paint by about a second).
  */
 export default function PageFade({ children }: { children: ReactNode }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  return <div className={`transition-opacity duration-200 ease-out ${visible ? "opacity-100" : "opacity-0"}`}>{children}</div>;
+  return <div className="page-fade">{children}</div>;
 }
