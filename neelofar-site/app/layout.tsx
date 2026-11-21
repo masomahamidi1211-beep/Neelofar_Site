@@ -11,6 +11,9 @@ const vazirmatn = localFont({
   ],
   variable: "--font-vazirmatn",
   display: "swap",
+  // Only a fallback behind IR Lotus: don't let its three files compete with
+  // the hero image at the start of the page load.
+  preload: false,
 });
 
 // Article title/author/body only (see .article-title/.article-author/
